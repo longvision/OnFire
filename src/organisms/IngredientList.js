@@ -6,10 +6,10 @@ import {NavigationContainer} from '@react-navigation/native';
 import Popularity from '../atoms/Popularity';
 import ListTitle from '../atoms/ListTitle';
 
-export const HighList = ({
+export const IngredientList = ({
   data,
   cta,
-  rating,
+  price,
   ratingTitle,
   handlePress,
   img,
@@ -27,27 +27,34 @@ export const HighList = ({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        width: '100%',
-
+        height: 54,
         marginTop: 2,
         padding: 5,
       }}>
-      <Layout>
-        <Text category="s1">{item.title}</Text>
-        <Text category="p2">{item.description}</Text>
+      <Layout style={{flex: 4}}>
+        <Text category="s1">{item.name}</Text>
+        <Text category="p2">{item.brand}</Text>
       </Layout>
-      <Layout>
-        {rating && (
-          <Popularity
-            // title={ratingTitle}
-            // start={2.556}
-            // count={5}
-            imageSize={15}
-          />
-        )}
-      </Layout>
-      <Layout>
-        {cta && (
+      {price && (
+        <Layout
+          style={{
+            // alignSelf: 'flex-end',
+            alignItems: 'flex-end',
+            justifyContent: 'center',
+            width: 150,
+            flex: 2,
+          }}>
+          <Text category="s1">
+            {`${Number(item.package_size).toFixed(2)} ${item.unit}`}
+          </Text>
+          <Text category="s2">{`$${Number(item.package_price).toFixed(
+            2,
+          )}`}</Text>
+        </Layout>
+      )}
+      {cta && (
+        <Layout
+          style={{justifyContent: 'center', alignItems: 'flex-end', flex: 2}}>
           <Button
             size={btnSize}
             onPress={handlePress}
@@ -56,8 +63,8 @@ export const HighList = ({
             accessoryLeft={assessoryLeft}>
             {cta}
           </Button>
-        )}
-      </Layout>
+        </Layout>
+      )}
     </Layout>
   );
 

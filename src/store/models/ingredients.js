@@ -1,26 +1,23 @@
 import {createModel} from '@rematch/core';
 import api from '../../services/api';
-
-export const auth = createModel()({
+import tron from '../../config/ReactotronConfig';
+export const ingredients = createModel()({
   state: {
-    token: null,
+    ingredients: [],
   },
   reducers: {
-    login(state, payload) {
+    list(state, payload) {
       return {
         ...state,
-        token: payload.token,
+        ingredients: payload.data,
       };
     },
     signOut(state) {
       return {...state, token: null};
     },
-    clearStore(state) {
-      return {};
-    },
   },
   effects: (dispatch) => ({
-    async loginAsync(payload, rootState) {
+    async addAsync(payload, rootState) {
       try {
         const {email, password} = payload;
 
@@ -38,9 +35,20 @@ export const auth = createModel()({
         // history.push('/dashboard');
       } catch (err) {}
     },
-    async signOutAsync() {
-      dispatch.auth.signOut();
-      dispatch.auth.clearStore();
+    async listAsync(payload, rootState) {
+      try {
+        api.defaults.headers.Authorization = `Bearer ${rootState.auth.token}`;
+
+        const response = await api.get('ingredients');
+
+        const {data} = response.data;
+
+        tron.log(rootState);
+
+        dispatch.ingredients.list({data});
+
+        // history.push('/dashboard');
+      } catch (err) {}
     },
   }),
 });

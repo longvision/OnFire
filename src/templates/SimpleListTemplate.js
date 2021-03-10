@@ -6,16 +6,19 @@ import {useNavigation} from '@react-navigation/native';
 
 const SimpleListTemplate = ({list, button}) => {
   return (
-    <Layout
-      style={{
-        alignItems: 'center',
-        display: 'flex',
-      }}>
-      {list}
+    <Layout style={{height: '100%'}}>
+      <Layout
+        style={{
+          flex: 5,
+        }}>
+        {list}
+      </Layout>
       <Layout
         style={{
           marginVertical: 2,
-          width: '98%',
+
+          alignItems: 'center',
+          flex: 1,
         }}>
         {button}
       </Layout>

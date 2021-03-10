@@ -15,11 +15,12 @@ const persistPlugin = createPersistPlugin({
 
 const store = init({
   name: 'OnFire',
-  models,
-  plugins: [immerPlugin(), persistPlugin, loadingPlugin()],
   redux: {
+    createStore: Reactotron.createStore,
     enhancers: [Reactotron.createEnhancer()],
   },
+  models,
+  plugins: [immerPlugin(), persistPlugin, loadingPlugin()],
 });
 
 export default store;

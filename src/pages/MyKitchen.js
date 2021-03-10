@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {SafeAreaView} from 'react-native';
 import {
   Button,
@@ -12,22 +12,25 @@ import {
   TopNavigationAction,
   ViewPager,
 } from '@ui-kitten/components';
-
+import {useDispatch, useSelector} from 'react-redux';
 import SimpleListTemplate from '../templates/SimpleListTemplate';
 
 import SimpleTabBar from '../atoms/SimpleTabBar';
 import {HighList} from '../organisms/HighList';
 import {ThemedAwesomeIcon} from '../atoms/ThemedAwesomeIcon';
+import {IngredientList} from '../organisms/IngredientList';
 
 const BackIcon = (props) => <Icon {...props} name="arrow-back" />;
+const AddIcon = (props) => <Icon {...props} name="plus-outline" />;
 
 export const MyKitchen = ({navigation}) => {
+  const ingredients = useSelector((state) => state.ingredients.ingredients);
+  const dispatch = useDispatch();
+
   const navigateBack = () => {
     navigation.goBack();
   };
   const [selectedIndex, setSelectedIndex] = React.useState(0);
-
-  const shouldLoadComponent = (index) => index === selectedIndex;
 
   const BackAction = () => (
     <TopNavigationAction icon={BackIcon} onPress={navigateBack} />
@@ -39,10 +42,15 @@ export const MyKitchen = ({navigation}) => {
     title: 'Title for Item',
     description: 'Description for Item',
   });
+
   const data2 = new Array(20).fill({
     title: 'Cominho',
     description: 'Especiarias do oriente',
   });
+
+  useEffect(() => {
+    dispatch.ingredients.listAsync();
+  }, []);
 
   function handlePressIngredientsDetails() {
     navigation.navigate('IngredientDetail');
@@ -55,13 +63,13 @@ export const MyKitchen = ({navigation}) => {
   };
   return (
     <SafeAreaView style={{height: '100%'}}>
-      <Layout>
-        <TopNavigation
-          title={selectedIndex === 0 ? 'My Recipes' : 'My Ingredients Shelf'}
-          alignment="center"
-          accessoryLeft={BackAction}
-        />
-        <Divider />
+      <TopNavigation
+        title={selectedIndex === 0 ? 'My Recipes' : 'My Ingredients Shelf'}
+        alignment="center"
+        accessoryLeft={BackAction}
+      />
+      <Divider />
+      <Layout style={{flex: 10}}>
         <TabView
           selectedIndex={selectedIndex}
           onSelect={onSelect}
@@ -69,8 +77,12 @@ export const MyKitchen = ({navigation}) => {
           <Tab title="RECIPES">
             <SimpleListTemplate
               button={
-                <Button size="large" status="info" appearance="filled">
-                  Add Recipe
+                <Button
+                  size="large"
+                  status="primary"
+                  accessoryLeft={AddIcon}
+                  appearance="filled">
+                  Add Recipes
                 </Button>
               }
               list={
@@ -81,8 +93,7 @@ export const MyKitchen = ({navigation}) => {
                   cta
                   btnSize="small"
                   assessoryLeft={InfoIcon}
-                  height="75%"
-                  width="98%"
+                  containerStyle={{width: '98%'}}
                   handlePress={handlePressRecipesDetails}
                 />
               }
@@ -91,18 +102,22 @@ export const MyKitchen = ({navigation}) => {
           <Tab title="INGREDIENTS">
             <SimpleListTemplate
               button={
-                <Button size="large" status="info" appearance="filled">
+                <Button
+                  size="large"
+                  status="primary"
+                  accessoryLeft={AddIcon}
+                  appearance="filled">
                   Add Ingredients
                 </Button>
               }
               list={
-                <HighList
-                  data={data2}
+                <IngredientList
+                  data={ingredients}
+                  price
                   cta="Details"
                   btnSize="small"
-                  height="75%"
+                  containerStyle={{width: '100%'}}
                   titles={['Ingredient', 'Detail']}
-                  width="98%"
                   handlePress={handlePressIngredientsDetails}
                 />
               }
