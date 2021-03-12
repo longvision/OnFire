@@ -5,7 +5,7 @@ import {ImageOverlay} from './extra/image-overlay';
 import {EmailIcon} from './extra/icons';
 import {KeyboardAvoidingView} from './extra/3rd-party';
 
-const ForgotPassword = ({navigation}) => {
+export const ForgotPassword = ({navigation}) => {
   const [email, setEmail] = React.useState();
 
   const onResetPasswordButtonPress = () => {
@@ -39,8 +39,6 @@ const ForgotPassword = ({navigation}) => {
     </ImageOverlay>
   );
 };
-
-export default ForgotPassword;
 
 const styles = StyleSheet.create({
   container: {

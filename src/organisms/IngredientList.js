@@ -39,7 +39,7 @@ export const IngredientList = ({
         <Layout
           style={{
             // alignSelf: 'flex-end',
-            alignItems: 'flex-end',
+            alignItems: 'flex-start',
             justifyContent: 'center',
             width: 150,
             flex: 2,

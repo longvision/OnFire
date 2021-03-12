@@ -5,7 +5,7 @@ import {ImageOverlay} from './extra/image-overlay.js';
 import {EyeIcon, EyeOffIcon, PersonIcon} from './extra/icons';
 import {KeyboardAvoidingView} from './extra/3rd-party';
 import {useDispatch} from 'react-redux';
-const Login = ({navigation}) => {
+export const Login = ({navigation}) => {
   const [email, setEmail] = React.useState();
   const [password, setPassword] = React.useState();
   const [passwordVisible, setPasswordVisible] = React.useState(false);
@@ -143,5 +143,3 @@ const styles = StyleSheet.create({
     paddingHorizontal: 0,
   },
 });
-
-export default Login;

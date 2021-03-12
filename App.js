@@ -24,19 +24,17 @@ export default () => {
   };
 
   return (
-    <>
-      <Provider store={store}>
-        <PersistGate persistor={getPersistor()} />
-        <IconRegistry icons={EvaIconsPack} />
-        <ThemeContext.Provider value={{dark, toggleTheme}}>
-          <ApplicationProvider
-            {...eva}
-            theme={{...eva[dark], ...theme}}
-            customMapping={mapping}>
-            <AppNavigator />
-          </ApplicationProvider>
-        </ThemeContext.Provider>
-      </Provider>
-    </>
+    <Provider store={store}>
+      <PersistGate persistor={getPersistor()} />
+      <IconRegistry icons={EvaIconsPack} />
+      <ThemeContext.Provider value={{dark, toggleTheme}}>
+        <ApplicationProvider
+          {...eva}
+          theme={{...eva[dark], ...theme}}
+          customMapping={mapping}>
+          <AppNavigator />
+        </ApplicationProvider>
+      </ThemeContext.Provider>
+    </Provider>
   );
 };

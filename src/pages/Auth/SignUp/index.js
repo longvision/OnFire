@@ -18,7 +18,7 @@ import {
 } from './extra/icons.js';
 import {KeyboardAvoidingView} from './extra/3rd-party';
 
-export default ({navigation}) => {
+export const SignUp = ({navigation}) => {
   const [userName, setUserName] = React.useState();
   const [email, setEmail] = React.useState();
   const [password, setPassword] = React.useState();

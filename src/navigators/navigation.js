@@ -1,9 +1,11 @@
 import React, {useEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 
-import {AuthNavigator, TabNavigator} from './tab.navigator';
+import AuthNavigator from './auth.navigator';
+import MainNavigator from './bottom.navigator';
 
 import {useSelector} from 'react-redux';
+import {Layout} from '@ui-kitten/components';
 export const AppNavigator = () => {
   const token = useSelector((state) => state.auth.token);
 
@@ -11,7 +13,9 @@ export const AppNavigator = () => {
 
   return (
     <NavigationContainer>
-      {token ? <TabNavigator /> : <AuthNavigator />}
+      <Layout style={{height: '100%'}}>
+        {token ? <MainNavigator /> : <AuthNavigator />}
+      </Layout>
     </NavigationContainer>
   );
 };

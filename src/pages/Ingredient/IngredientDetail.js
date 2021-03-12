@@ -9,7 +9,7 @@ import {
   TopNavigationAction,
 } from '@ui-kitten/components';
 
-import IngredientDetailTemplate from '../templates/IngredientDetailTemplate';
+import IngredientDetailTemplate from '../../templates/IngredientDetailTemplate';
 
 const BackIcon = (props) => <Icon {...props} name="arrow-back" />;
 
