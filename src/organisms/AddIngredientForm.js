@@ -1,16 +1,13 @@
-import {Input, Layout, StyleService} from '@ui-kitten/components';
+import {Button, Icon, Input, Layout, StyleService} from '@ui-kitten/components';
 import React, {useRef, useImperativeHandle, useEffect} from 'react';
 import {View, StyleSheet} from 'react-native';
 import PriceInput from '../molecules/PriceInput';
 import AutoCompleteField from '../molecules/AutocompleteField';
-import {Formik} from 'formik';
+import {Field, Formik} from 'formik';
 import Selector from '../molecules/Selector';
 import SizeInput from '../molecules/SizeInput';
-
-const useInputState = (initialValue = '') => {
-  const [value, setValue] = React.useState(initialValue);
-  return {value, onChangeText: setValue};
-};
+import {useDispatch} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
 
 const data = [
   {title: 'Star Wars'},
@@ -20,6 +17,8 @@ const data = [
   {title: 'Interstellar'},
 ];
 
+const addIcon = (props) => <Icon {...props} name="plus-outline" />;
+
 const AddIngredientForm = () => {
   const brandRef = useRef();
   const sellerRef = useRef();
@@ -27,11 +26,10 @@ const AddIngredientForm = () => {
   const priceRef = useRef();
   const unitsRef = useRef();
   const sizeRef = useRef();
-
-  function handleSubmit() {
-    // dispatch(AuthActions.loginRequest(email, password));
-    console.log('Submitted');
-  }
+  const dispatch = useDispatch();
+  const [selectedIndex, setSelectedIndex] = React.useState(0);
+  const navigation = useNavigation();
+  const unitsArray = ['mL', 'g', 'L', 'KG'];
 
   return (
     <Formik
@@ -44,8 +42,18 @@ const AddIngredientForm = () => {
         unit: '',
         price: '',
       }}
-      onSubmit={(values) => console.log(values)}>
-      {({handleChange, handleBlur, handleSubmit, values}) => (
+      onSubmit={(values) => {
+        dispatch.ingredients.addAsync(values);
+        navigation.navigate('MyKitchen');
+      }}>
+      {({
+        handleChange,
+        handleBlur,
+        handleSubmit,
+        setFieldTouched,
+        setFieldValue,
+        values,
+      }) => (
         <Layout style={styles.container}>
           <Layout style={styles.controlContainer}>
             <Layout style={styles.rowContainer} level="1">
@@ -54,6 +62,9 @@ const AddIngredientForm = () => {
                 array={data}
                 name="ingredient"
                 returnKeyType="next"
+                value={values.ingredient}
+                setFieldValue={setFieldValue}
+                setFieldTouched={setFieldTouched}
                 onSubmitEditing={() => brandRef.current.focus()}
                 placeholder="Ingredient Name"
                 autoCompleteType="off"
@@ -67,6 +78,9 @@ const AddIngredientForm = () => {
                 placeholder="Brand"
                 returnKeyType="next"
                 name="brand"
+                value={values.brand}
+                setFieldValue={setFieldValue}
+                setFieldTouched={setFieldTouched}
                 onSubmitEditing={() => sellerRef.current.focus()}
                 ref={brandRef}
                 autoCompleteType="off"
@@ -76,6 +90,9 @@ const AddIngredientForm = () => {
             <Layout style={styles.rowContainer} level="1">
               <AutoCompleteField
                 style={styles.input}
+                value={values.seller}
+                setFieldValue={setFieldValue}
+                setFieldTouched={setFieldTouched}
                 array={data}
                 name="seller"
                 placeholder="Seller"
@@ -89,6 +106,9 @@ const AddIngredientForm = () => {
             <Layout style={styles.rowContainer} level="1">
               <AutoCompleteField
                 style={styles.input}
+                value={values.region}
+                setFieldValue={setFieldValue}
+                setFieldTouched={setFieldTouched}
                 array={data}
                 returnKeyType="next"
                 name="region"
@@ -105,6 +125,9 @@ const AddIngredientForm = () => {
               <Layout style={styles.rowContainer} level="4">
                 <SizeInput
                   placeholder="Package Size"
+                  value={values.size}
+                  setFieldValue={setFieldValue}
+                  setFieldTouched={setFieldTouched}
                   name="size"
                   styles={styles.input}
                   onSubmitEditing={() => {
@@ -115,12 +138,17 @@ const AddIngredientForm = () => {
               </Layout>
               <Layout style={styles.rowContainer} level="4">
                 <Selector
-                  placeholder="Package Size"
+                  placeholder="Unit"
                   style={styles.input}
+                  value={values.unit}
                   name="unit"
-                  data={['mL', 'g', 'L', 'KG']}
-                  onSelect={() => {
+                  data={unitsArray}
+                  selectedIndex={selectedIndex}
+                  onSelect={(index) => {
+                    console.log(unitsArray[index.row]);
                     priceRef.current.focus();
+                    setSelectedIndex(index);
+                    setFieldValue('unit', unitsArray[index.row]);
                   }}
                   ref={unitsRef}
                 />
@@ -128,12 +156,26 @@ const AddIngredientForm = () => {
               <Layout style={styles.rowContainer} level="4">
                 <PriceInput
                   placeholder="Price"
+                  value={values.price}
+                  setFieldValue={setFieldValue}
+                  setFieldTouched={setFieldTouched}
                   style={styles.input}
                   name="price"
                   onSubmitEditing={handleSubmit}
                   ref={priceRef}
                 />
               </Layout>
+            </Layout>
+            <Layout style={styles.rowContainer} level="1">
+              <Button
+                size="large"
+                status="primary"
+                style={styles.button}
+                accessoryLeft={addIcon}
+                onPress={handleSubmit}
+                appearance="filled">
+                Add New Ingredient
+              </Button>
             </Layout>
           </Layout>
         </Layout>
@@ -155,6 +197,11 @@ const styles = StyleSheet.create({
   input: {
     // flex: 1,
     width: '90%',
+    // margin: 2,
+  },
+  button: {
+    // flex: 1,
+    // width: '100%',
     // margin: 2,
   },
   container: {height: '80%', marginTop: 10},

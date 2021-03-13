@@ -13,31 +13,16 @@ import {
 //   Management: ['Product Manager', 'Business Analyst'],
 // };
 
-const SelectorRaw = ({data, groupedData, style, placeholder}, ref) => {
+const SelectorRaw = (
+  {data, onSelect, name, value, selectedIndex, style, placeholder},
+  ref,
+) => {
   const inputRef = useRef();
-  const [selectedIndex, setSelectedIndex] = React.useState(new IndexPath(0));
-  const [multiSelectedIndex, setMultiSelectedIndex] = React.useState([
-    new IndexPath(0, 0),
-    new IndexPath(1, 1),
-  ]);
 
   const displayValue = data && data[selectedIndex.row];
-  const groupDisplayValues =
-    groupedData &&
-    multiSelectedIndex.map((index) => {
-      const groupTitle = Object.keys(groupedData)[index.section];
-      return groupedData[groupTitle][index.row];
-    });
 
   const renderOption = (title) =>
     data && <SelectItem key={title} title={title} />;
-
-  const renderGroup = (title) =>
-    groupedData && (
-      <SelectGroup title={title} key={title}>
-        {groupedData[title].map(renderOption)}
-      </SelectGroup>
-    );
 
   useImperativeHandle(ref, () => ({
     focus: () => {
@@ -54,20 +39,8 @@ const SelectorRaw = ({data, groupedData, style, placeholder}, ref) => {
           value={displayValue}
           ref={inputRef}
           selectedIndex={selectedIndex}
-          onSelect={(index) => setSelectedIndex(index)}>
+          onSelect={onSelect}>
           {data.map(renderOption)}
-        </Select>
-      )}
-      {groupedData && (
-        <Select
-          style={style}
-          multiSelect={true}
-          ref={inputRef}
-          placeholder={placeholder}
-          value={groupDisplayValues.join(', ')}
-          selectedIndex={multiSelectedIndex}
-          onSelect={(index) => setMultiSelectedIndex(index)}>
-          {Object.keys(groupedData).map(renderGroup)}
         </Select>
       )}
     </Layout>

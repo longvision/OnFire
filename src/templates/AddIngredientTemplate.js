@@ -15,29 +15,17 @@ const AddIngredientTemplate = ({
 }) => {
   const [visible, setVisible] = useState(false);
   const navigation = useNavigation();
-  const handlePress = () => {
-    navigation.navigate('AddIngredient');
-  };
 
   return (
     <Layout style={{height: '100%'}}>
       <Layout
         style={{justifyContent: 'center', alignItems: 'center', marginTop: 5}}
         level="1">
-        <Text category="h4" status="basic">
-          Add a new Item to your Food Pantry
-        </Text>
+        {/* <Text category="h4" status="basic">
+          New Ingredient
+        </Text> */}
       </Layout>
       <AddIngredientForm />
-
-      <Button
-        size="large"
-        status="primary"
-        accessoryLeft={addIcon}
-        onPress={handlePress}
-        appearance="filled">
-        Add
-      </Button>
     </Layout>
   );
 };

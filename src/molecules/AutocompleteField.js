@@ -13,33 +13,40 @@ const AutoField = (
     array,
     onSubmitEditing,
     returnKeyType,
+    setFieldValue,
+    setFieldTouched,
     autoCompleteType,
     autocorrect,
+    name,
     ...InputProps
   },
   ref,
 ) => {
-  const [value, setValue] = React.useState(null);
   const [data, setData] = React.useState(array);
   const inputRef = useRef();
+
   const onSelect = (index) => {
-    setValue(data[index].title);
+    setFieldValue(name, data[index].title);
   };
 
   const onChangeText = (query) => {
-    setValue(query);
+    // setValue(query);
+    setFieldValue(name, query);
     setData(array.filter((item) => filter(item, query)));
   };
 
   const clearInput = () => {
-    setValue('');
+    // setValue('');
+    setFieldValue(name, '');
     setData(array);
   };
 
   const renderOption = (item, index) => (
     <AutocompleteItem key={index} title={item.title} accessoryLeft={StarIcon} />
   );
-
+  const handleBlur = () => {
+    setFieldTouched(name);
+  };
   const renderCloseIcon = (props) => (
     <TouchableWithoutFeedback onPress={clearInput}>
       <Icon {...props} name="close" />
@@ -54,7 +61,6 @@ const AutoField = (
   return (
     <Autocomplete
       placeholder={placeholder}
-      value={value}
       accessoryRight={renderCloseIcon}
       onChangeText={onChangeText}
       autocorrect={autocorrect}
@@ -62,7 +68,7 @@ const AutoField = (
       ref={inputRef}
       onSubmitEditing={onSubmitEditing}
       autoCompleteType={autoCompleteType}
-      // style={{width: '90%'}}
+      onBlur={handleBlur}
       onSelect={onSelect}
       {...InputProps}>
       {data.map(renderOption)}

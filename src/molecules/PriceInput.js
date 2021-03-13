@@ -1,25 +1,37 @@
 import React, {useImperativeHandle, useRef, forwardRef} from 'react';
 import {Input, Icon, Text} from '@ui-kitten/components';
 const PriceInputField = (
-  {placeholder, iconName = '', style, iconProps},
+  {
+    placeholder,
+    iconName = '',
+    style,
+    setFieldValue,
+    name,
+    setFieldTouched,
+    value,
+    iconProps,
+  },
   ref,
 ) => {
   const inputRef = useRef();
-  const [price, setPrice] = React.useState('');
+
   const Icon = (iconProps) => <Icon {...iconProps} name={iconName} />;
 
   function currencyFormat(num) {
-    return '$' + num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+    return (
+      '$' +
+      Number(num)
+        .toFixed(2)
+        .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+    );
   }
 
   const handleChangeText = (text) => {
-    let val = Number(text);
-    setPrice(val);
-    console.log(price);
+    setFieldValue(name, text);
   };
 
   const handleBlur = () => {
-    price[0] !== '$' && setPrice(currencyFormat(price).toString());
+    value[0] !== '$' && setFieldValue(name, currencyFormat(value).toString());
   };
   useImperativeHandle(ref, () => ({
     focus: () => {
@@ -31,8 +43,8 @@ const PriceInputField = (
       style={style}
       keyboardType="numeric"
       status="basic"
+      value={value}
       clearButtonMode="always"
-      value={price}
       ref={inputRef}
       onChangeText={handleChangeText}
       onBlur={handleBlur}

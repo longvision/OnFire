@@ -12,27 +12,30 @@ export const ingredients = createModel()({
         ingredients: payload.data,
       };
     },
-    signOut(state) {
-      return {...state, token: null};
+    add(state, payload) {
+      return {...state, ingredients: [...state.ingredients, payload]};
     },
   },
   effects: (dispatch) => ({
     async addAsync(payload, rootState) {
       try {
-        const {email, password} = payload;
+        const {brand, ingredient, price, region, seller, size, unit} = payload;
 
-        const response = await api.post('sessions', {
-          email,
-          password,
+        api.defaults.headers.Authorization = `Bearer ${rootState.auth.token}`;
+
+        const response = await api.post('ingredient', {
+          name: ingredient,
+          brand: brand,
+          seller: seller,
+          sold_region: region,
+          package_price: price.substring(1),
+          unit: unit,
+          package_size: size,
         });
 
-        const {token} = response.data;
-
-        // api.defaults.headers.Authorization = `Bearer ${token}`;
-
-        dispatch.auth.login({token});
-
-        // history.push('/dashboard');
+        const {data} = response;
+        dispatch.ingredients.add(data);
+        // console.log(data);
       } catch (err) {}
     },
     async listAsync(payload, rootState) {
