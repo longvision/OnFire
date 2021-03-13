@@ -20,7 +20,7 @@ const SizeInputField = (
   function sizeFormat(num) {
     return `${Number(num)
       .toFixed(2)
-      .replace(/(\d)(?=(\d{3})+(?!\d))/g)}`;
+      .replace(/(\d)(?=(\d{3})+(?!\d)(\.\d{1,4}))/g, '$1,')}`;
   }
 
   const handleChangeText = (text) => {

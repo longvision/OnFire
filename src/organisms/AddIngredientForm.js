@@ -1,4 +1,11 @@
-import {Button, Icon, Input, Layout, StyleService} from '@ui-kitten/components';
+import {
+  Button,
+  Icon,
+  Input,
+  Text,
+  Layout,
+  StyleService,
+} from '@ui-kitten/components';
 import React, {useRef, useImperativeHandle, useEffect} from 'react';
 import {View, StyleSheet} from 'react-native';
 import PriceInput from '../molecules/PriceInput';
@@ -8,6 +15,7 @@ import Selector from '../molecules/Selector';
 import SizeInput from '../molecules/SizeInput';
 import {useDispatch} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
+import * as Yup from 'yup';
 
 const data = [
   {title: 'Star Wars'},
@@ -17,8 +25,23 @@ const data = [
   {title: 'Interstellar'},
 ];
 
-const addIcon = (props) => <Icon {...props} name="plus-outline" />;
+const saveIcon = (props) => <Icon {...props} name="save-outline" />;
 
+const AddIngredientSchema = Yup.object().shape({
+  ingredient: Yup.string()
+    .min(2, 'Too Short!')
+    .max(50, 'Too Long!')
+    .required('Ingredient name is qequired'),
+  brand: Yup.string()
+    .min(2, 'Too Short!')
+    .max(50, 'Too Long!')
+    .required('Brand is required'),
+  seller: Yup.string().required('Seller name is required'),
+  region: Yup.string(),
+  size: Yup.number().moreThan(0).required('Package size is required'),
+  unit: Yup.string().required('Package unit is required'),
+  price: Yup.string().required('Package price is required'),
+});
 const AddIngredientForm = () => {
   const brandRef = useRef();
   const sellerRef = useRef();
@@ -42,6 +65,7 @@ const AddIngredientForm = () => {
         unit: '',
         price: '',
       }}
+      validationSchema={AddIngredientSchema}
       onSubmit={(values) => {
         dispatch.ingredients.addAsync(values);
         navigation.navigate('MyKitchen');
@@ -52,10 +76,19 @@ const AddIngredientForm = () => {
         handleSubmit,
         setFieldTouched,
         setFieldValue,
+        errors,
+        touched,
         values,
       }) => (
         <Layout style={styles.container}>
           <Layout style={styles.controlContainer}>
+            <Text
+              category="h4"
+              appearance="alternative"
+              status="basic"
+              style={styles.title}>
+              Product info
+            </Text>
             <Layout style={styles.rowContainer} level="1">
               <AutoCompleteField
                 style={styles.input}
@@ -66,26 +99,34 @@ const AddIngredientForm = () => {
                 setFieldValue={setFieldValue}
                 setFieldTouched={setFieldTouched}
                 onSubmitEditing={() => brandRef.current.focus()}
+                status={errors.ingredient && touched.ingredient && 'danger'}
                 placeholder="Ingredient Name"
                 autoCompleteType="off"
                 autoCorrect={false}
               />
+              <Text category="c2" appearance="hint" status="danger">
+                {errors.ingredient && touched.ingredient && errors.ingredient}
+              </Text>
             </Layout>
             <Layout style={styles.rowContainer} level="1">
               <AutoCompleteField
                 style={styles.input}
                 array={data}
-                placeholder="Brand"
                 returnKeyType="next"
                 name="brand"
                 value={values.brand}
                 setFieldValue={setFieldValue}
                 setFieldTouched={setFieldTouched}
                 onSubmitEditing={() => sellerRef.current.focus()}
+                status={errors.brand && touched.brand && 'danger'}
+                placeholder="Brand"
                 ref={brandRef}
                 autoCompleteType="off"
                 autoCorrect={false}
               />
+              <Text category="c2" appearance="hint" status="danger">
+                {errors.brand && touched.brand && errors.brand}
+              </Text>
             </Layout>
             <Layout style={styles.rowContainer} level="1">
               <AutoCompleteField
@@ -95,6 +136,7 @@ const AddIngredientForm = () => {
                 setFieldTouched={setFieldTouched}
                 array={data}
                 name="seller"
+                status={errors.seller && touched.seller && 'danger'}
                 placeholder="Seller"
                 returnKeyType="next"
                 onSubmitEditing={() => soldRef.current.focus()}
@@ -102,6 +144,9 @@ const AddIngredientForm = () => {
                 autoCompleteType="off"
                 autoCorrect={false}
               />
+              <Text category="c2" appearance="hint" status="danger">
+                {errors.seller && touched.seller && errors.seller}
+              </Text>
             </Layout>
             <Layout style={styles.rowContainer} level="1">
               <AutoCompleteField
@@ -116,14 +161,26 @@ const AddIngredientForm = () => {
                   sizeRef.current.focus();
                 }}
                 ref={soldRef}
+                status={errors.region && touched.region && 'danger'}
                 placeholder="Region"
                 autoCompleteType="off"
                 autoCorrect={false}
               />
+              <Text category="c2" appearance="hint" status="danger">
+                {errors.region && touched.region && errors.region}
+              </Text>
             </Layout>
-            <Layout style={styles.packageContainerm} level="4">
-              <Layout style={styles.rowContainer} level="4">
+            <Layout style={styles.packageContainer} level="3">
+              <Text
+                category="h4"
+                appearance="alternative"
+                status="basic"
+                style={styles.title}>
+                Package info
+              </Text>
+              <Layout style={styles.rowContainer} level="3">
                 <SizeInput
+                  status={errors.size && touched.size && 'danger'}
                   placeholder="Package Size"
                   value={values.size}
                   setFieldValue={setFieldValue}
@@ -135,9 +192,13 @@ const AddIngredientForm = () => {
                   }}
                   ref={sizeRef}
                 />
+                <Text category="c2" appearance="hint" status="danger">
+                  {errors.size && touched.size && errors.size}
+                </Text>
               </Layout>
-              <Layout style={styles.rowContainer} level="4">
+              <Layout style={styles.rowContainer} level="3">
                 <Selector
+                  status={errors.unit && touched.unit && 'danger'}
                   placeholder="Unit"
                   style={styles.input}
                   value={values.unit}
@@ -152,18 +213,26 @@ const AddIngredientForm = () => {
                   }}
                   ref={unitsRef}
                 />
+                <Text category="c2" appearance="hint" status="danger">
+                  {errors.unit && touched.unit && errors.unit}
+                </Text>
               </Layout>
-              <Layout style={styles.rowContainer} level="4">
+              <Layout style={styles.rowContainer} level="3">
                 <PriceInput
+                  status={errors.price && touched.price && 'danger'}
                   placeholder="Price"
                   value={values.price}
                   setFieldValue={setFieldValue}
                   setFieldTouched={setFieldTouched}
                   style={styles.input}
                   name="price"
+                  mantissa={2}
                   onSubmitEditing={handleSubmit}
                   ref={priceRef}
                 />
+                <Text category="c2" appearance="hint" status="danger">
+                  {errors.price && touched.price && errors.price}
+                </Text>
               </Layout>
             </Layout>
             <Layout style={styles.rowContainer} level="1">
@@ -171,10 +240,10 @@ const AddIngredientForm = () => {
                 size="large"
                 status="primary"
                 style={styles.button}
-                accessoryLeft={addIcon}
+                accessoryLeft={saveIcon}
                 onPress={handleSubmit}
                 appearance="filled">
-                Add New Ingredient
+                Save
               </Button>
             </Layout>
           </Layout>
@@ -195,18 +264,20 @@ const AddIngredientForm = () => {
 
 const styles = StyleSheet.create({
   input: {
-    // flex: 1,
     width: '90%',
-    // margin: 2,
+  },
+  title: {
+    marginBottom: 20,
   },
   button: {
     // flex: 1,
     // width: '100%',
+    marginTop: 10,
     // margin: 2,
   },
-  container: {height: '80%', marginTop: 10},
+  container: {height: '100%', marginTop: 20},
   rowContainer: {
-    marginVertical: 10,
+    marginVertical: 3,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -220,10 +291,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   packageContainer: {
-    borderRadius: 15,
+    borderRadius: 5,
     // margin: 2,
     width: '100%',
-    height: '100%',
+    height: '40%',
     // padding: 6,
 
     justifyContent: 'center',
