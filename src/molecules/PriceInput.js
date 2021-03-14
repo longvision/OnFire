@@ -8,6 +8,7 @@ const PriceInputField = (
     setFieldValue,
     name,
     setFieldTouched,
+    disabled,
     value,
     mantissa,
     iconProps,
@@ -43,6 +44,7 @@ const PriceInputField = (
     <Input
       style={style}
       keyboardType="numeric"
+      disabled={disabled}
       status="basic"
       value={value}
       clearButtonMode="always"

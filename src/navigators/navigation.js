@@ -11,7 +11,7 @@ import getStoredStateMigrateV4 from 'redux-persist/lib/integration/getStoredStat
 
 export const AppNavigator = () => {
   const [storage, setStorage] = React.useState(null);
-  const [token, setToken] = React.useState(null);
+  const [token, setToken] = React.useState(false);
 
   useEffect(() => {
     async function getLocalStorage() {
@@ -20,18 +20,18 @@ export const AppNavigator = () => {
       setToken(JSON.parse(JSON.parse(data).auth).token);
     }
     getLocalStorage();
-  }, []);
+  }, [token]);
 
   const Stack = createStackNavigator();
 
-  console.log(token);
-  return (
-    <Stack.Navigator initialRouteName={token ? 'Home' : 'Auth'}>
-      {token ? (
-        <Stack.Screen name="Home" component={MainNavigator} />
-      ) : (
-        <Stack.Screen name="Auth" component={AuthNavigator} />
-      )}
-    </Stack.Navigator>
-  );
+  // return (
+  //   <Stack.Navigator>
+  //     {token ? (
+  //       <Stack.Screen name="Home" component={MainNavigator} />
+  //     ) : (
+  //       <Stack.Screen name="Auth" component={AuthNavigator} />
+  //     )}
+  //   </Stack.Navigator>
+  // );
+  return token ? <MainNavigator /> : <AuthNavigator />;
 };

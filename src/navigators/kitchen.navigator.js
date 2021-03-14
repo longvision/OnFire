@@ -11,11 +11,9 @@ const Stack = createStackNavigator();
 
 const KitchenNavigator = () => (
   <Stack.Navigator
-    screenOptions={
-      {
-        // headerShown: false,
-      }
-    }>
+    screenOptions={{
+      headerShown: false,
+    }}>
     <Stack.Screen name="MyKitchen" component={MyKitchen} />
     <Stack.Screen name="AddIngredient" component={AddIngredient} />
     <Stack.Screen name="IngredientDetail" component={IngredientDetail} />

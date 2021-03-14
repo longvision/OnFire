@@ -29,6 +29,7 @@ export const IngredientList = ({
         alignItems: 'center',
         height: 54,
         marginTop: 2,
+        marginHorizontal: 5,
         padding: 5,
       }}>
       <Layout style={{flex: 4}}>

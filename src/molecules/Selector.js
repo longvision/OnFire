@@ -14,7 +14,7 @@ import {
 // };
 
 const SelectorRaw = (
-  {data, onSelect, name, value, selectedIndex, style, placeholder},
+  {data, onSelect, name, value, selectedIndex, disabled, style, placeholder},
   ref,
 ) => {
   const inputRef = useRef();
@@ -37,6 +37,7 @@ const SelectorRaw = (
           style={style}
           placeholder={placeholder}
           value={displayValue}
+          disabled={disabled}
           ref={inputRef}
           selectedIndex={selectedIndex}
           onSelect={onSelect}>

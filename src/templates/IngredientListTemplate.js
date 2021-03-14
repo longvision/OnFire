@@ -7,17 +7,15 @@ import {PopoverOverlay} from '../organisms/PopoverOverlay';
 import {IngredientList} from '../organisms/IngredientList';
 import {Text} from 'react-native-svg';
 
-const IngredientListTemplate = ({
-  ingredients,
-  handlePressIngredientsDetails,
-  addIcon,
-}) => {
+const IngredientListTemplate = ({ingredients, addIcon}) => {
   const [visible, setVisible] = useState(false);
   const navigation = useNavigation();
   const handlePress = () => {
     navigation.navigate('AddIngredient');
   };
-
+  function handlePressIngredientsDetails() {
+    navigation.navigate('IngredientDetail');
+  }
   return (
     <Layout style={{height: '100%'}}>
       <Layout

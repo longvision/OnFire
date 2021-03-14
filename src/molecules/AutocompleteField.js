@@ -17,6 +17,7 @@ const AutoField = (
     setFieldTouched,
     autoCompleteType,
     autocorrect,
+    disabled,
     name,
     ...InputProps
   },
@@ -65,6 +66,7 @@ const AutoField = (
       onChangeText={onChangeText}
       autocorrect={autocorrect}
       returnKeyType={returnKeyType}
+      disabled={disabled}
       ref={inputRef}
       onSubmitEditing={onSubmitEditing}
       autoCompleteType={autoCompleteType}

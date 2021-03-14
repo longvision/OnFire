@@ -48,9 +48,6 @@ export const MyKitchen = ({navigation}) => {
     dispatch.ingredients.listAsync();
   }, []);
 
-  function handlePressIngredientsDetails() {
-    navigation.navigate('IngredientDetail');
-  }
   function handlePressRecipesDetails() {
     navigation.navigate('RecipeDetail');
   }
@@ -59,6 +56,7 @@ export const MyKitchen = ({navigation}) => {
   };
   return (
     <SafeAreaView style={{height: '100%'}}>
+      <TopNavigation title="My Kitchen" alignment="center" />
       <Divider />
       <Layout style={{flex: 10}}>
         <TabView
@@ -94,7 +92,6 @@ export const MyKitchen = ({navigation}) => {
             <IngredientListTemplate
               ingredients={ingredients}
               addIcon={AddIcon}
-              handlePressIngredientsDetails={handlePressIngredientsDetails}
             />
           </Tab>
         </TabView>

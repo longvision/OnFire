@@ -4,6 +4,7 @@ const SizeInputField = (
   {
     placeholder,
     iconName = '',
+    disabled,
     value,
     styles,
     name,
@@ -42,6 +43,7 @@ const SizeInputField = (
       style={styles}
       keyboardType="numeric"
       status="basic"
+      disabled={disabled}
       clearButtonMode="always"
       value={value}
       ref={inputRef}

@@ -13,18 +13,8 @@ const AddIngredientTemplate = ({
   handlePressIngredientsDetails,
   addIcon,
 }) => {
-  const [visible, setVisible] = useState(false);
-  const navigation = useNavigation();
-
   return (
     <Layout style={{height: '100%'}}>
-      <Layout
-        style={{justifyContent: 'center', alignItems: 'center', marginTop: 5}}
-        level="1">
-        {/* <Text category="h4" status="basic">
-          New Ingredient
-        </Text> */}
-      </Layout>
       <AddIngredientForm />
     </Layout>
   );

@@ -1,21 +1,25 @@
 import React from 'react';
 import {View} from 'react-native';
-import {Button} from '@ui-kitten/components';
+import {Button, Layout} from '@ui-kitten/components';
 import {HighList} from '../organisms/HighList';
+import EditIngredientForm from '../organisms/EditIngredientForm';
 
 // import { Container } from './styles';
-const data = new Array(8).fill({
-  title: 'Cominho',
-  description: 'Pimenta mista de cominho',
-});
-
-const RecipeDetailTemplate = () => {
+const selectedItem = {
+  ingredient: 'cominho',
+  brand: 'sal',
+  seller: 'Pao de Acucar',
+  region: 'RJ',
+  size: 20.0,
+  unit: 'g',
+  price: '$20.00',
+};
+const IngredientDetailTemplate = () => {
   return (
-    <>
-      <HighList data={data} label="Recipe Ingredients" cta="Edit" />
-      <Button size="giant">Add Ingredient</Button>
-    </>
+    <Layout style={{height: '100%'}}>
+      <EditIngredientForm selectedItem={selectedItem} />
+    </Layout>
   );
 };
 
-export default RecipeDetailTemplate;
+export default IngredientDetailTemplate;
