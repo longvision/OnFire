@@ -15,6 +15,7 @@ import {getPersistor} from '@rematch/persist';
 import store from './src/store';
 import {PersistGate} from 'redux-persist/lib/integration/react';
 
+import {NavigationContainer} from '@react-navigation/native';
 export default () => {
   const [dark, setDark] = React.useState('light');
 
@@ -32,7 +33,9 @@ export default () => {
           {...eva}
           theme={{...eva[dark], ...theme}}
           customMapping={mapping}>
-          <AppNavigator />
+          <NavigationContainer>
+            <AppNavigator />
+          </NavigationContainer>
         </ApplicationProvider>
       </ThemeContext.Provider>
     </Provider>
