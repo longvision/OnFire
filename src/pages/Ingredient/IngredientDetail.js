@@ -16,6 +16,7 @@ import {useRoute} from '@react-navigation/native';
 const BackIcon = (props) => <Icon {...props} name="arrow-back" />;
 
 export const IngredientDetail = ({navigation}) => {
+  const route = useRoute();
   const navigateBack = () => {
     navigation.goBack();
   };
@@ -33,7 +34,7 @@ export const IngredientDetail = ({navigation}) => {
       />
       <Divider />
       <Layout style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <IngredientDetailTemplate />
+        <IngredientDetailTemplate selectedItem={route.params.item} />
       </Layout>
     </SafeAreaView>
   );

@@ -25,9 +25,8 @@ export const IngredientList = ({
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  function handlePressIngredientsDetails(id) {
-    dispatch.ingredients.getAsync(id);
-    navigation.navigate('IngredientDetail', {id});
+  function handlePressIngredientsDetails(item) {
+    navigation.navigate('IngredientDetail', {item});
   }
   const renderItem = ({item, index}) => (
     <Layout
@@ -66,7 +65,7 @@ export const IngredientList = ({
           style={{justifyContent: 'center', alignItems: 'flex-end', flex: 2}}>
           <Button
             size={btnSize}
-            onPress={() => handlePressIngredientsDetails(item.id)}
+            onPress={() => handlePressIngredientsDetails(item)}
             // status="basic"
             appearance="outline"
             accessoryLeft={assessoryLeft}>

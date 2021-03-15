@@ -44,9 +44,9 @@ const AddIngredientSchema = Yup.object().shape({
   unit: Yup.string().required('Package unit is required'),
   price: Yup.string().required('Package price is required'),
 });
-const EditIngredientForm = () => {
+const EditIngredientForm = ({selectedItem}) => {
   const dispatch = useDispatch();
-  const selectedItem = useSelector((state) => state.ingredients.selected);
+
   const [selectedIndex, setSelectedIndex] = React.useState(0);
   const [disabled, setDisabled] = React.useState(true);
   const [packDisabled, setPackDisabled] = React.useState(true);
@@ -65,7 +65,7 @@ const EditIngredientForm = () => {
   const handleEditInfo = () => {
     setDisabled(!disabled);
   };
-
+  console.log(selectedItem);
   return (
     <Formik
       initialValues={{
@@ -120,7 +120,7 @@ const EditIngredientForm = () => {
                 editing={true}
                 disabled={disabled}
                 setDisabled={setDisabled}
-                value={values.ingredient || selectedItem.name}
+                value={values.ingredient}
                 setFieldValue={setFieldValue}
                 setFieldTouched={setFieldTouched}
                 onSubmitEditing={() => brandRef.current.focus()}
