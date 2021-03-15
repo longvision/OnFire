@@ -2,16 +2,17 @@ import React from 'react';
 import {Button, Icon, List, Layout, Text} from '@ui-kitten/components';
 
 import {StyleSheet, View} from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import Popularity from '../atoms/Popularity';
 import ListTitle from '../atoms/ListTitle';
+import {useDispatch} from 'react-redux';
 
 export const IngredientList = ({
   data,
   cta,
   price,
   ratingTitle,
-  handlePress,
+
   img,
   containerStyle,
   titles,
@@ -21,6 +22,11 @@ export const IngredientList = ({
   width,
   ...props
 }) => {
+  const navigation = useNavigation();
+
+  function handlePressIngredientsDetails(id) {
+    navigation.navigate('IngredientDetail', {id});
+  }
   const renderItem = ({item, index}) => (
     <Layout
       style={{
@@ -58,7 +64,7 @@ export const IngredientList = ({
           style={{justifyContent: 'center', alignItems: 'flex-end', flex: 2}}>
           <Button
             size={btnSize}
-            onPress={handlePress}
+            onPress={() => handlePressIngredientsDetails(item.id)}
             // status="basic"
             appearance="outline"
             accessoryLeft={assessoryLeft}>

@@ -13,9 +13,7 @@ const IngredientListTemplate = ({ingredients, addIcon}) => {
   const handlePress = () => {
     navigation.navigate('AddIngredient');
   };
-  function handlePressIngredientsDetails() {
-    navigation.navigate('IngredientDetail');
-  }
+
   return (
     <Layout style={{height: '100%'}}>
       <Layout
@@ -29,7 +27,6 @@ const IngredientListTemplate = ({ingredients, addIcon}) => {
           btnSize="small"
           containerStyle={{width: '100%'}}
           titles={['Ingredient', 'Price per Package', '']}
-          handlePress={handlePressIngredientsDetails}
         />
       </Layout>
       <Layout

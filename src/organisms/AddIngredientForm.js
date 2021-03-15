@@ -51,6 +51,7 @@ const AddIngredientForm = () => {
   const sizeRef = useRef();
   const dispatch = useDispatch();
   const [selectedIndex, setSelectedIndex] = React.useState(0);
+  const [disabled, setDisabled] = React.useState(false);
   const navigation = useNavigation();
   const unitsArray = ['mL', 'g', 'L', 'KG'];
 
@@ -207,7 +208,6 @@ const AddIngredientForm = () => {
                   selectedIndex={selectedIndex}
                   onSelect={(index) => {
                     console.log(unitsArray[index.row]);
-                    priceRef.current.focus();
                     setSelectedIndex(index);
                     setFieldValue('unit', unitsArray[index.row]);
                   }}

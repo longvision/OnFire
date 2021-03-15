@@ -13,7 +13,7 @@ import AutoCompleteField from '../molecules/AutocompleteField';
 import {Field, Formik} from 'formik';
 import Selector from '../molecules/Selector';
 import SizeInput from '../molecules/SizeInput';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import * as Yup from 'yup';
 
@@ -26,6 +26,8 @@ const data = [
 ];
 
 const saveIcon = (props) => <Icon {...props} name="save-outline" />;
+const editIcon = (props) => <Icon {...props} name="edit-outline" />;
+const closeIcon = (props) => <Icon {...props} name="close-outline" />;
 
 const AddIngredientSchema = Yup.object().shape({
   ingredient: Yup.string()
@@ -42,9 +44,13 @@ const AddIngredientSchema = Yup.object().shape({
   unit: Yup.string().required('Package unit is required'),
   price: Yup.string().required('Package price is required'),
 });
-const EditIngredientForm = ({selectedItem}) => {
+const EditIngredientForm = ({selectedId}) => {
+  console.log(selectedItem);
   const dispatch = useDispatch();
+
   const [selectedIndex, setSelectedIndex] = React.useState(0);
+  const [disabled, setDisabled] = React.useState(true);
+  const [packDisabled, setPackDisabled] = React.useState(true);
   const navigation = useNavigation();
   const brandRef = useRef();
   const sellerRef = useRef();
@@ -54,20 +60,28 @@ const EditIngredientForm = ({selectedItem}) => {
   const sizeRef = useRef();
   const unitsArray = ['mL', 'g', 'L', 'KG'];
 
+  const handleEditPackage = () => {
+    setPackDisabled(!packDisabled);
+  };
+  const handleEditInfo = () => {
+    setDisabled(!disabled);
+  };
+
+  const selectedItem = useSelector((state) => state.ingredients.selected);
   return (
     <Formik
       initialValues={{
-        ingredient: selectedItem.ingredient,
+        ingredient: selectedItem.name,
         brand: selectedItem.brand,
         seller: selectedItem.seller,
-        region: selectedItem.region,
-        size: selectedItem.size,
+        region: selectedItem.sold_region,
+        size: selectedItem.package_size,
         unit: selectedItem.unit,
-        price: selectedItem.price,
+        price: selectedItem.package_price,
       }}
       validationSchema={AddIngredientSchema}
       onSubmit={(values) => {
-        dispatch.ingredients.addAsync(values);
+        dispatch.ingredients.updateAsync({values: values, id: selectedItem.id});
         navigation.navigate('MyKitchen');
       }}>
       {({
@@ -82,20 +96,32 @@ const EditIngredientForm = ({selectedItem}) => {
       }) => (
         <Layout style={styles.container}>
           <Layout style={styles.controlContainer}>
-            <Text
-              category="h4"
-              appearance="alternative"
-              status="basic"
-              style={styles.title}>
-              Product info
-            </Text>
+            <Layout style={styles.packageLayout} level="3">
+              <Text
+                category="h4"
+                appearance="alternative"
+                status="basic"
+                style={styles.packageTitle}>
+                Product info
+              </Text>
+              <Button
+                style={styles.editPackage}
+                status="basic"
+                size="medium"
+                onPress={handleEditInfo}
+                accessoryLeft={disabled ? editIcon : closeIcon}
+              />
+            </Layout>
+
             <Layout style={styles.rowContainer} level="1">
               <AutoCompleteField
                 style={styles.input}
                 array={data}
                 name="ingredient"
                 returnKeyType="next"
-                disabled
+                editing={true}
+                disabled={disabled}
+                setDisabled={setDisabled}
                 value={values.ingredient}
                 setFieldValue={setFieldValue}
                 setFieldTouched={setFieldTouched}
@@ -114,7 +140,9 @@ const EditIngredientForm = ({selectedItem}) => {
                 style={styles.input}
                 array={data}
                 returnKeyType="next"
-                disabled
+                disabled={disabled}
+                editing={true}
+                setDisabled={setDisabled}
                 name="brand"
                 value={values.brand}
                 setFieldValue={setFieldValue}
@@ -135,7 +163,9 @@ const EditIngredientForm = ({selectedItem}) => {
                 style={styles.input}
                 value={values.seller}
                 setFieldValue={setFieldValue}
-                disabled
+                disabled={disabled}
+                editing={true}
+                setDisabled={setDisabled}
                 setFieldTouched={setFieldTouched}
                 array={data}
                 name="seller"
@@ -155,9 +185,11 @@ const EditIngredientForm = ({selectedItem}) => {
               <AutoCompleteField
                 style={styles.input}
                 value={values.region}
+                editing={true}
                 setFieldValue={setFieldValue}
                 setFieldTouched={setFieldTouched}
-                disabled
+                disabled={disabled}
+                setDisabled={setDisabled}
                 array={data}
                 returnKeyType="next"
                 name="region"
@@ -175,13 +207,22 @@ const EditIngredientForm = ({selectedItem}) => {
               </Text>
             </Layout>
             <Layout style={styles.packageContainer} level="3">
-              <Text
-                category="h4"
-                appearance="alternative"
-                status="basic"
-                style={styles.title}>
-                Package info
-              </Text>
+              <Layout style={styles.packageLayout} level="3">
+                <Text
+                  category="h4"
+                  appearance="alternative"
+                  status="basic"
+                  style={styles.packageTitle}>
+                  Package info
+                </Text>
+                <Button
+                  style={styles.editPackage}
+                  status="basic"
+                  size="medium"
+                  onPress={handleEditPackage}
+                  accessoryLeft={packDisabled ? editIcon : closeIcon}
+                />
+              </Layout>
               <Layout style={styles.rowContainer} level="3">
                 <SizeInput
                   status={errors.size && touched.size && 'danger'}
@@ -189,7 +230,8 @@ const EditIngredientForm = ({selectedItem}) => {
                   value={values.size}
                   setFieldValue={setFieldValue}
                   setFieldTouched={setFieldTouched}
-                  disabled
+                  disabled={packDisabled}
+                  setDisabled={setDisabled}
                   name="size"
                   styles={styles.input}
                   onSubmitEditing={() => {
@@ -207,13 +249,12 @@ const EditIngredientForm = ({selectedItem}) => {
                   placeholder="Unit"
                   style={styles.input}
                   value={values.unit}
-                  disabled
+                  disabled={packDisabled}
                   name="unit"
                   data={unitsArray}
                   selectedIndex={selectedIndex}
                   onSelect={(index) => {
                     console.log(unitsArray[index.row]);
-                    priceRef.current.focus();
                     setSelectedIndex(index);
                     setFieldValue('unit', unitsArray[index.row]);
                   }}
@@ -227,7 +268,7 @@ const EditIngredientForm = ({selectedItem}) => {
                 <PriceInput
                   status={errors.price && touched.price && 'danger'}
                   placeholder="Price"
-                  disabled
+                  disabled={packDisabled}
                   value={values.price}
                   setFieldValue={setFieldValue}
                   setFieldTouched={setFieldTouched}
@@ -272,9 +313,23 @@ const EditIngredientForm = ({selectedItem}) => {
 const styles = StyleSheet.create({
   input: {
     width: '90%',
+    color: 'black',
   },
   title: {
     marginBottom: 20,
+  },
+  packageTitle: {
+    marginLeft: 100,
+    flex: 3,
+  },
+  packageLayout: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+    width: '90%',
+  },
+  editPackage: {
+    // margin: 2,
   },
   button: {
     // flex: 1,

@@ -4,12 +4,26 @@ import tron from '../../config/ReactotronConfig';
 export const ingredients = createModel()({
   state: {
     ingredients: [],
+    selected: {},
+    selectedId: null,
   },
   reducers: {
     list(state, payload) {
       return {
         ...state,
-        ingredients: payload.data,
+        ingredients: payload,
+      };
+    },
+    setSelected(state, payload) {
+      return {
+        ...state,
+        selected: payload,
+      };
+    },
+    setSelectedId(state, payload) {
+      return {
+        ...state,
+        selectedId: payload,
       };
     },
     add(state, payload) {
@@ -48,10 +62,50 @@ export const ingredients = createModel()({
 
         tron.log(rootState);
 
-        dispatch.ingredients.list({data});
+        dispatch.ingredients.list(data);
 
         // history.push('/dashboard');
       } catch (err) {}
+    },
+    async getAsync(payload, rootState) {
+      try {
+        api.defaults.headers.Authorization = `Bearer ${rootState.auth.token}`;
+
+        const response = await api.get(`ingredient/${payload}`);
+
+        const data = response.data;
+
+        console.log(data);
+
+        dispatch.ingredients.setSelected(data);
+
+        // history.push('/dashboard');
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    async updateAsync(payload, rootState) {
+      try {
+        api.defaults.headers.Authorization = `Bearer ${rootState.auth.token}`;
+        const {values, id} = payload;
+
+        await api.put(`ingredient/${id}`, {
+          name: values.ingredient,
+          package_price: values.price,
+          package_size: values.size,
+          unit: values.unit,
+          seller: values.seller,
+          sold_region: values.sold,
+          brand: values.brand,
+        });
+
+        console.log('Values updated');
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    async setSelectedIdAsync(payload) {
+      dispatch.ingredients.setSelectedId(payload);
     },
   }),
 });

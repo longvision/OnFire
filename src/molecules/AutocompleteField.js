@@ -14,9 +14,11 @@ const AutoField = (
     onSubmitEditing,
     returnKeyType,
     setFieldValue,
+    editing,
     setFieldTouched,
     autoCompleteType,
     autocorrect,
+    setDisabled,
     disabled,
     name,
     ...InputProps
@@ -36,10 +38,11 @@ const AutoField = (
     setData(array.filter((item) => filter(item, query)));
   };
 
-  const clearInput = () => {
-    // setValue('');
-    setFieldValue(name, '');
-    setData(array);
+  const handlePressIcon = () => {
+    if (!disabled) {
+      setFieldValue(name, '');
+      setData(array);
+    }
   };
 
   const renderOption = (item, index) => (
@@ -49,7 +52,7 @@ const AutoField = (
     setFieldTouched(name);
   };
   const renderCloseIcon = (props) => (
-    <TouchableWithoutFeedback onPress={clearInput}>
+    <TouchableWithoutFeedback onPress={handlePressIcon}>
       <Icon {...props} name="close" />
     </TouchableWithoutFeedback>
   );
@@ -62,7 +65,7 @@ const AutoField = (
   return (
     <Autocomplete
       placeholder={placeholder}
-      accessoryRight={renderCloseIcon}
+      accessoryRight={!editing && renderCloseIcon}
       onChangeText={onChangeText}
       autocorrect={autocorrect}
       returnKeyType={returnKeyType}

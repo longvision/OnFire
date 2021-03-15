@@ -16,8 +16,8 @@ const persistPlugin = createPersistPlugin({
 const store = init({
   name: 'OnFire',
   redux: {
-    // createStore: Reactotron.createStore,
-    // enhancers: [Reactotron.createEnhancer()],
+    createStore: Reactotron.createStore,
+    enhancers: [Reactotron.createEnhancer()],
   },
   models,
   plugins: [immerPlugin(), persistPlugin, loadingPlugin()],

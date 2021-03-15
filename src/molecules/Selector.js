@@ -14,12 +14,13 @@ import {
 // };
 
 const SelectorRaw = (
-  {data, onSelect, name, value, selectedIndex, disabled, style, placeholder},
+  {data, onSelect, value, selectedIndex, disabled, style, placeholder},
   ref,
 ) => {
   const inputRef = useRef();
 
-  const displayValue = data && data[selectedIndex.row];
+  // const displayValue = data && data[selectedIndex.row];
+  const displayValue = value;
 
   const renderOption = (title) =>
     data && <SelectItem key={title} title={title} />;
