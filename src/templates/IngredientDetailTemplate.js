@@ -7,10 +7,10 @@ import {useSelector, useDispatch} from 'react-redux';
 
 // import { Container } from './styles';
 
-const IngredientDetailTemplate = ({selectedId}) => {
+const IngredientDetailTemplate = () => {
   return (
     <Layout style={{height: '100%'}}>
-      <EditIngredientForm selectedId={selectedId} />
+      <EditIngredientForm />
     </Layout>
   );
 };

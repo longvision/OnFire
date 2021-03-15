@@ -15,8 +15,7 @@ import {useRoute} from '@react-navigation/native';
 
 const BackIcon = (props) => <Icon {...props} name="arrow-back" />;
 
-export const IngredientDetail = ({route, navigation}) => {
-  const dispatch = useDispatch();
+export const IngredientDetail = ({navigation}) => {
   const navigateBack = () => {
     navigation.goBack();
   };
@@ -24,10 +23,6 @@ export const IngredientDetail = ({route, navigation}) => {
   const BackAction = () => (
     <TopNavigationAction icon={BackIcon} onPress={navigateBack} />
   );
-
-  useEffect(() => {
-    dispatch.ingredients.getAsync(route.params.id);
-  }, [route.params.id]);
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -38,7 +33,7 @@ export const IngredientDetail = ({route, navigation}) => {
       />
       <Divider />
       <Layout style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <IngredientDetailTemplate selectedId={route.params.id} />
+        <IngredientDetailTemplate />
       </Layout>
     </SafeAreaView>
   );

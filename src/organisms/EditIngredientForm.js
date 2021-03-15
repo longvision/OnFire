@@ -44,10 +44,9 @@ const AddIngredientSchema = Yup.object().shape({
   unit: Yup.string().required('Package unit is required'),
   price: Yup.string().required('Package price is required'),
 });
-const EditIngredientForm = ({selectedId}) => {
-  console.log(selectedItem);
+const EditIngredientForm = () => {
   const dispatch = useDispatch();
-
+  const selectedItem = useSelector((state) => state.ingredients.selected);
   const [selectedIndex, setSelectedIndex] = React.useState(0);
   const [disabled, setDisabled] = React.useState(true);
   const [packDisabled, setPackDisabled] = React.useState(true);
@@ -67,7 +66,6 @@ const EditIngredientForm = ({selectedId}) => {
     setDisabled(!disabled);
   };
 
-  const selectedItem = useSelector((state) => state.ingredients.selected);
   return (
     <Formik
       initialValues={{
@@ -122,7 +120,7 @@ const EditIngredientForm = ({selectedId}) => {
                 editing={true}
                 disabled={disabled}
                 setDisabled={setDisabled}
-                value={values.ingredient}
+                value={values.ingredient || selectedItem.name}
                 setFieldValue={setFieldValue}
                 setFieldTouched={setFieldTouched}
                 onSubmitEditing={() => brandRef.current.focus()}
@@ -144,7 +142,7 @@ const EditIngredientForm = ({selectedId}) => {
                 editing={true}
                 setDisabled={setDisabled}
                 name="brand"
-                value={values.brand}
+                value={values.brand || selectedItem.brand}
                 setFieldValue={setFieldValue}
                 setFieldTouched={setFieldTouched}
                 onSubmitEditing={() => sellerRef.current.focus()}
@@ -161,7 +159,7 @@ const EditIngredientForm = ({selectedId}) => {
             <Layout style={styles.rowContainer} level="1">
               <AutoCompleteField
                 style={styles.input}
-                value={values.seller}
+                value={values.seller || selectedItem.seller}
                 setFieldValue={setFieldValue}
                 disabled={disabled}
                 editing={true}
@@ -184,7 +182,7 @@ const EditIngredientForm = ({selectedId}) => {
             <Layout style={styles.rowContainer} level="1">
               <AutoCompleteField
                 style={styles.input}
-                value={values.region}
+                value={values.region || selectedItem.sold_region}
                 editing={true}
                 setFieldValue={setFieldValue}
                 setFieldTouched={setFieldTouched}
@@ -227,7 +225,7 @@ const EditIngredientForm = ({selectedId}) => {
                 <SizeInput
                   status={errors.size && touched.size && 'danger'}
                   placeholder="Package Size"
-                  value={values.size}
+                  value={values.size || selectedItem.package_size}
                   setFieldValue={setFieldValue}
                   setFieldTouched={setFieldTouched}
                   disabled={packDisabled}
@@ -248,7 +246,7 @@ const EditIngredientForm = ({selectedId}) => {
                   status={errors.unit && touched.unit && 'danger'}
                   placeholder="Unit"
                   style={styles.input}
-                  value={values.unit}
+                  value={values.unit || selectedItem.unit}
                   disabled={packDisabled}
                   name="unit"
                   data={unitsArray}
@@ -269,7 +267,7 @@ const EditIngredientForm = ({selectedId}) => {
                   status={errors.price && touched.price && 'danger'}
                   placeholder="Price"
                   disabled={packDisabled}
-                  value={values.price}
+                  value={values.price || selectedItem.package_price}
                   setFieldValue={setFieldValue}
                   setFieldTouched={setFieldTouched}
                   style={styles.input}

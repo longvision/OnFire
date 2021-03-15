@@ -23,8 +23,10 @@ export const IngredientList = ({
   ...props
 }) => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   function handlePressIngredientsDetails(id) {
+    dispatch.ingredients.getAsync(id);
     navigation.navigate('IngredientDetail', {id});
   }
   const renderItem = ({item, index}) => (
