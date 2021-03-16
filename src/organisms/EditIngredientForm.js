@@ -80,6 +80,7 @@ const EditIngredientForm = ({selectedItem}) => {
       validationSchema={AddIngredientSchema}
       onSubmit={(values) => {
         dispatch.ingredients.updateAsync({values: values, id: selectedItem.id});
+        dispatch.ingredients.listAsync();
         navigation.navigate('MyKitchen');
       }}>
       {({
@@ -142,7 +143,7 @@ const EditIngredientForm = ({selectedItem}) => {
                 editing={true}
                 setDisabled={setDisabled}
                 name="brand"
-                value={values.brand || selectedItem.brand}
+                value={values.brand}
                 setFieldValue={setFieldValue}
                 setFieldTouched={setFieldTouched}
                 onSubmitEditing={() => sellerRef.current.focus()}
@@ -159,7 +160,7 @@ const EditIngredientForm = ({selectedItem}) => {
             <Layout style={styles.rowContainer} level="1">
               <AutoCompleteField
                 style={styles.input}
-                value={values.seller || selectedItem.seller}
+                value={values.seller}
                 setFieldValue={setFieldValue}
                 disabled={disabled}
                 editing={true}
@@ -182,7 +183,7 @@ const EditIngredientForm = ({selectedItem}) => {
             <Layout style={styles.rowContainer} level="1">
               <AutoCompleteField
                 style={styles.input}
-                value={values.region || selectedItem.sold_region}
+                value={values.region}
                 editing={true}
                 setFieldValue={setFieldValue}
                 setFieldTouched={setFieldTouched}
@@ -225,7 +226,7 @@ const EditIngredientForm = ({selectedItem}) => {
                 <SizeInput
                   status={errors.size && touched.size && 'danger'}
                   placeholder="Package Size"
-                  value={values.size || selectedItem.package_size}
+                  value={values.size}
                   setFieldValue={setFieldValue}
                   setFieldTouched={setFieldTouched}
                   disabled={packDisabled}
@@ -246,7 +247,7 @@ const EditIngredientForm = ({selectedItem}) => {
                   status={errors.unit && touched.unit && 'danger'}
                   placeholder="Unit"
                   style={styles.input}
-                  value={values.unit || selectedItem.unit}
+                  value={values.unit}
                   disabled={packDisabled}
                   name="unit"
                   data={unitsArray}
@@ -267,7 +268,7 @@ const EditIngredientForm = ({selectedItem}) => {
                   status={errors.price && touched.price && 'danger'}
                   placeholder="Price"
                   disabled={packDisabled}
-                  value={values.price || selectedItem.package_price}
+                  value={values.price}
                   setFieldValue={setFieldValue}
                   setFieldTouched={setFieldTouched}
                   style={styles.input}

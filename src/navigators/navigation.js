@@ -20,7 +20,7 @@ export const AppNavigator = () => {
       setToken(JSON.parse(JSON.parse(data).auth).token);
     }
     getLocalStorage();
-  }, [token]);
+  }, []);
 
   const Stack = createStackNavigator();
 

@@ -27,6 +27,7 @@ export const IngredientList = ({
 
   function handlePressIngredientsDetails(item) {
     navigation.navigate('IngredientDetail', {item});
+    console.log(item);
   }
   const renderItem = ({item, index}) => (
     <Layout

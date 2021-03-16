@@ -15,8 +15,7 @@ import {useRoute} from '@react-navigation/native';
 
 const BackIcon = (props) => <Icon {...props} name="arrow-back" />;
 
-export const IngredientDetail = ({navigation}) => {
-  const route = useRoute();
+export const IngredientDetail = ({route, navigation}) => {
   const navigateBack = () => {
     navigation.goBack();
   };

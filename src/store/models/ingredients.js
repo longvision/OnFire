@@ -75,8 +75,6 @@ export const ingredients = createModel()({
 
         const data = response.data;
 
-        console.log(data);
-
         dispatch.ingredients.setSelected(data);
 
         // history.push('/dashboard');
@@ -88,18 +86,16 @@ export const ingredients = createModel()({
       try {
         api.defaults.headers.Authorization = `Bearer ${rootState.auth.token}`;
         const {values, id} = payload;
-
-        await api.put(`ingredient/${id}`, {
+        console.log(payload);
+        await api.patch(`ingredient/${id}`, {
           name: values.ingredient,
-          package_price: values.price,
+          package_price: values.price.substring(1),
           package_size: values.size,
           unit: values.unit,
           seller: values.seller,
-          sold_region: values.sold,
+          sold_region: values.region,
           brand: values.brand,
         });
-
-        console.log('Values updated');
       } catch (err) {
         console.log(err);
       }
