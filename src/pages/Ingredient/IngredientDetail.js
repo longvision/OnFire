@@ -1,17 +1,14 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {SafeAreaView} from 'react-native';
 import {
   Divider,
   Icon,
   Layout,
-  Text,
   TopNavigation,
   TopNavigationAction,
 } from '@ui-kitten/components';
 
 import IngredientDetailTemplate from '../../templates/IngredientDetailTemplate';
-import {useSelector, useDispatch} from 'react-redux';
-import {useRoute} from '@react-navigation/native';
 
 const BackIcon = (props) => <Icon {...props} name="arrow-back" />;
 

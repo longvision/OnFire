@@ -65,7 +65,7 @@ const EditIngredientForm = ({selectedItem}) => {
   const handleEditInfo = () => {
     setDisabled(!disabled);
   };
-  console.log(selectedItem);
+
   return (
     <Formik
       initialValues={{
@@ -73,14 +73,14 @@ const EditIngredientForm = ({selectedItem}) => {
         brand: selectedItem.brand,
         seller: selectedItem.seller,
         region: selectedItem.sold_region,
-        size: selectedItem.package_size,
+        size: Number(selectedItem.package_size).toFixed(2),
         unit: selectedItem.unit,
-        price: selectedItem.package_price,
+        price: Number(selectedItem.package_price).toFixed(2),
       }}
       validationSchema={AddIngredientSchema}
       onSubmit={(values) => {
         dispatch.ingredients.updateAsync({values: values, id: selectedItem.id});
-        dispatch.ingredients.listAsync();
+
         navigation.navigate('MyKitchen');
       }}>
       {({
@@ -231,6 +231,7 @@ const EditIngredientForm = ({selectedItem}) => {
                   setFieldTouched={setFieldTouched}
                   disabled={packDisabled}
                   setDisabled={setDisabled}
+                  mantissa={2}
                   name="size"
                   styles={styles.input}
                   onSubmitEditing={() => {

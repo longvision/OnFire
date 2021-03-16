@@ -1,15 +1,17 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 
 import {Button, Icon, Layout} from '@ui-kitten/components';
 import {HighList} from '../organisms/HighList';
 import {useNavigation} from '@react-navigation/native';
 import {PopoverOverlay} from '../organisms/PopoverOverlay';
 import {IngredientList} from '../organisms/IngredientList';
-import {Text} from 'react-native-svg';
+import {useDispatch} from 'react-redux';
 
-const IngredientListTemplate = ({ingredients, addIcon}) => {
+const IngredientListTemplate = ({navigation, ingredients, addIcon}) => {
   const [visible, setVisible] = useState(false);
-  const navigation = useNavigation();
+
+  const dispatch = useDispatch();
+
   const handlePress = () => {
     navigation.navigate('AddIngredient');
   };

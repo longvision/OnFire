@@ -1,6 +1,8 @@
 import {createModel} from '@rematch/core';
 import api from '../../services/api';
 import tron from '../../config/ReactotronConfig';
+
+import {checkDollarSign} from '../../utils/functions';
 export const ingredients = createModel()({
   state: {
     ingredients: [],
@@ -42,7 +44,7 @@ export const ingredients = createModel()({
           brand: brand,
           seller: seller,
           sold_region: region,
-          package_price: price.substring(1),
+          package_price: checkDollarSign(price),
           unit: unit,
           package_size: size,
         });
@@ -86,10 +88,10 @@ export const ingredients = createModel()({
       try {
         api.defaults.headers.Authorization = `Bearer ${rootState.auth.token}`;
         const {values, id} = payload;
-        console.log(payload);
+
         await api.patch(`ingredient/${id}`, {
           name: values.ingredient,
-          package_price: values.price.substring(1),
+          package_price: checkDollarSign(values.price),
           package_size: values.size,
           unit: values.unit,
           seller: values.seller,

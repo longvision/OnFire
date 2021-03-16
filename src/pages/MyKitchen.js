@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import {SafeAreaView} from 'react-native';
 import {
   Button,
@@ -16,6 +16,7 @@ import RecipeListTemplate from '../templates/RecipeListTemplate';
 
 import {HighList} from '../organisms/HighList';
 import {ThemedAwesomeIcon} from '../atoms/ThemedAwesomeIcon';
+import {useFocusEffect} from '@react-navigation/native';
 
 const BackIcon = (props) => <Icon {...props} name="arrow-back" />;
 const AddIcon = (props) => <Icon {...props} name="plus-outline" />;
@@ -44,16 +45,26 @@ export const MyKitchen = ({navigation}) => {
     description: 'Especiarias do oriente',
   });
 
-  useEffect(() => {
-    dispatch.ingredients.listAsync();
-  }, []);
-
   function handlePressRecipesDetails() {
     navigation.navigate('RecipeDetail');
   }
   const InfoIcon = (props) => {
     return <ThemedAwesomeIcon name="maximize-outline" {...props} />;
   };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      // alert('Screen was focused');
+      // Do something when the screen is focused
+      dispatch.ingredients.listAsync();
+      return () => {
+        // alert('Screen was unfocused');
+        // Do something when the screen is unfocused
+        // Useful for cleanup functions
+      };
+    }, []),
+  );
+
   return (
     <SafeAreaView style={{height: '100%'}}>
       <TopNavigation title="My Kitchen" alignment="center" />
@@ -91,6 +102,7 @@ export const MyKitchen = ({navigation}) => {
           <Tab title="INGREDIENTS">
             <IngredientListTemplate
               ingredients={ingredients}
+              navigation={navigation}
               addIcon={AddIcon}
             />
           </Tab>

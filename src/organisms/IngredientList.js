@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Button, Icon, List, Layout, Text} from '@ui-kitten/components';
 
 import {StyleSheet, View} from 'react-native';
@@ -27,8 +27,8 @@ export const IngredientList = ({
 
   function handlePressIngredientsDetails(item) {
     navigation.navigate('IngredientDetail', {item});
-    console.log(item);
   }
+
   const renderItem = ({item, index}) => (
     <Layout
       style={{
