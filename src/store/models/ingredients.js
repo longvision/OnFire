@@ -90,6 +90,7 @@ export const ingredients = createModel()({
         const {values, id} = payload;
 
         await api.patch(`ingredient/${id}`, {
+          id: id,
           name: values.ingredient,
           package_price: checkDollarSign(values.price),
           package_size: values.size,

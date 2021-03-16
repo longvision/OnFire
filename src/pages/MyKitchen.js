@@ -54,7 +54,7 @@ export const MyKitchen = ({navigation}) => {
 
   useFocusEffect(
     React.useCallback(() => {
-      // alert('Screen was focused');
+      alert('Screen was focused');
       // Do something when the screen is focused
       dispatch.ingredients.listAsync();
       return () => {
