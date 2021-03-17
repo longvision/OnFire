@@ -10,6 +10,7 @@ import {
 import RecipeDetailTemplate from '../../templates/RecipeDetailTemplate';
 import {useSelector, useDispatch} from 'react-redux';
 import {useFocusEffect} from '@react-navigation/native';
+import {useEffect} from 'react';
 
 const BackIcon = (props) => <Icon {...props} name="arrow-back" />;
 
@@ -23,8 +24,11 @@ const totalCost = 'R$53.43';
 export const RecipeDetail = ({navigation}) => {
   const ingredients = useSelector((state) => state.ingredients.ingredients);
   const measures = useSelector((state) => state.measures.measures);
-  const loading = useSelector(
+  const loadingDelete = useSelector(
     (state) => state.loading.effects.measures.deleteAsync,
+  );
+  const loadingCreate = useSelector(
+    (state) => state.loading.effects.measures.addAsync,
   );
   const dispatch = useDispatch();
   const navigateBack = () => {
@@ -34,19 +38,23 @@ export const RecipeDetail = ({navigation}) => {
     <TopNavigationAction icon={BackIcon} onPress={navigateBack} />
   );
 
-  useFocusEffect(
-    React.useCallback(() => {
-      // alert('Screen was focused');
-      // Do something when the screen is focused
-      dispatch.measures.listAsync();
+  // useFocusEffect(
+  //   React.useCallback(() => {
+  //     // alert('Screen was focused');
+  //     // Do something when the screen is focused
+  //     dispatch.measures.listAsync();
 
-      return () => {
-        // alert('Screen was unfocused');
-        // Do something when the screen is unfocused
-        // Useful for cleanup functions
-      };
-    }, [loading]),
-  );
+  //     return () => {
+  //       // alert('Screen was unfocused');
+  //       // Do something when the screen is unfocused
+  //       // Useful for cleanup functions
+  //     };
+  //   }, [loading]),
+  // );
+
+  useEffect(() => {
+    dispatch.measures.listAsync();
+  }, [loadingDelete, loadingCreate]);
 
   return (
     <SafeAreaView style={{flex: 1}}>
