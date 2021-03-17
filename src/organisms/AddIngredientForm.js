@@ -188,6 +188,7 @@ const AddIngredientForm = () => {
                   setFieldTouched={setFieldTouched}
                   name="size"
                   styles={styles.input}
+                  mantissa={4}
                   onSubmitEditing={() => {
                     unitsRef.current.focus();
                   }}
@@ -224,6 +225,7 @@ const AddIngredientForm = () => {
                   value={values.price}
                   setFieldValue={setFieldValue}
                   setFieldTouched={setFieldTouched}
+                  mantissa={4}
                   style={styles.input}
                   name="price"
                   mantissa={2}

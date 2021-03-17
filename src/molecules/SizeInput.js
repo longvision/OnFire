@@ -11,6 +11,7 @@ const SizeInputField = (
     setFieldValue,
     setFieldTouched,
     iconProps,
+    mantissa,
   },
   ref,
 ) => {
@@ -20,7 +21,7 @@ const SizeInputField = (
 
   function sizeFormat(num) {
     return `${Number(num)
-      .toFixed(2)
+      .toFixed(mantissa)
       .replace(/(\d)(?=(\d{3})+(?!\d)(\.\d{1,4}))/g, '$1,')}`;
   }
 

@@ -120,7 +120,6 @@ const AddMeasureForm = ({ingredients}) => {
                 data={unitsArray}
                 selectedIndex={selectedUnitIndex}
                 onSelect={(index) => {
-                  console.log(values);
                   setSelectedUnitIndex(index);
                   setFieldValue('unit', unitsArray[index.row]);
                 }}
@@ -146,6 +145,7 @@ const AddMeasureForm = ({ingredients}) => {
                   setFieldValue={setFieldValue}
                   setFieldTouched={setFieldTouched}
                   name="quantity"
+                  mantissa={4}
                   styles={styles.input}
                   onSubmitEditing={() => {
                     submitRef.current.focus();
