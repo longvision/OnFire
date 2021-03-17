@@ -1,29 +1,54 @@
 import React, {useState} from 'react';
 
-import {Button, Layout} from '@ui-kitten/components';
-import {HighList} from '../organisms/HighList';
-import {useNavigation} from '@react-navigation/native';
+import {Button, Card, Layout, Modal} from '@ui-kitten/components';
+import {StyleSheet, Text, View} from 'react-native';
 import {PopoverOverlay} from '../organisms/PopoverOverlay';
+import {RecipeList} from '../organisms/RecipeList';
 
-const RecipeListTemplate = ({list, button}) => {
+const RecipeListTemplate = ({AddIcon, navigation, InfoIcon, recipes}) => {
   const [visible, setVisible] = useState(false);
+
+  const button = () => (
+    <Button
+      size="large"
+      status="primary"
+      onPress={handleAddMeasure}
+      accessoryLeft={AddIcon}
+      appearance="filled">
+      Add Recipes
+    </Button>
+  );
+  function handlePress() {
+    navigation.navigate('RecipeDetail');
+  }
+  function handleAddMeasure() {
+    setVisible(true);
+  }
   return (
     <Layout style={{height: '100%'}}>
       <Layout
         style={{
           flex: 5,
         }}>
-        {list}
+        <RecipeList
+          recipes={recipes}
+          rating
+          titles={['Description', 'Popularity', 'Details']}
+          cta
+          btnSize="small"
+          assessoryLeft={InfoIcon}
+          containerStyle={{width: '98%'}}
+          handlePressDetails={handlePress}
+        />
       </Layout>
       <Layout
         style={{
           marginVertical: 2,
-
           alignItems: 'center',
           flex: 1,
         }}>
         <PopoverOverlay
-          renderToggleButton={() => button}
+          renderToggleButton={button}
           visible={visible}
           handleClose={() => setVisible(false)}
         />

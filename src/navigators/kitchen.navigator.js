@@ -17,6 +17,7 @@ const KitchenNavigator = () => (
     <Stack.Screen name="MyKitchen" component={MyKitchen} />
     <Stack.Screen name="AddIngredient" component={AddIngredient} />
     <Stack.Screen name="IngredientDetail" component={IngredientDetail} />
+
     <Stack.Screen name="RecipeDetail" component={RecipeDetail} />
   </Stack.Navigator>
 );

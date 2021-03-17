@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {View} from 'react-native';
 import {Button, Layout} from '@ui-kitten/components';
-import {HighList} from '../organisms/HighList';
+import {RecipeList} from '../organisms/RecipeList';
 import EditIngredientForm from '../organisms/EditIngredientForm';
 import {useSelector, useDispatch} from 'react-redux';
 

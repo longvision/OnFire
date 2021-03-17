@@ -6,12 +6,12 @@ import {NavigationContainer} from '@react-navigation/native';
 import Popularity from '../atoms/Popularity';
 import ListTitle from '../atoms/ListTitle';
 
-export const HighList = ({
-  data,
+export const RecipeList = ({
+  recipes,
   cta,
   rating,
   ratingTitle,
-  handlePress,
+  handlePressDetails,
   img,
   containerStyle,
   titles,
@@ -30,11 +30,15 @@ export const HighList = ({
         width: '100%',
 
         marginTop: 2,
-        padding: 5,
+        padding: 7,
       }}>
-      <Layout>
-        <Text category="s1">{item.title}</Text>
-        <Text category="p2">{item.description}</Text>
+      <Layout style={{width: 150}}>
+        <Text style={{marginBottom: 10}} category="s1">
+          {item.title}
+        </Text>
+        <Text style={{marginBottom: 10}} category="p2">
+          {item.description}
+        </Text>
       </Layout>
       <Layout>
         {rating && (
@@ -50,7 +54,7 @@ export const HighList = ({
         {cta && (
           <Button
             size={btnSize}
-            onPress={handlePress}
+            onPress={handlePressDetails}
             // status="basic"
             appearance="outline"
             accessoryLeft={assessoryLeft}>
@@ -66,7 +70,7 @@ export const HighList = ({
       <Text>{props.label && props.label}</Text>
       <Layout style={containerStyle}>
         <ListTitle titles={titles} />
-        <List style={{height: height}} data={data} renderItem={renderItem} />
+        <List style={{height: height}} data={recipes} renderItem={renderItem} />
       </Layout>
     </>
   );

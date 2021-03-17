@@ -9,6 +9,7 @@ export const RecipeSummary = ({
   label,
   totalCost,
   cuisine,
+  handleAddMeasure,
   width,
   servings,
   ingredientsCount,
@@ -17,6 +18,7 @@ export const RecipeSummary = ({
   const AddIcon = (props) => {
     return <ThemedAwesomeIcon name="plus-outline" {...props} />;
   };
+
   return (
     <>
       <Text>{label && label}</Text>
@@ -44,7 +46,11 @@ export const RecipeSummary = ({
               style={styles.cardText}
               category="h6">{`Serves ${servings} portions`}</Text>
           </Card>
-          <Button status="info" accessoryLeft={AddIcon} style={styles.button}>
+          <Button
+            status="info"
+            accessoryLeft={AddIcon}
+            onPress={handleAddMeasure}
+            style={styles.button}>
             Ingredient
           </Button>
         </Layout>

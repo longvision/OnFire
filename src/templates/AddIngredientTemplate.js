@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 
 import {Button, Icon, Text, Layout} from '@ui-kitten/components';
-import {HighList} from '../organisms/HighList';
+import {RecipeList} from '../organisms/RecipeList';
 import {useNavigation} from '@react-navigation/native';
 import {PopoverOverlay} from '../organisms/PopoverOverlay';
 import {IngredientList} from '../organisms/IngredientList';

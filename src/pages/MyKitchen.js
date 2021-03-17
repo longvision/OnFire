@@ -14,7 +14,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import IngredientListTemplate from '../templates/IngredientListTemplate';
 import RecipeListTemplate from '../templates/RecipeListTemplate';
 
-import {HighList} from '../organisms/HighList';
+import {RecipeList} from '../organisms/RecipeList';
 import {ThemedAwesomeIcon} from '../atoms/ThemedAwesomeIcon';
 import {useFocusEffect} from '@react-navigation/native';
 
@@ -22,6 +22,7 @@ const BackIcon = (props) => <Icon {...props} name="arrow-back" />;
 const AddIcon = (props) => <Icon {...props} name="plus-outline" />;
 export const MyKitchen = ({navigation}) => {
   const ingredients = useSelector((state) => state.ingredients.ingredients);
+  const recipes = useSelector((state) => state.recipes.recipes);
   const dispatch = useDispatch();
 
   const navigateBack = () => {
@@ -45,9 +46,6 @@ export const MyKitchen = ({navigation}) => {
     description: 'Especiarias do oriente',
   });
 
-  function handlePressRecipesDetails() {
-    navigation.navigate('RecipeDetail');
-  }
   const InfoIcon = (props) => {
     return <ThemedAwesomeIcon name="maximize-outline" {...props} />;
   };
@@ -57,6 +55,7 @@ export const MyKitchen = ({navigation}) => {
       alert('Screen was focused');
       // Do something when the screen is focused
       dispatch.ingredients.listAsync();
+      dispatch.recipes.listAsync();
       return () => {
         // alert('Screen was unfocused');
         // Do something when the screen is unfocused
@@ -76,27 +75,10 @@ export const MyKitchen = ({navigation}) => {
           tabsArray={['Recipes', 'Shelf']}>
           <Tab title="RECIPES">
             <RecipeListTemplate
-              button={
-                <Button
-                  size="large"
-                  status="primary"
-                  accessoryLeft={AddIcon}
-                  appearance="filled">
-                  Add Recipes
-                </Button>
-              }
-              list={
-                <HighList
-                  data={data}
-                  rating
-                  titles={['Description', 'Popularity', 'Details']}
-                  cta
-                  btnSize="small"
-                  assessoryLeft={InfoIcon}
-                  containerStyle={{width: '98%'}}
-                  handlePress={handlePressRecipesDetails}
-                />
-              }
+              addIcon={AddIcon}
+              InfoIcon={InfoIcon}
+              navigation={navigation}
+              recipes={recipes}
             />
           </Tab>
           <Tab title="INGREDIENTS">
