@@ -8,6 +8,7 @@ import {
 } from '@ui-kitten/components';
 
 import RecipeDetailTemplate from '../templates/RecipeDetailTemplate';
+import {useSelector} from 'react-redux';
 
 const BackIcon = (props) => <Icon {...props} name="arrow-back" />;
 
@@ -19,6 +20,7 @@ const measures = new Array(20).fill({
 const totalCost = 'R$53.43';
 
 export const RecipeDetail = ({navigation}) => {
+  const ingredients = useSelector((state) => state.ingredients.ingredients);
   const navigateBack = () => {
     navigation.goBack();
   };
@@ -34,7 +36,12 @@ export const RecipeDetail = ({navigation}) => {
         accessoryLeft={BackAction}
       />
       <Divider />
-      <RecipeDetailTemplate totalCost={totalCost} measures={measures} />
+      <RecipeDetailTemplate
+        totalCost={totalCost}
+        measures={measures}
+        navigation={navigation}
+        ingredients={ingredients}
+      />
     </SafeAreaView>
   );
 };

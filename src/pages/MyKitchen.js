@@ -23,28 +23,18 @@ const AddIcon = (props) => <Icon {...props} name="plus-outline" />;
 export const MyKitchen = ({navigation}) => {
   const ingredients = useSelector((state) => state.ingredients.ingredients);
   const recipes = useSelector((state) => state.recipes.recipes);
+  const [selectedIndex, setSelectedIndex] = React.useState(0);
   const dispatch = useDispatch();
 
   const navigateBack = () => {
     navigation.goBack();
   };
-  const [selectedIndex, setSelectedIndex] = React.useState(0);
 
   const BackAction = () => (
     <TopNavigationAction icon={BackIcon} onPress={navigateBack} />
   );
 
   const onSelect = (index) => setSelectedIndex(index);
-
-  const data = new Array(20).fill({
-    title: 'Title for Item',
-    description: 'Description for Item',
-  });
-
-  const data2 = new Array(20).fill({
-    title: 'Cominho',
-    description: 'Especiarias do oriente',
-  });
 
   const InfoIcon = (props) => {
     return <ThemedAwesomeIcon name="maximize-outline" {...props} />;

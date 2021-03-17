@@ -5,13 +5,14 @@ import {StyleSheet, View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import Popularity from '../atoms/Popularity';
 import ListTitle from '../atoms/ListTitle';
+import {useDispatch} from 'react-redux';
 
 export const RecipeList = ({
   recipes,
   cta,
   rating,
   ratingTitle,
-  handlePressDetails,
+  navigation,
   img,
   containerStyle,
   titles,
@@ -21,6 +22,12 @@ export const RecipeList = ({
   width,
   ...props
 }) => {
+  const dispatch = useDispatch();
+  function handlePress(item) {
+    dispatch.recipes.setSelectedAsync(item);
+    navigation.navigate('RecipeDetail');
+  }
+
   const renderItem = ({item, index}) => (
     <Layout
       style={{
@@ -54,7 +61,7 @@ export const RecipeList = ({
         {cta && (
           <Button
             size={btnSize}
-            onPress={handlePressDetails}
+            onPress={() => handlePress(item)}
             // status="basic"
             appearance="outline"
             accessoryLeft={assessoryLeft}>

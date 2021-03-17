@@ -103,8 +103,8 @@ export const recipes = createModel()({
     //     console.log(err);
     //   }
     // },
-    async setSelectedIdAsync(payload) {
-      dispatch.recipes.setSelectedId(payload);
+    async setSelectedAsync(payload) {
+      dispatch.recipes.setSelected(payload);
     },
   }),
 });

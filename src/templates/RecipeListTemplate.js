@@ -18,9 +18,7 @@ const RecipeListTemplate = ({AddIcon, navigation, InfoIcon, recipes}) => {
       Add Recipes
     </Button>
   );
-  function handlePress() {
-    navigation.navigate('RecipeDetail');
-  }
+
   function handleAddMeasure() {
     setVisible(true);
   }
@@ -33,12 +31,12 @@ const RecipeListTemplate = ({AddIcon, navigation, InfoIcon, recipes}) => {
         <RecipeList
           recipes={recipes}
           rating
+          navigation={navigation}
           titles={['Description', 'Popularity', 'Details']}
           cta
           btnSize="small"
           assessoryLeft={InfoIcon}
           containerStyle={{width: '98%'}}
-          handlePressDetails={handlePress}
         />
       </Layout>
       <Layout

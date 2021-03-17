@@ -6,7 +6,12 @@ import {MeasureList} from '../organisms/MeasureList';
 import {RecipeSummary} from '../organisms/RecipeSummary';
 import AddMeasureForm from '../organisms/AddMeasureForm';
 
-const RecipeDetailTemplate = ({measures, totalCost}) => {
+const RecipeDetailTemplate = ({
+  measures,
+  ingredients,
+  navigation,
+  totalCost,
+}) => {
   const [visible, setVisible] = useState(false);
 
   function handlePressRecipesDetails() {
@@ -59,9 +64,16 @@ const RecipeDetailTemplate = ({measures, totalCost}) => {
           visible={visible}
           backdropStyle={styles.backdrop}
           onBackdropPress={() => setVisible(false)}>
+          <Layout style={styles.modal} level="3">
+            <Button
+              style={styles.button}
+              onPress={handleCloseModal}
+              accessoryLeft={renderCloseIcon}></Button>
+          </Layout>
           <AddMeasureForm
-            handleCloseModal={handleCloseModal}
-            renderCloseIcon={renderCloseIcon}
+            ingredients={ingredients}
+            navigation={navigation}
+            closeModal={handleCloseModal}
           />
         </Modal>
       </Layout>
@@ -82,5 +94,11 @@ const styles = StyleSheet.create({
   },
   backdrop: {
     backgroundColor: 'rgba(0, 0, 0, 0.74)',
+  },
+  modal: {
+    height: 54,
+    backgroundColor: 'rgba(0, 0, 0, 0.0)',
+    alignItems: 'flex-end',
+    marginRight: 7,
   },
 });
