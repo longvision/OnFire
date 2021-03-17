@@ -8,10 +8,11 @@ import {
 import React from 'react';
 import {SafeAreaView, View} from 'react-native';
 import AddMeasureTemplate from '../../templates/AddMeasureTemplate';
-
+import {useSelector} from 'react-redux';
 // import { Container } from './styles';
 const BackIcon = (props) => <Icon {...props} name="arrow-back" />;
 export const AddMeasure = ({navigation}) => {
+  const ingredients = useSelector((state) => state.ingredients.ingredients);
   const navigateBack = () => {
     navigation.goBack();
   };

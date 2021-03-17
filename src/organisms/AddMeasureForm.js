@@ -15,7 +15,10 @@ import {Field, Formik} from 'formik';
 import Selector from '../molecules/Selector';
 import SizeInput from '../molecules/SizeInput';
 import {useDispatch, useSelector} from 'react-redux';
-import {useNavigation} from '@react-navigation/native';
+import {
+  NavigationHelpersContext,
+  useNavigation,
+} from '@react-navigation/native';
 import * as Yup from 'yup';
 
 const unitsArray = ['mL', 'g', 'L', 'KG'];
@@ -28,7 +31,7 @@ const AddRecipeSchema = Yup.object().shape({
 });
 const AddMeasureForm = ({ingredients}) => {
   const productId = useSelector((state) => state.recipes.selected.id);
-
+  const navigation = useNavigation();
   const unitsRef = useRef();
 
   const quantityRef = useRef();
@@ -56,7 +59,7 @@ const AddMeasureForm = ({ingredients}) => {
           productId: productId,
           ingredientId: ingredientId,
         });
-        closeModal();
+        navigation.goBack();
       }}>
       {({
         handleChange,
@@ -154,9 +157,9 @@ const AddMeasureForm = ({ingredients}) => {
                 </Text>
               </Layout>
             </Layout>
-          </Layout>
-          <Layout style={styles.submit} level="3">
-            <Button onPress={handleSubmit}>ADD TO RECIPE</Button>
+            <Layout style={styles.submit} level="3">
+              <Button onPress={handleSubmit}>ADD TO RECIPE</Button>
+            </Layout>
           </Layout>
         </Layout>
       )}

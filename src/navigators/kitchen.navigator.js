@@ -6,7 +6,7 @@ import {MyKitchen} from '../pages/MyKitchen';
 import {RecipeDetail} from '../pages/Recipe/RecipeDetail';
 import {IngredientDetail} from '../pages/Ingredient/IngredientDetail';
 import {AddIngredient} from '../pages/Ingredient/AddIngredient';
-import {AddMeasure} from '../pages/Measure/AddMeasure';
+import {AddMeasure} from '../pages/MEasure/AddMeasure';
 
 const Stack = createStackNavigator();
 

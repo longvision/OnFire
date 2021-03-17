@@ -20,7 +20,7 @@ const RecipeDetailTemplate = ({measures, ingredients, navigation}) => {
   };
   const handleAddMeasure = (values) => {
     // setVisible(true);
-    navigation.navigate('AddRecipe');
+    navigation.navigate('AddMeasure');
   };
 
   const renderCloseIcon = (props) => <Icon {...props} name="close-outline" />;
