@@ -11,29 +11,21 @@ import {
 import {StyleSheet, View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import Popularity from '../atoms/Popularity';
+import {useDispatch} from 'react-redux';
 
 export const MeasureList = ({
   data,
   cta,
   rating,
-  handlePress,
+
   img,
   height,
   width,
   ...props
 }) => {
-  const renderItemAccessory = () => {
-    return (
-      <Layout style={{flexDirection: 'row'}}>
-        {rating && <Popularity start={2.556} count={5} size={17} />}
-        <Button size="tiny" onPress={handlePress} appearance="outline">
-          {cta}
-        </Button>
-      </Layout>
-    );
-  };
+  const dispatch = useDispatch();
 
-  const renderItemIcon = (props) => <Icon {...props} name="person" />;
+  const renderItemIcon = (props) => <Icon {...props} name="trash-outline" />;
 
   const renderItem = ({item, index}) => (
     <ListItem
@@ -41,8 +33,20 @@ export const MeasureList = ({
       description={`quantity: ${Number(item.quantity).toFixed(2)}${
         item.unit
       } - cost: $${Number(item.cost).toFixed(2)}  `}
-      accessoryLeft={img && renderItemIcon}
-      accessoryRight={cta && renderItemAccessory}
+      accessoryRight={() =>
+        cta && (
+          <Layout style={{flexDirection: 'row'}}>
+            {rating && <Popularity start={2.556} count={5} size={17} />}
+            <Button
+              size="tiny"
+              onPress={() => dispatch.measures.deleteAsync({id: item.id})}
+              appearance="outline"
+              accessoryLeft={img && renderItemIcon}>
+              {cta}
+            </Button>
+          </Layout>
+        )
+      }
     />
   );
 

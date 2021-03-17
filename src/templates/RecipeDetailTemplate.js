@@ -6,24 +6,16 @@ import {MeasureList} from '../organisms/MeasureList';
 import {RecipeSummary} from '../organisms/RecipeSummary';
 import AddMeasureForm from '../organisms/AddMeasureForm';
 import {useFocusEffect} from '@react-navigation/core';
+import {useDispatch, useSelector} from 'react-redux';
 
 const RecipeDetailTemplate = ({measures, ingredients, navigation}) => {
-  const [visible, setVisible] = useState(false);
   const [totalCost, setTotalCost] = useState(0);
   const [totalCount, setTotalCount] = useState(0);
+  const dispatch = useDispatch();
 
-  function handlePressRecipesDetails() {
-    navigation.navigate('RecipeDetail');
-  }
-  const handleCloseModal = () => {
-    setVisible(false);
-  };
   const handleAddMeasure = (values) => {
-    // setVisible(true);
     navigation.navigate('AddMeasure');
   };
-
-  const renderCloseIcon = (props) => <Icon {...props} name="close-outline" />;
 
   React.useEffect(() =>
     // alert('Screen was focused');
@@ -50,10 +42,10 @@ const RecipeDetailTemplate = ({measures, ingredients, navigation}) => {
       <Text>Measures</Text>
       <MeasureList
         data={measures}
-        cta="Change"
+        img={true}
+        cta="DELETE"
         height="58%"
         width="90%"
-        handlePress={handlePressRecipesDetails}
       />
 
       <Layout
@@ -63,33 +55,13 @@ const RecipeDetailTemplate = ({measures, ingredients, navigation}) => {
           width: '100%',
         }}>
         <RecipeSummary
-          totalCost={totalCost}
+          totalCost={totalCost.toFixed(2)}
           ingredientsCount={totalCount}
           handleAddMeasure={handleAddMeasure}
           servings={8}
           cuisine="Mediterranean"
         />
       </Layout>
-      <KeyboardAvoidingView>
-        <Layout>
-          <Modal
-            visible={visible}
-            backdropStyle={styles.backdrop}
-            onBackdropPress={() => setVisible(false)}>
-            <Layout style={styles.modal} level="3">
-              <Button
-                style={styles.button}
-                onPress={handleCloseModal}
-                accessoryLeft={renderCloseIcon}></Button>
-            </Layout>
-            <AddMeasureForm
-              ingredients={ingredients}
-              navigation={navigation}
-              closeModal={handleCloseModal}
-            />
-          </Modal>
-        </Layout>
-      </KeyboardAvoidingView>
     </Layout>
   );
 };

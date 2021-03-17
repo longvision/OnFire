@@ -110,5 +110,15 @@ export const measures = createModel()({
     async setSelectedIdAsync(payload) {
       dispatch.ingredients.setSelectedId(payload);
     },
+    async deleteAsync(payload, rootState) {
+      try {
+        api.defaults.headers.Authorization = `Bearer ${rootState.auth.token}`;
+        const {id} = payload;
+
+        await api.delete(`measure/${id}`);
+      } catch (err) {
+        console.log(err);
+      }
+    },
   }),
 });

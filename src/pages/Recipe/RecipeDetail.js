@@ -23,6 +23,9 @@ const totalCost = 'R$53.43';
 export const RecipeDetail = ({navigation}) => {
   const ingredients = useSelector((state) => state.ingredients.ingredients);
   const measures = useSelector((state) => state.measures.measures);
+  const loading = useSelector(
+    (state) => state.loading.effects.measures.deleteAsync,
+  );
   const dispatch = useDispatch();
   const navigateBack = () => {
     navigation.goBack();
@@ -42,7 +45,7 @@ export const RecipeDetail = ({navigation}) => {
         // Do something when the screen is unfocused
         // Useful for cleanup functions
       };
-    }, []),
+    }, [loading]),
   );
 
   return (
