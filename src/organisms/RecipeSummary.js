@@ -27,7 +27,7 @@ export const RecipeSummary = ({
           <Card style={styles.cardPop} status="info">
             <Text style={styles.cardText} category="h5">{`Total Cost`}</Text>
             <Text style={styles.cardText} category="h2">
-              {totalCost}
+              $ {totalCost}
             </Text>
           </Card>
           <Card style={styles.cardPop}>

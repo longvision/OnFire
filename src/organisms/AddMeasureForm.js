@@ -21,12 +21,12 @@ import * as Yup from 'yup';
 const unitsArray = ['mL', 'g', 'L', 'KG'];
 const saveIcon = (props) => <Icon {...props} name="save-outline" />;
 
-const AddIngredientSchema = Yup.object().shape({
+const AddRecipeSchema = Yup.object().shape({
   ingredient: Yup.string().required('Ingredient name is qequired'),
   unit: Yup.string().required('Unit is required'),
   quantity: Yup.string().required('Quantity is required'),
 });
-const AddMeasureForm = ({ingredients, closeModal}) => {
+const AddMeasureForm = ({ingredients}) => {
   const productId = useSelector((state) => state.recipes.selected.id);
 
   const unitsRef = useRef();
@@ -49,7 +49,7 @@ const AddMeasureForm = ({ingredients, closeModal}) => {
         unit: '',
         quantity: '',
       }}
-      validationSchema={AddIngredientSchema}
+      validationSchema={AddRecipeSchema}
       onSubmit={(values) => {
         dispatch.measures.addAsync({
           values: values,

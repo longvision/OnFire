@@ -7,8 +7,9 @@ import {
   TopNavigationAction,
 } from '@ui-kitten/components';
 
-import RecipeDetailTemplate from '../templates/RecipeDetailTemplate';
-import {useSelector} from 'react-redux';
+import RecipeDetailTemplate from '../../templates/RecipeDetailTemplate';
+import {useSelector, useDispatch} from 'react-redux';
+import {useFocusEffect} from '@react-navigation/native';
 
 const BackIcon = (props) => <Icon {...props} name="arrow-back" />;
 
@@ -21,11 +22,27 @@ const totalCost = 'R$53.43';
 
 export const RecipeDetail = ({navigation}) => {
   const ingredients = useSelector((state) => state.ingredients.ingredients);
+  const measures = useSelector((state) => state.measures.measures);
+  const dispatch = useDispatch();
   const navigateBack = () => {
     navigation.goBack();
   };
   const BackAction = () => (
     <TopNavigationAction icon={BackIcon} onPress={navigateBack} />
+  );
+
+  useFocusEffect(
+    React.useCallback(() => {
+      // alert('Screen was focused');
+      // Do something when the screen is focused
+      dispatch.measures.listAsync();
+
+      return () => {
+        // alert('Screen was unfocused');
+        // Do something when the screen is unfocused
+        // Useful for cleanup functions
+      };
+    }, []),
   );
 
   return (
@@ -37,7 +54,6 @@ export const RecipeDetail = ({navigation}) => {
       />
       <Divider />
       <RecipeDetailTemplate
-        totalCost={totalCost}
         measures={measures}
         navigation={navigation}
         ingredients={ingredients}

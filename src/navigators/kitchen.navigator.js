@@ -3,9 +3,10 @@ import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 
 import {MyKitchen} from '../pages/MyKitchen';
-import {RecipeDetail} from '../pages/RecipeDetail';
+import {RecipeDetail} from '../pages/Recipe/RecipeDetail';
 import {IngredientDetail} from '../pages/Ingredient/IngredientDetail';
 import {AddIngredient} from '../pages/Ingredient/AddIngredient';
+import {AddMeasure} from '../pages/Measure/AddMeasure';
 
 const Stack = createStackNavigator();
 
@@ -17,8 +18,8 @@ const KitchenNavigator = () => (
     <Stack.Screen name="MyKitchen" component={MyKitchen} />
     <Stack.Screen name="AddIngredient" component={AddIngredient} />
     <Stack.Screen name="IngredientDetail" component={IngredientDetail} />
-
     <Stack.Screen name="RecipeDetail" component={RecipeDetail} />
+    <Stack.Screen name="AddMeasure" component={AddMeasure} />
   </Stack.Navigator>
 );
 export default KitchenNavigator;

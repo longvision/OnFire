@@ -25,6 +25,7 @@ export const RecipeList = ({
   const dispatch = useDispatch();
   function handlePress(item) {
     dispatch.recipes.setSelectedAsync(item);
+    dispatch.measures.listAsync();
     navigation.navigate('RecipeDetail');
   }
 

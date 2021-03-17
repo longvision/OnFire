@@ -62,13 +62,13 @@ export const measures = createModel()({
       try {
         api.defaults.headers.Authorization = `Bearer ${rootState.auth.token}`;
 
-        const response = await api.get('ingredients');
+        const response = await api.get('measures');
 
         const {data} = response.data;
 
         tron.log(rootState);
 
-        dispatch.ingredients.list(data);
+        dispatch.measures.list(data);
 
         // history.push('/dashboard');
       } catch (err) {}

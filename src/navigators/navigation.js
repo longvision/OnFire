@@ -22,8 +22,6 @@ export const AppNavigator = () => {
     getLocalStorage();
   }, []);
 
-  const Stack = createStackNavigator();
-
   // return (
   //   <Stack.Navigator>
   //     {token ? (

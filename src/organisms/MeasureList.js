@@ -37,8 +37,10 @@ export const MeasureList = ({
 
   const renderItem = ({item, index}) => (
     <ListItem
-      title={`${item.title} | ${item.description} `}
-      description={`custo: ${item.cost}`}
+      title={`${item.ingredients.name} | Brand - ${item.ingredients.brand} `}
+      description={`quantity: ${Number(item.quantity).toFixed(2)}${
+        item.unit
+      } - cost: $${Number(item.cost).toFixed(2)}  `}
       accessoryLeft={img && renderItemIcon}
       accessoryRight={cta && renderItemAccessory}
     />
