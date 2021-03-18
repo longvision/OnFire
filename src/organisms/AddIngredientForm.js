@@ -228,7 +228,6 @@ const AddIngredientForm = () => {
                   mantissa={4}
                   style={styles.input}
                   name="price"
-                  mantissa={2}
                   onSubmitEditing={handleSubmit}
                   ref={priceRef}
                 />

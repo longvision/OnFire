@@ -11,7 +11,7 @@ import {
 import {StyleSheet, View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import Popularity from '../atoms/Popularity';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 export const MeasureList = ({
   data,
@@ -24,7 +24,7 @@ export const MeasureList = ({
   ...props
 }) => {
   const dispatch = useDispatch();
-
+  const measures = useSelector((state) => state.measures.selected);
   const renderItemIcon = (props) => <Icon {...props} name="trash-outline" />;
 
   const renderItem = ({item, index}) => (
@@ -54,7 +54,11 @@ export const MeasureList = ({
     <>
       <Text>{props.label && props.label}</Text>
       <Layout style={{width: width}}>
-        <List style={{height: height}} data={data} renderItem={renderItem} />
+        <List
+          style={{height: height}}
+          data={measures}
+          renderItem={renderItem}
+        />
       </Layout>
     </>
   );

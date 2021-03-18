@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {SafeAreaView} from 'react-native';
 import {
   Divider,
@@ -10,27 +10,17 @@ import {
 import RecipeDetailTemplate from '../../templates/RecipeDetailTemplate';
 import {useSelector, useDispatch} from 'react-redux';
 import {useFocusEffect} from '@react-navigation/native';
-import {useEffect} from 'react';
 
 const BackIcon = (props) => <Icon {...props} name="arrow-back" />;
 
-const measures = new Array(20).fill({
-  title: 'Cominho',
-  description: '10g',
-  cost: '0.2450 BRL',
-});
-const totalCost = 'R$53.43';
-
 export const RecipeDetail = ({navigation}) => {
-  const ingredients = useSelector((state) => state.ingredients.ingredients);
-  const measures = useSelector((state) => state.measures.measures);
-  const loadingDelete = useSelector(
-    (state) => state.loading.effects.measures.deleteAsync,
-  );
-  const loadingCreate = useSelector(
-    (state) => state.loading.effects.measures.addAsync,
-  );
   const dispatch = useDispatch();
+  const [totalCost, setTotalCost] = useState(0);
+  const [totalCount, setTotalCount] = useState(0);
+  const ingredients = useSelector((state) => state.ingredients.ingredients);
+  const measures = useSelector((state) => state.measures.selected);
+  const selectedRecipeId = useSelector((state) => state.recipes.selected.id);
+
   const navigateBack = () => {
     navigation.goBack();
   };
@@ -38,23 +28,37 @@ export const RecipeDetail = ({navigation}) => {
     <TopNavigationAction icon={BackIcon} onPress={navigateBack} />
   );
 
-  // useFocusEffect(
-  //   React.useCallback(() => {
-  //     // alert('Screen was focused');
-  //     // Do something when the screen is focused
-  //     dispatch.measures.listAsync();
+  const loadingDelete = useSelector(
+    (state) => state.loading.effects.measures.deleteAsync,
+  );
+  const loadingCreate = useSelector(
+    (state) => state.loading.effects.measures.addAsync,
+  );
+  const loadingList = useSelector(
+    (state) => state.loading.effects.recipes.setSelectedAsync,
+  );
 
-  //     return () => {
-  //       // alert('Screen was unfocused');
-  //       // Do something when the screen is unfocused
-  //       // Useful for cleanup functions
-  //     };
-  //   }, [loading]),
-  // );
+  //Faz o update do valor total e contagem dos items da receita
+  const updateDash = React.useCallback(async () => {
+    const sum = await measures
+      .map((item) => item.cost)
+      .reduce((a, b) => {
+        return (a * 10000 + b * 10000) / 10000;
+      }, 0);
+    const count = await measures.length;
+    setTotalCost(sum);
+    setTotalCount(count);
+  }, [measures]);
 
-  useEffect(() => {
-    dispatch.measures.listAsync();
-  }, [loadingDelete, loadingCreate]);
+  //Recalcula a formula acima toda vez que há uma mudanca na lista de ingredientes do prato.
+  React.useEffect(() => {
+    updateDash();
+  }, [measures]);
+
+  //Atualiza a lista toda vez que se cria ou se deleta um item novo.
+  React.useEffect(() => {
+    dispatch.measures.getAsync({id: selectedRecipeId});
+  }, [loadingCreate, loadingDelete]);
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -65,9 +69,11 @@ export const RecipeDetail = ({navigation}) => {
       />
       <Divider />
       <RecipeDetailTemplate
-        measures={measures}
+        totalCount={totalCount}
+        totalCost={totalCost}
         navigation={navigation}
         ingredients={ingredients}
+        selectedRecipeId={selectedRecipeId}
       />
     </SafeAreaView>
   );

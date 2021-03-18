@@ -3,6 +3,8 @@ import api from '../../services/api';
 import tron from '../../config/ReactotronConfig';
 
 import {checkDollarSign} from '../../utils/functions';
+import {connect} from 'formik';
+import {Alert} from 'react-native';
 
 export const measures = createModel()({
   state: {
@@ -48,15 +50,27 @@ export const measures = createModel()({
 
         await api.post('measure', {
           product_id: productId,
-          quantity: Number(values.quantity),
+          quantity: checkDollarSign(values.quantity),
           ingredient_id: ingredientId,
           unit: values.unit,
         });
-
-        console.log('success');
-
-        // console.log(data);
-      } catch (err) {}
+      } catch (err) {
+        Alert.alert(
+          'Invalid unit!',
+          'Please select a unit that matches the registered ingredient',
+          [
+            {
+              text: 'Cancel',
+              onPress: () => {},
+              style: 'cancel',
+            },
+          ],
+          {
+            cancelable: true,
+            onDismiss: () => {},
+          },
+        );
+      }
     },
     async listAsync(payload, rootState) {
       try {
@@ -77,18 +91,20 @@ export const measures = createModel()({
       try {
         api.defaults.headers.Authorization = `Bearer ${rootState.auth.token}`;
 
-        const response = await api.get(`ingredient/${payload}`);
+        const {id} = payload;
+
+        const response = await api.get(`measures/${id}`);
 
         const data = response.data;
 
-        dispatch.ingredients.setSelected(data);
+        dispatch.measures.setSelected(data);
 
         // history.push('/dashboard');
       } catch (err) {
         console.log(err);
       }
     },
-    async updateAsync(payload, rootState) {
+    async updateAsync(id, rootState) {
       try {
         api.defaults.headers.Authorization = `Bearer ${rootState.auth.token}`;
         const {values, id} = payload;

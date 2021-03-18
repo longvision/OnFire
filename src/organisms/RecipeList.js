@@ -23,8 +23,11 @@ export const RecipeList = ({
   ...props
 }) => {
   const dispatch = useDispatch();
+
   function handlePress(item) {
     dispatch.recipes.setSelectedAsync(item);
+    dispatch.measures.getAsync({id: item.id});
+
     navigation.navigate('RecipeDetail');
   }
 

@@ -2,7 +2,6 @@ import {createModel} from '@rematch/core';
 import api from '../../services/api';
 import tron from '../../config/ReactotronConfig';
 
-import {checkDollarSign} from '../../utils/functions';
 export const recipes = createModel()({
   state: {
     recipes: [],
@@ -35,22 +34,15 @@ export const recipes = createModel()({
   effects: (dispatch) => ({
     async addAsync(payload, rootState) {
       try {
-        const {brand, ingredient, price, region, seller, size, unit} = payload;
+        const {name, description} = payload;
 
         api.defaults.headers.Authorization = `Bearer ${rootState.auth.token}`;
 
-        const response = await api.post('product', {
-          name: ingredient,
-          brand: brand,
-          seller: seller,
-          sold_region: region,
-          package_price: checkDollarSign(price),
-          unit: unit,
-          package_size: size,
+        await api.post('product', {
+          title: name,
+          description: description,
         });
 
-        const {data} = response;
-        dispatch.recipes.add(data);
         // console.log(data);
       } catch (err) {}
     },
@@ -69,21 +61,17 @@ export const recipes = createModel()({
         // history.push('/dashboard');
       } catch (err) {}
     },
-    // async getAsync(payload, rootState) {
-    //   try {
-    //     api.defaults.headers.Authorization = `Bearer ${rootState.auth.token}`;
+    async deleteAsync(payload, rootState) {
+      try {
+        api.defaults.headers.Authorization = `Bearer ${rootState.auth.token}`;
+        const {id} = payload;
+        await api.delete(`product/${id}`);
 
-    //     const response = await api.get(`ingredient/${payload}`);
-
-    //     const data = response.data;
-
-    //     dispatch.recipes.setSelected(data);
-
-    //     // history.push('/dashboard');
-    //   } catch (err) {
-    //     console.log(err);
-    //   }
-    // },
+        // history.push('/dashboard');
+      } catch (err) {
+        console.log(err);
+      }
+    },
     // async updateAsync(payload, rootState) {
     //   try {
     //     api.defaults.headers.Authorization = `Bearer ${rootState.auth.token}`;

@@ -1,5 +1,10 @@
 import React, {useState} from 'react';
-import {KeyboardAvoidingView, SafeAreaView, StyleSheet} from 'react-native';
+import {
+  Alert,
+  KeyboardAvoidingView,
+  SafeAreaView,
+  StyleSheet,
+} from 'react-native';
 import {Card, Layout, Button, Icon, Modal, Text} from '@ui-kitten/components';
 import {MeasureList} from '../organisms/MeasureList';
 
@@ -8,28 +13,43 @@ import AddMeasureForm from '../organisms/AddMeasureForm';
 import {useFocusEffect} from '@react-navigation/core';
 import {useDispatch, useSelector} from 'react-redux';
 
-const RecipeDetailTemplate = ({measures, ingredients, navigation}) => {
-  const [totalCost, setTotalCost] = useState(0);
-  const [totalCount, setTotalCount] = useState(0);
+const RecipeDetailTemplate = ({
+  measures,
+  ingredients,
+  selectedRecipeId,
+  navigation,
+  totalCost,
+  totalCount,
+}) => {
   const dispatch = useDispatch();
-
-  const handleAddMeasure = (values) => {
+  const handleAddMeasure = () => {
     navigation.navigate('AddMeasure');
   };
-
-  React.useEffect(() =>
-    // alert('Screen was focused');
-    // Do something when the screen is focused
-    {
-      const sum = measures
-        .map((item) => item.cost)
-        .reduce((a, b) => {
-          return (a * 10000 + b * 10000) / 10000;
-        }, 0);
-      const count = measures.length;
-      setTotalCost(sum);
-      setTotalCount(count);
-    }, [measures]);
+  const handleDeleteMeasure = () => {
+    Alert.alert(
+      'Delete this recipe?',
+      'Are you sure  you want to delete this recipes and all its measures?',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => {},
+          style: 'cancel',
+        },
+        {
+          text: 'Delete',
+          onPress: () => {
+            dispatch.recipes.deleteAsync({id: selectedRecipeId});
+            navigation.navigate('MyKitchen');
+          },
+          style: 'destructive',
+        },
+      ],
+      {
+        cancelable: true,
+        onDismiss: () => {},
+      },
+    );
+  };
 
   return (
     <Layout
@@ -40,13 +60,7 @@ const RecipeDetailTemplate = ({measures, ingredients, navigation}) => {
         height: '98%',
       }}>
       <Text>Measures</Text>
-      <MeasureList
-        data={measures}
-        img={true}
-        cta="DELETE"
-        height="58%"
-        width="90%"
-      />
+      <MeasureList img={true} cta="DELETE" height="58%" width="90%" />
 
       <Layout
         style={{
@@ -58,8 +72,7 @@ const RecipeDetailTemplate = ({measures, ingredients, navigation}) => {
           totalCost={totalCost.toFixed(2)}
           ingredientsCount={totalCount}
           handleAddMeasure={handleAddMeasure}
-          servings={8}
-          cuisine="Mediterranean"
+          handleDeleteMeasure={handleDeleteMeasure}
         />
       </Layout>
     </Layout>
@@ -67,6 +80,7 @@ const RecipeDetailTemplate = ({measures, ingredients, navigation}) => {
 };
 
 export default RecipeDetailTemplate;
+
 const styles = StyleSheet.create({
   container: {
     minHeight: 692,

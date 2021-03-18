@@ -23,6 +23,15 @@ const AddIcon = (props) => <Icon {...props} name="plus-outline" />;
 export const MyKitchen = ({navigation}) => {
   const ingredients = useSelector((state) => state.ingredients.ingredients);
   const recipes = useSelector((state) => state.recipes.recipes);
+  const measures = useSelector((state) => state.measures.selected);
+
+  const loadingUpdate = useSelector(
+    (state) => state.loading.effects.ingredients.updateAsync,
+  );
+  const loadingCreate = useSelector(
+    (state) => state.loading.effects.recipes.addAsync,
+  );
+
   const [selectedIndex, setSelectedIndex] = React.useState(0);
   const dispatch = useDispatch();
 
@@ -51,7 +60,7 @@ export const MyKitchen = ({navigation}) => {
         // Do something when the screen is unfocused
         // Useful for cleanup functions
       };
-    }, []),
+    }, [loadingUpdate, loadingCreate]),
   );
 
   return (

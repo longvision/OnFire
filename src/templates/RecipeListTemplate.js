@@ -4,6 +4,7 @@ import {Button, Card, Layout, Modal} from '@ui-kitten/components';
 import {StyleSheet, Text, View} from 'react-native';
 import {PopoverOverlay} from '../organisms/PopoverOverlay';
 import {RecipeList} from '../organisms/RecipeList';
+import AddRecipeForm from '../organisms/AddRecipeForm';
 
 const RecipeListTemplate = ({AddIcon, navigation, InfoIcon, recipes}) => {
   const [visible, setVisible] = useState(false);
@@ -48,8 +49,9 @@ const RecipeListTemplate = ({AddIcon, navigation, InfoIcon, recipes}) => {
         <PopoverOverlay
           renderToggleButton={button}
           visible={visible}
-          handleClose={() => setVisible(false)}
-        />
+          handleClose={() => setVisible(false)}>
+          <AddRecipeForm handleClose={() => setVisible(false)} />
+        </PopoverOverlay>
       </Layout>
     </Layout>
   );

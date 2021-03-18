@@ -10,6 +10,7 @@ export const RecipeSummary = ({
   totalCost,
   cuisine,
   handleAddMeasure,
+  handleDeleteMeasure,
   width,
   servings,
   ingredientsCount,
@@ -18,11 +19,14 @@ export const RecipeSummary = ({
   const AddIcon = (props) => {
     return <ThemedAwesomeIcon name="plus-outline" {...props} />;
   };
+  const DeleteIcon = (props) => {
+    return <ThemedAwesomeIcon name="trash-outline" {...props} />;
+  };
 
   return (
     <>
       <Text>{label && label}</Text>
-      <Layout style={{width: width}}>
+      <Layout style={styles.main}>
         <Layout style={styles.container}>
           <Card style={styles.cardPop} status="info">
             <Text style={styles.cardText} category="h5">{`Total Cost`}</Text>
@@ -40,19 +44,22 @@ export const RecipeSummary = ({
           </Card>
         </Layout>
         <Layout style={styles.container}>
-          <Card style={styles.cardDetails}>
-            <Text style={styles.cardText} category="h4">{`${cuisine}`}</Text>
-            <Text
-              style={styles.cardText}
-              category="h6">{`Serves ${servings} portions`}</Text>
-          </Card>
-          <Button
-            status="info"
-            accessoryLeft={AddIcon}
-            onPress={handleAddMeasure}
-            style={styles.button}>
-            Ingredient
-          </Button>
+          <Layout style={styles.buttonPop}>
+            <Button
+              status="danger"
+              accessoryLeft={DeleteIcon}
+              onPress={handleDeleteMeasure}>
+              Delete Recipe
+            </Button>
+          </Layout>
+          <Layout style={styles.buttonPop} status="info">
+            <Button
+              status="info"
+              accessoryLeft={AddIcon}
+              onPress={handleAddMeasure}>
+              Ingredient
+            </Button>
+          </Layout>
         </Layout>
       </Layout>
     </>
@@ -62,8 +69,8 @@ export const RecipeSummary = ({
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
   },
+  main: {flexDirection: 'column'},
   text: {
     margin: 0,
   },
@@ -76,16 +83,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  cardDetails: {
-    justifyContent: 'center',
-    alignItems: 'flex-start',
-    width: '50%',
-    paddingLeft: 10,
-  },
-  button: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '48%',
-    marginLeft: 2,
+  buttonPop: {
+    flex: 1,
   },
 });

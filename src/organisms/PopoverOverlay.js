@@ -17,7 +17,7 @@ export const PopoverOverlay = ({
       anchor={renderToggleButton}
       onBackdropPress={handleClose}>
       <Layout style={styles.content}>
-        <Text>Welcome to UI Kitten 😻</Text>
+        <Text category="h3">Add new Recipe</Text>
         {children}
       </Layout>
     </Popover>
@@ -26,10 +26,11 @@ export const PopoverOverlay = ({
 
 const styles = StyleSheet.create({
   content: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     alignItems: 'center',
     paddingHorizontal: 4,
     paddingVertical: 8,
+    marginTop: 10,
     height: 600,
     width: 360,
   },
