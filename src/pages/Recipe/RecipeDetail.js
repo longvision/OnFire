@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {SafeAreaView} from 'react-native';
+import {SafeAreaView, Alert} from 'react-native';
 import {
   Divider,
   Icon,
@@ -40,14 +40,21 @@ export const RecipeDetail = ({navigation}) => {
 
   //Faz o update do valor total e contagem dos items da receita
   const updateDash = React.useCallback(async () => {
-    const sum = await measures
-      .map((item) => item.cost)
-      .reduce((a, b) => {
-        return (a * 10000 + b * 10000) / 10000;
-      }, 0);
-    const count = await measures.length;
-    setTotalCost(sum);
-    setTotalCount(count);
+    try {
+      const sum = await measures
+        .map((item) => item.cost)
+        .reduce((a, b) => {
+          return (a * 10000 + b * 10000) / 10000;
+        }, 0);
+      const count = await measures.length;
+      setTotalCost(sum);
+      setTotalCount(count);
+    } catch (error) {
+      Alert.alert(
+        'Items not found!',
+        'Please add a new ingredient to this recipe to start getting the cost.',
+      );
+    }
   }, [measures]);
 
   //Recalcula a formula acima toda vez que há uma mudanca na lista de ingredientes do prato.

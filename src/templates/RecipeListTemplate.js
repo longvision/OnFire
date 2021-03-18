@@ -6,7 +6,7 @@ import {PopoverOverlay} from '../organisms/PopoverOverlay';
 import {RecipeList} from '../organisms/RecipeList';
 import AddRecipeForm from '../organisms/AddRecipeForm';
 
-const RecipeListTemplate = ({AddIcon, navigation, InfoIcon, recipes}) => {
+const RecipeListTemplate = ({AddIcon, navigation, iconName, recipes}) => {
   const [visible, setVisible] = useState(false);
 
   const button = () => (
@@ -36,7 +36,7 @@ const RecipeListTemplate = ({AddIcon, navigation, InfoIcon, recipes}) => {
           titles={['Description', 'Details']}
           cta
           btnSize="small"
-          assessoryLeft={InfoIcon}
+          assessoryLeft={iconName}
           containerStyle={{width: '98%'}}
         />
       </Layout>

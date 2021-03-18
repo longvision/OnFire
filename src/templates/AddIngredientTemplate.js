@@ -8,11 +8,7 @@ import {IngredientList} from '../organisms/IngredientList';
 
 import AddIngredientForm from '../organisms/AddIngredientForm';
 
-const AddIngredientTemplate = ({
-  ingredients,
-  handlePressIngredientsDetails,
-  addIcon,
-}) => {
+const AddIngredientTemplate = () => {
   return (
     <Layout style={{height: '100%'}}>
       <AddIngredientForm />

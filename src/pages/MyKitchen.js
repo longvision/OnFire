@@ -20,10 +20,11 @@ import {useFocusEffect} from '@react-navigation/native';
 
 const BackIcon = (props) => <Icon {...props} name="arrow-back" />;
 const AddIcon = (props) => <Icon {...props} name="plus-outline" />;
+const EditIcon = (props) => <Icon {...props} name="edit-2-outline" />;
+
 export const MyKitchen = ({navigation}) => {
   const ingredients = useSelector((state) => state.ingredients.ingredients);
   const recipes = useSelector((state) => state.recipes.recipes);
-  const measures = useSelector((state) => state.measures.selected);
 
   const loadingUpdate = useSelector(
     (state) => state.loading.effects.ingredients.updateAsync,
@@ -42,12 +43,10 @@ export const MyKitchen = ({navigation}) => {
   const BackAction = () => (
     <TopNavigationAction icon={BackIcon} onPress={navigateBack} />
   );
-
-  const onSelect = (index) => setSelectedIndex(index);
-
-  const InfoIcon = (props) => {
-    return <ThemedAwesomeIcon name="maximize-outline" {...props} />;
+  const EditIcon = (props) => {
+    return <ThemedAwesomeIcon name="edit-2-outline" {...props} />;
   };
+  const onSelect = (index) => setSelectedIndex(index);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -75,7 +74,7 @@ export const MyKitchen = ({navigation}) => {
           <Tab title="RECIPES">
             <RecipeListTemplate
               addIcon={AddIcon}
-              InfoIcon={InfoIcon}
+              iconName={EditIcon}
               navigation={navigation}
               recipes={recipes}
             />
