@@ -38,7 +38,7 @@ export const RecipeList = ({
         justifyContent: 'space-between',
         alignItems: 'center',
         width: '100%',
-
+        paddingHorizontal: 15,
         marginTop: 2,
         padding: 7,
       }}>
@@ -79,7 +79,10 @@ export const RecipeList = ({
     <>
       <Text>{props.label && props.label}</Text>
       <Layout style={containerStyle}>
-        <ListTitle titles={titles} />
+        <ListTitle
+          titles={titles}
+          style={{paddingHorizontal: 15, marginTop: 2, padding: 7}}
+        />
         <List style={{height: height}} data={recipes} renderItem={renderItem} />
       </Layout>
     </>

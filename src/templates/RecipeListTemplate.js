@@ -31,9 +31,9 @@ const RecipeListTemplate = ({AddIcon, navigation, InfoIcon, recipes}) => {
         }}>
         <RecipeList
           recipes={recipes}
-          rating
+          rating={false}
           navigation={navigation}
-          titles={['Description', 'Popularity', 'Details']}
+          titles={['Description', 'Details']}
           cta
           btnSize="small"
           assessoryLeft={InfoIcon}
