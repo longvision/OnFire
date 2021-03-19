@@ -69,7 +69,7 @@ const AddIngredientForm = () => {
       validationSchema={AddIngredientSchema}
       onSubmit={(values) => {
         dispatch.ingredients.addAsync(values);
-        navigation.navigate('MyKitchen');
+        navigation.goBack();
       }}>
       {({
         handleChange,

@@ -9,7 +9,7 @@ import React from 'react';
 import {SafeAreaView, View} from 'react-native';
 import AddMeasureTemplate from '../../templates/AddMeasureTemplate';
 import {useSelector, useDispatch} from 'react-redux';
-import {useNavigation} from '@react-navigation/core';
+import {useFocusEffect, useNavigation} from '@react-navigation/core';
 // import { Container } from './styles';
 const BackIcon = (props) => <Icon {...props} name="arrow-back" />;
 export const AddMeasure = () => {
@@ -24,6 +24,13 @@ export const AddMeasure = () => {
   const BackAction = () => (
     <TopNavigationAction icon={BackIcon} onPress={navigateBack} />
   );
+  const loadingIngredient = useSelector(
+    (state) => state.loading.effects.ingredients.addAsync,
+  );
+
+  React.useEffect(() => {
+    dispatch.ingredients.listAsync();
+  }, [loadingIngredient]);
 
   return (
     <SafeAreaView style={{flex: 1}}>

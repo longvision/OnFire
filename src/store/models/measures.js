@@ -104,7 +104,7 @@ export const measures = createModel()({
         console.log(err);
       }
     },
-    async updateAsync(id, rootState) {
+    async updateAsync(payload, rootState) {
       try {
         api.defaults.headers.Authorization = `Bearer ${rootState.auth.token}`;
         const {values, id} = payload;
@@ -125,6 +125,9 @@ export const measures = createModel()({
     },
     async setSelectedIdAsync(payload) {
       dispatch.ingredients.setSelectedId(payload);
+    },
+    async setSelectedAsync(payload) {
+      dispatch.ingredients.setSelected(payload);
     },
     async deleteAsync(payload, rootState) {
       try {

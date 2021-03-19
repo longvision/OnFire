@@ -34,9 +34,6 @@ export const RecipeDetail = ({navigation}) => {
   const loadingCreate = useSelector(
     (state) => state.loading.effects.measures.addAsync,
   );
-  const loadingList = useSelector(
-    (state) => state.loading.effects.recipes.setSelectedAsync,
-  );
 
   //Faz o update do valor total e contagem dos items da receita
   const updateDash = React.useCallback(async () => {
