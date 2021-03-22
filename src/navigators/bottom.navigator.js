@@ -18,6 +18,7 @@ const MainNavigator = () => {
       tabBarOptions={{
         // activeTintColor: Colors.active,
         // inactiveTintColor: Colors.inactive,
+        activeTintColor: '#5F9D11',
         labelStyle: {fontWeight: 'bold'},
         // inactiveBackgroundColor: Colors.inactivebk,
         // activeBackgroundColor: Colors.activebk,

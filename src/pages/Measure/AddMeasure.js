@@ -67,7 +67,12 @@ export const AddMeasure = () => {
         accessoryLeft={BackAction}
       />
       <Divider />
-      <Layout style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <Layout
+        style={{
+          flex: 1,
+          justifyContent: 'flex-end',
+          alignItems: 'center',
+        }}>
         <AddMeasureTemplate />
       </Layout>
     </SafeAreaView>

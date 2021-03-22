@@ -6,7 +6,7 @@ import {
   TopNavigationAction,
 } from '@ui-kitten/components';
 import React from 'react';
-import {SafeAreaView, View} from 'react-native';
+import {Alert, SafeAreaView, View} from 'react-native';
 import AddIngredientTemplate from '../../templates/AddIngredientTemplate';
 import {AutoCompleteField} from '../../molecules/AutocompleteField';
 import {useTranslation} from 'react-i18next';

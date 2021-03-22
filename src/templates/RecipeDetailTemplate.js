@@ -59,16 +59,17 @@ const RecipeDetailTemplate = ({
         justifyContent: 'flex-start',
         alignItems: 'center',
         display: 'flex',
-        height: '98%',
+        flex: 1,
       }}>
-      <Text>{t('Measures')}</Text>
-      <MeasureList img={true} cta={t('DELETE')} height="58%" width="90%" />
+      <MeasureList img={true} cta={t('DELETE')} height="68%" width="92%" />
 
       <Layout
         style={{
           marginVertical: 5,
           flexDirection: 'column',
+          justifyContent: 'flex-end',
           width: '100%',
+          flex: 1,
         }}>
         <RecipeSummary
           totalCost={totalCost.toFixed(2)}

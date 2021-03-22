@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {Button, Icon, List, Layout, Text} from '@ui-kitten/components';
 
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View, ScrollView} from 'react-native';
 import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import Popularity from '../atoms/Popularity';
 import ListTitle from '../atoms/ListTitle';
@@ -82,6 +82,7 @@ export const IngredientList = ({
       <Text>{props.label && props.label}</Text>
       <Layout style={containerStyle}>
         <ListTitle titles={titles} />
+
         <List style={{height: height}} data={data} renderItem={renderItem} />
       </Layout>
     </>

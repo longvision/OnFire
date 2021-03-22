@@ -84,6 +84,7 @@ const styles = StyleSheet.create({
   },
   cardPop: {
     flex: 1,
+    height: 66,
     justifyContent: 'center',
     alignItems: 'center',
   },
