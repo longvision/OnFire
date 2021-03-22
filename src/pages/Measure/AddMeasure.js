@@ -15,7 +15,7 @@ const BackIcon = (props) => <Icon {...props} name="arrow-back" />;
 export const AddMeasure = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const ingredients = useSelector((state) => state.ingredients.ingredients);
+  // const ingredients = useSelector((state) => state.ingredients.ingredients);
 
   const navigateBack = () => {
     navigation.goBack();
@@ -41,7 +41,7 @@ export const AddMeasure = () => {
       />
       <Divider />
       <Layout style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <AddMeasureTemplate ingredients={ingredients} />
+        <AddMeasureTemplate />
       </Layout>
     </SafeAreaView>
   );

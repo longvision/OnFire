@@ -6,10 +6,10 @@ import {MeasureList} from '../organisms/MeasureList';
 
 import AddMeasureForm from '../organisms/AddMeasureForm';
 
-const AddMeasureTemplate = ({ingredients}) => {
+const AddMeasureTemplate = () => {
   return (
     <Layout style={{height: '100%'}}>
-      <AddMeasureForm ingredients={ingredients} />
+      <AddMeasureForm />
     </Layout>
   );
 };

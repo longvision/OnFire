@@ -3,6 +3,7 @@ import api from '../../services/api';
 import tron from '../../config/ReactotronConfig';
 
 import {checkDollarSign} from '../../utils/functions';
+import {Alert} from 'react-native';
 export const ingredients = createModel()({
   state: {
     ingredients: [],
@@ -52,7 +53,15 @@ export const ingredients = createModel()({
         const {data} = response;
         dispatch.ingredients.add(data);
         // console.log(data);
-      } catch (err) {}
+      } catch (err) {
+        Alert.alert('Invalid unit!', err, [
+          {
+            text: 'OK',
+            onPress: () => {},
+            style: 'cancel',
+          },
+        ]);
+      }
     },
     async listAsync(payload, rootState) {
       try {

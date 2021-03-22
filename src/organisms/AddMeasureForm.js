@@ -23,6 +23,7 @@ import {
 import * as Yup from 'yup';
 import SelectorAction from '../molecules/SelectorAction';
 import AutocompleteField from '../molecules/AutocompleteField';
+import {current} from 'immer';
 
 const unitsArray = ['mL', 'g', 'L', 'KG'];
 const saveIcon = (props) => <Icon {...props} name="save-outline" />;
@@ -34,21 +35,23 @@ const AddMeasureSchema = Yup.object().shape({
 });
 
 const AddIcon = (props) => <Icon {...props} name="plus-outline" />;
-const AddMeasureForm = ({ingredients}) => {
+const AddMeasureForm = () => {
+  const ingredients = useSelector((state) => state.ingredients.ingredients);
   const productId = useSelector((state) => state.recipes.selected.id);
   const navigation = useNavigation();
-  const unitsRef = useRef();
+  const unitAvailableRef = useRef();
 
-  const quantityRef = useRef();
+  const quantityRef = useRef(null);
   const submitRef = useRef();
-  const listRef = useRef();
+  const listRef = useRef(null);
   const dispatch = useDispatch();
   const [selectedIngredientIndex, setSelectedIngredientIndex] = React.useState(
     0,
   );
   const [selectedUnitIndex, setSelectedUnitIndex] = React.useState(0);
 
-  const [ingredientArray, setIngredientArray] = React.useState([]);
+  const [optionsArray, setOptionsArray] = React.useState([]);
+
   const [selectedId, setSelectedId] = React.useState();
 
   const loadingAddList = useSelector(
@@ -60,16 +63,20 @@ const AddMeasureForm = ({ingredients}) => {
       // alert('Screen was focused');
       // Do something when the screen is focused
       dispatch.measures.getAsync({id: productId});
-
-      const listItems = ingredients.map((item) => item.name);
-      setIngredientArray(listItems);
+      // quantityRef.current.focus();
       return () => {
         // alert('Screen was unfocused');
+        dispatch.measures.getAsync({id: productId});
         // Do something when the screen is unfocused
         // Useful for cleanup functions
       };
-    }, [ingredients, loadingAddList]),
+    }, [loadingAddList]),
   );
+
+  useEffect(() => {
+    const listItems = ingredients.map((item) => item.name);
+    setOptionsArray(listItems);
+  }, [ingredients]);
 
   return (
     <Formik
@@ -118,18 +125,19 @@ const AddMeasureForm = ({ingredients}) => {
                 ref={listRef}
                 navigateTo="AddIngredient"
                 name="ingredient"
-                data={ingredientArray}
+                onBlur={() => listRef.current.blur()}
+                data={optionsArray}
                 selectedIndex={selectedIngredientIndex}
-                onSelect={(index) => {
-                  console.log(index);
-                  setSelectedIngredientIndex(index);
-                  // TODO: Passar o id do ingrediente aqui
-
-                  setFieldValue('ingredient', ingredientArray[index.row + 1]);
-                  const selected = ingredients.filter(
-                    (item) => item.name === ingredientArray[index.row + 1],
+                handlePressItem={(item) => {
+                  const indexOfItem = ingredients.filter(
+                    (i) => i.name === item,
                   );
-                  setSelectedId(selected[0].id);
+                  setSelectedId(indexOfItem[0].id);
+
+                  setFieldValue('ingredient', item);
+                }}
+                onSelect={(index) => {
+                  setSelectedIngredientIndex(index);
                 }}
               />
               <Text category="c2" appearance="hint" status="danger">
@@ -155,8 +163,9 @@ const AddMeasureForm = ({ingredients}) => {
                 onSelect={(index) => {
                   setSelectedUnitIndex(index);
                   setFieldValue('unit', unitsArray[index.row]);
+                  quantityRef.current.focus();
                 }}
-                ref={unitsRef}
+                ref={unitAvailableRef}
               />
               <Text category="c2" appearance="hint" status="danger">
                 {errors.unit && touched.unit && errors.unit}

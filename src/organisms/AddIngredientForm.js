@@ -208,7 +208,6 @@ const AddIngredientForm = () => {
                   data={unitsArray}
                   selectedIndex={selectedIndex}
                   onSelect={(index) => {
-                    console.log(unitsArray[index.row]);
                     setSelectedIndex(index);
                     setFieldValue('unit', unitsArray[index.row]);
                   }}

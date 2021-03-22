@@ -26,7 +26,9 @@ const AutoField = (
   ref,
 ) => {
   const [data, setData] = React.useState(array);
+  // const [focused, setFocused] = React.useState(false);
   const inputRef = useRef();
+  const ingredientItemRef = useRef();
 
   const onSelect = (index) => {
     setFieldValue(name, data[index].title);
@@ -46,11 +48,18 @@ const AutoField = (
   };
 
   const renderOption = (item, index) => (
-    <AutocompleteItem key={index} title={item.title} accessoryLeft={StarIcon} />
+    <AutocompleteItem
+      key={index}
+      title={item.title}
+      onPress={() => {
+        setFieldValue(name, item.title);
+      }}
+    />
   );
   const handleBlur = () => {
     setFieldTouched(name);
   };
+
   const renderCloseIcon = (props) => (
     <TouchableWithoutFeedback onPress={handlePressIcon}>
       <Icon {...props} name="close" />
@@ -75,6 +84,7 @@ const AutoField = (
       autoCompleteType={autoCompleteType}
       onBlur={handleBlur}
       onSelect={onSelect}
+      // onFocus={() => setFocused(true)}
       {...InputProps}>
       {data.map(renderOption)}
     </Autocomplete>

@@ -27,6 +27,7 @@ const SelectorRawAction = (
     actionTitle,
     icon,
     navigateTo,
+    handlePressItem,
   },
   ref,
 ) => {
@@ -35,19 +36,27 @@ const SelectorRawAction = (
   // const displayValue = data && data[selectedIndex.row];
   const displayValue = value;
 
-  const renderOption = (item) => <SelectItem key={item} title={item} />;
-  // console.log(item.title);
+  const renderOption = (item) => (
+    <SelectItem
+      key={item}
+      title={item}
+      onPress={() => {
+        handlePressItem(item);
+        inputRef.current.blur();
+      }}
+    />
+  );
 
   useImperativeHandle(ref, () => ({
     focus: () => {
       inputRef.current.focus();
     },
   }));
+
   const handlePressAction = () => {
     navigation.navigate(navigateTo);
     inputRef.current.hide();
   };
-  console.log(data);
 
   return (
     <Layout style={styles.container} level="3">

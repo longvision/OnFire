@@ -44,7 +44,7 @@ export const measures = createModel()({
       // "ingredient_id": 2
 
       try {
-        const {values, ingredientId, productId} = payload;
+        const {values, productId, ingredientId} = payload;
 
         api.defaults.headers.Authorization = `Bearer ${rootState.auth.token}`;
 
