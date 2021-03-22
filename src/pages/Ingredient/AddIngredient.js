@@ -9,10 +9,12 @@ import React from 'react';
 import {SafeAreaView, View} from 'react-native';
 import AddIngredientTemplate from '../../templates/AddIngredientTemplate';
 import {AutoCompleteField} from '../../molecules/AutocompleteField';
+import {useTranslation} from 'react-i18next';
 
 // import { Container } from './styles';
 const BackIcon = (props) => <Icon {...props} name="arrow-back" />;
 export const AddIngredient = ({navigation}) => {
+  const {t, i18n} = useTranslation();
   const navigateBack = () => {
     navigation.goBack();
   };
@@ -23,7 +25,7 @@ export const AddIngredient = ({navigation}) => {
   return (
     <SafeAreaView style={{flex: 1}}>
       <TopNavigation
-        title="My Ingredients"
+        title={t('Ingredients')}
         alignment="center"
         accessoryLeft={BackAction}
       />

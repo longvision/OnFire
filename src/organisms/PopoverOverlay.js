@@ -1,6 +1,7 @@
 import React from 'react';
 import {StyleSheet} from 'react-native';
 import {Avatar, Button, Layout, Popover, Text} from '@ui-kitten/components';
+import {useTranslation} from 'react-i18next';
 
 export const PopoverOverlay = ({
   handleClose,
@@ -9,6 +10,7 @@ export const PopoverOverlay = ({
   renderToggleButton,
   placement,
 }) => {
+  const {t, i18n} = useTranslation();
   return (
     <Popover
       backdropStyle={styles.backdrop}
@@ -17,7 +19,7 @@ export const PopoverOverlay = ({
       anchor={renderToggleButton}
       onBackdropPress={handleClose}>
       <Layout style={styles.content}>
-        <Text category="h3">Add new Recipe</Text>
+        <Text category="h3">{t('Create_Recipes')}</Text>
         {children}
       </Layout>
     </Popover>
@@ -42,13 +44,3 @@ const styles = StyleSheet.create({
     width: '100%',
   },
 });
-
-{
-  /* <PopoverOverlay
-  renderToggleButton={renderToggleButton}
-  visible={visible}
-  placement="top"
-  handleClose={() => setVisible(false)}>
-  <Text>Testeeee</Text>
-</PopoverOverlay>; */
-}

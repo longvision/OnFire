@@ -10,10 +10,12 @@ import {
 import RecipeDetailTemplate from '../../templates/RecipeDetailTemplate';
 import {useSelector, useDispatch} from 'react-redux';
 import {useFocusEffect} from '@react-navigation/native';
+import {useTranslation} from 'react-i18next';
 
 const BackIcon = (props) => <Icon {...props} name="arrow-back" />;
 
 export const RecipeDetail = ({navigation}) => {
+  const {t, i18n} = useTranslation();
   const dispatch = useDispatch();
   const [totalCost, setTotalCost] = useState(0);
   const [totalCount, setTotalCount] = useState(0);
@@ -67,7 +69,7 @@ export const RecipeDetail = ({navigation}) => {
   return (
     <SafeAreaView style={{flex: 1}}>
       <TopNavigation
-        title="My Recipes"
+        title={t('Recipes')}
         alignment="center"
         accessoryLeft={BackAction}
       />

@@ -5,9 +5,11 @@ import {StyleSheet, Text, View} from 'react-native';
 import {PopoverOverlay} from '../organisms/PopoverOverlay';
 import {RecipeList} from '../organisms/RecipeList';
 import AddRecipeForm from '../organisms/AddRecipeForm';
+import {useTranslation} from 'react-i18next';
 
 const RecipeListTemplate = ({AddIcon, navigation, iconName, recipes}) => {
   const [visible, setVisible] = useState(false);
+  const {t, i18n} = useTranslation();
 
   const button = () => (
     <Button
@@ -16,7 +18,7 @@ const RecipeListTemplate = ({AddIcon, navigation, iconName, recipes}) => {
       onPress={handleAddMeasure}
       accessoryLeft={AddIcon}
       appearance="filled">
-      Add Recipes
+      {t('Create_Recipes')}
     </Button>
   );
 
@@ -33,7 +35,7 @@ const RecipeListTemplate = ({AddIcon, navigation, iconName, recipes}) => {
           recipes={recipes}
           rating={false}
           navigation={navigation}
-          titles={['Description', 'Details']}
+          titles={[t('Description'), t('Details')]}
           cta
           btnSize="small"
           assessoryLeft={iconName}

@@ -12,6 +12,7 @@ import {RecipeSummary} from '../organisms/RecipeSummary';
 import AddMeasureForm from '../organisms/AddMeasureForm';
 import {useFocusEffect} from '@react-navigation/core';
 import {useDispatch, useSelector} from 'react-redux';
+import {useTranslation} from 'react-i18next';
 
 const RecipeDetailTemplate = ({
   measures,
@@ -22,6 +23,7 @@ const RecipeDetailTemplate = ({
   totalCount,
 }) => {
   const dispatch = useDispatch();
+  const {t, i18n} = useTranslation();
   const handleAddMeasure = () => {
     navigation.navigate('AddMeasure');
   };
@@ -59,8 +61,8 @@ const RecipeDetailTemplate = ({
         display: 'flex',
         height: '98%',
       }}>
-      <Text>Measures</Text>
-      <MeasureList img={true} cta="DELETE" height="58%" width="90%" />
+      <Text>{t('Measures')}</Text>
+      <MeasureList img={true} cta={t('DELETE')} height="58%" width="90%" />
 
       <Layout
         style={{

@@ -9,10 +9,12 @@ import {
 } from '@ui-kitten/components';
 
 import IngredientDetailTemplate from '../../templates/IngredientDetailTemplate';
+import {useTranslation} from 'react-i18next';
 
 const BackIcon = (props) => <Icon {...props} name="arrow-back" />;
 
 export const IngredientDetail = ({route, navigation}) => {
+  const {t, i18n} = useTranslation();
   const navigateBack = () => {
     navigation.goBack();
   };
@@ -24,7 +26,7 @@ export const IngredientDetail = ({route, navigation}) => {
   return (
     <SafeAreaView style={{flex: 1}}>
       <TopNavigation
-        title="My Ingredients"
+        title={t('Ingredients')}
         alignment="center"
         accessoryLeft={BackAction}
       />

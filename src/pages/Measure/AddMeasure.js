@@ -10,9 +10,11 @@ import {SafeAreaView, View} from 'react-native';
 import AddMeasureTemplate from '../../templates/AddMeasureTemplate';
 import {useSelector, useDispatch} from 'react-redux';
 import {useFocusEffect, useNavigation} from '@react-navigation/core';
+import {useTranslation} from 'react-i18next';
 // import { Container } from './styles';
 const BackIcon = (props) => <Icon {...props} name="arrow-back" />;
 export const AddMeasure = () => {
+  const {t, i18n} = useTranslation();
   const dispatch = useDispatch();
   const navigation = useNavigation();
   // const ingredients = useSelector((state) => state.ingredients.ingredients);
@@ -35,7 +37,7 @@ export const AddMeasure = () => {
   return (
     <SafeAreaView style={{flex: 1}}>
       <TopNavigation
-        title="My Measures"
+        title={t('Measures')}
         alignment="center"
         accessoryLeft={BackAction}
       />

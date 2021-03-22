@@ -6,8 +6,10 @@ import {useNavigation} from '@react-navigation/native';
 import {PopoverOverlay} from '../organisms/PopoverOverlay';
 import {IngredientList} from '../organisms/IngredientList';
 import {useDispatch} from 'react-redux';
+import {useTranslation} from 'react-i18next';
 
 const IngredientListTemplate = ({navigation, ingredients, addIcon}) => {
+  const {t, i18n} = useTranslation();
   const [visible, setVisible] = useState(false);
 
   const dispatch = useDispatch();
@@ -25,10 +27,10 @@ const IngredientListTemplate = ({navigation, ingredients, addIcon}) => {
         <IngredientList
           data={ingredients}
           price
-          cta="Details"
+          cta={t('Details')}
           btnSize="small"
           containerStyle={{width: '100%'}}
-          titles={['Ingredient', 'Price per Package', '']}
+          titles={[t('Ingredient'), t('Price per Package'), '']}
         />
       </Layout>
       <Layout
@@ -43,7 +45,7 @@ const IngredientListTemplate = ({navigation, ingredients, addIcon}) => {
           accessoryLeft={addIcon}
           onPress={handlePress}
           appearance="filled">
-          Add Ingredients
+          {t('Add_Ingredient')}
         </Button>
       </Layout>
     </Layout>

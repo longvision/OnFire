@@ -16,6 +16,7 @@ import SizeInput from '../molecules/SizeInput';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import * as Yup from 'yup';
+import {useTranslation} from 'react-i18next';
 
 const data = [
   {title: 'Star Wars'},
@@ -45,6 +46,7 @@ const AddIngredientSchema = Yup.object().shape({
   price: Yup.string().required('Package price is required'),
 });
 const EditIngredientForm = ({selectedItem}) => {
+  const {t, i18n} = useTranslation();
   const dispatch = useDispatch();
 
   const [selectedIndex, setSelectedIndex] = React.useState(0);
@@ -101,7 +103,7 @@ const EditIngredientForm = ({selectedItem}) => {
                 appearance="alternative"
                 status="basic"
                 style={styles.packageTitle}>
-                Product info
+                {t('Product_info')}
               </Text>
               <Button
                 style={styles.editPackage}
@@ -126,7 +128,7 @@ const EditIngredientForm = ({selectedItem}) => {
                 setFieldTouched={setFieldTouched}
                 onSubmitEditing={() => brandRef.current.focus()}
                 status={errors.ingredient && touched.ingredient && 'danger'}
-                placeholder="Ingredient Name"
+                placeholder={t('Ingredient_Name')}
                 autoCompleteType="off"
                 autoCorrect={false}
               />
@@ -148,7 +150,7 @@ const EditIngredientForm = ({selectedItem}) => {
                 setFieldTouched={setFieldTouched}
                 onSubmitEditing={() => sellerRef.current.focus()}
                 status={errors.brand && touched.brand && 'danger'}
-                placeholder="Brand"
+                placeholder={t('Brand')}
                 ref={brandRef}
                 autoCompleteType="off"
                 autoCorrect={false}
@@ -169,7 +171,7 @@ const EditIngredientForm = ({selectedItem}) => {
                 array={data}
                 name="seller"
                 status={errors.seller && touched.seller && 'danger'}
-                placeholder="Seller"
+                placeholder={t('Seller')}
                 returnKeyType="next"
                 onSubmitEditing={() => soldRef.current.focus()}
                 ref={sellerRef}
@@ -197,7 +199,7 @@ const EditIngredientForm = ({selectedItem}) => {
                 }}
                 ref={soldRef}
                 status={errors.region && touched.region && 'danger'}
-                placeholder="Region"
+                placeholder={t('Region')}
                 autoCompleteType="off"
                 autoCorrect={false}
               />
@@ -222,51 +224,54 @@ const EditIngredientForm = ({selectedItem}) => {
                   accessoryLeft={packDisabled ? editIcon : closeIcon}
                 />
               </Layout>
-              <Layout style={styles.rowContainer} level="3">
-                <SizeInput
-                  status={errors.size && touched.size && 'danger'}
-                  placeholder="Package Size"
-                  value={values.size}
-                  setFieldValue={setFieldValue}
-                  setFieldTouched={setFieldTouched}
-                  disabled={packDisabled}
-                  setDisabled={setDisabled}
-                  mantissa={2}
-                  name="size"
-                  styles={styles.input}
-                  onSubmitEditing={() => {
-                    unitsRef.current.focus();
-                  }}
-                  ref={sizeRef}
-                />
-                <Text category="c2" appearance="hint" status="danger">
-                  {errors.size && touched.size && errors.size}
-                </Text>
+              <Layout style={styles.quantityDiv} level="3">
+                <Layout style={styles.quantityRow1} level="3">
+                  <SizeInput
+                    status={errors.size && touched.size && 'danger'}
+                    placeholder={t('Package_Size')}
+                    value={values.size}
+                    setFieldValue={setFieldValue}
+                    setFieldTouched={setFieldTouched}
+                    disabled={packDisabled}
+                    setDisabled={setDisabled}
+                    mantissa={2}
+                    name="size"
+                    styles={styles.input}
+                    onSubmitEditing={() => {
+                      unitsRef.current.focus();
+                    }}
+                    ref={sizeRef}
+                  />
+                  <Text category="c2" appearance="hint" status="danger">
+                    {errors.size && touched.size && errors.size}
+                  </Text>
+                </Layout>
+                <Layout style={styles.quantityRow2} level="3">
+                  <Selector
+                    status={errors.unit && touched.unit && 'danger'}
+                    placeholder={t('Package_Unit')}
+                    style={styles.input}
+                    value={values.unit}
+                    disabled={packDisabled}
+                    name="unit"
+                    data={unitsArray}
+                    selectedIndex={selectedIndex}
+                    onSelect={(index) => {
+                      setSelectedIndex(index);
+                      setFieldValue('unit', unitsArray[index.row]);
+                    }}
+                    ref={unitsRef}
+                  />
+                  <Text category="c2" appearance="hint" status="danger">
+                    {errors.unit && touched.unit && errors.unit}
+                  </Text>
+                </Layout>
               </Layout>
-              <Layout style={styles.rowContainer} level="3">
-                <Selector
-                  status={errors.unit && touched.unit && 'danger'}
-                  placeholder="Unit"
-                  style={styles.input}
-                  value={values.unit}
-                  disabled={packDisabled}
-                  name="unit"
-                  data={unitsArray}
-                  selectedIndex={selectedIndex}
-                  onSelect={(index) => {
-                    setSelectedIndex(index);
-                    setFieldValue('unit', unitsArray[index.row]);
-                  }}
-                  ref={unitsRef}
-                />
-                <Text category="c2" appearance="hint" status="danger">
-                  {errors.unit && touched.unit && errors.unit}
-                </Text>
-              </Layout>
+
               <Layout style={styles.rowContainer} level="3">
                 <PriceInput
                   status={errors.price && touched.price && 'danger'}
-                  placeholder="Price"
+                  placeholder={t('Package_Price')}
                   disabled={packDisabled}
                   value={values.price}
                   setFieldValue={setFieldValue}
@@ -317,6 +322,12 @@ const styles = StyleSheet.create({
   title: {
     marginBottom: 20,
   },
+  quantityDiv: {
+    flexDirection: 'row',
+
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   packageTitle: {
     marginLeft: 100,
     flex: 3,
@@ -341,6 +352,16 @@ const styles = StyleSheet.create({
     marginVertical: 3,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  quantityRow1: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '60%',
+  },
+  quantityRow2: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '34%',
   },
   controlContainer: {
     borderRadius: 4,
