@@ -30,6 +30,8 @@ const resources = {
       Package_Size: 'Product Size',
       Package_Unit: 'Product Unit',
       Package_Price: 'Product Price',
+      Save: 'Save',
+      Package_Info: 'Package Info',
     },
   },
   pt: {
@@ -58,6 +60,8 @@ const resources = {
       Package_Size: 'Tamanho da Embalagem',
       Package_Unit: 'Unidade Escrita na Embalagem',
       Package_Price: 'Preço do Produto',
+      Save: 'Salvar',
+      Package_Info: 'Dados da Embalagem',
     },
   },
 };

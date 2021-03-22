@@ -214,7 +214,7 @@ const EditIngredientForm = ({selectedItem}) => {
                   appearance="alternative"
                   status="basic"
                   style={styles.packageTitle}>
-                  Package info
+                  {t('Package_Info')}
                 </Text>
                 <Button
                   style={styles.editPackage}
@@ -295,7 +295,7 @@ const EditIngredientForm = ({selectedItem}) => {
                 accessoryLeft={saveIcon}
                 onPress={handleSubmit}
                 appearance="filled">
-                Save
+                {t('Save')}
               </Button>
             </Layout>
           </Layout>
