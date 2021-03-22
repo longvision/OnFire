@@ -65,10 +65,10 @@ export const MyKitchen = ({navigation}) => {
   );
 
   return (
-    <SafeAreaView style={{height: '100%'}}>
+    <SafeAreaView style={{flex: 1}}>
       <TopNavigation title={t('Kitchen')} alignment="center" />
       <Divider />
-      <Layout style={{flex: 10}}>
+      <Layout style={{flex: 1}}>
         <TabView
           selectedIndex={selectedIndex}
           onSelect={onSelect}

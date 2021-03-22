@@ -13,9 +13,11 @@ import {EyeIcon, EyeOffIcon, PersonIcon} from './extra/icons';
 import {KeyboardAvoidingView} from './extra/3rd-party';
 import {useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
+import {useNavigation} from '@react-navigation/core';
 
-export const Login = ({navigation}) => {
+export const Login = () => {
   const {t, i18n} = useTranslation();
+  const navigation = useNavigation();
   const [email, setEmail] = React.useState();
   const [password, setPassword] = React.useState();
   const [passwordVisible, setPasswordVisible] = React.useState(false);
@@ -28,20 +30,17 @@ export const Login = ({navigation}) => {
   };
 
   const onSignUpButtonPress = () => {
-    navigation && navigation.navigate('Login');
+    navigation.navigate('Login');
   };
 
   const onForgotPasswordButtonPress = () => {
-    navigation && navigation.navigate('ForgotPassword');
+    navigation.navigate('ForgotPassword');
   };
 
   const onPasswordIconPress = () => {
     setPasswordVisible(!passwordVisible);
   };
 
-  useEffect(() => {
-    emailRef.current.focus();
-  });
   return (
     <KeyboardAvoidingView
       enabled
@@ -74,6 +73,7 @@ export const Login = ({navigation}) => {
               autoCapitalize="none"
               icon={PersonIcon}
               ref={emailRef}
+              returnKeyType="next"
               onSubmitEditing={() => {
                 passwordLoginRef.current.focus();
               }}
@@ -84,10 +84,12 @@ export const Login = ({navigation}) => {
               style={styles.passwordInput}
               status="primary"
               placeholder="Password"
+              returnKeyType="done"
               icon={passwordVisible ? EyeIcon : EyeOffIcon}
               value={password}
               ref={passwordLoginRef}
               secureTextEntry={!passwordVisible}
+              onSubmitEditing={onSignInButtonPress}
               onChangeText={setPassword}
               onIconPress={onPasswordIconPress}
             />

@@ -29,7 +29,7 @@ const RecipeListTemplate = ({AddIcon, navigation, iconName, recipes}) => {
     <Layout style={{height: '100%'}}>
       <Layout
         style={{
-          flex: 5,
+          flex: 3,
         }}>
         <RecipeList
           recipes={recipes}

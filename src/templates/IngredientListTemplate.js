@@ -22,7 +22,7 @@ const IngredientListTemplate = ({navigation, ingredients, addIcon}) => {
     <Layout style={{height: '100%'}}>
       <Layout
         style={{
-          flex: 5,
+          flex: 3,
         }}>
         <IngredientList
           data={ingredients}
