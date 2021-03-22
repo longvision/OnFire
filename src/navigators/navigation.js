@@ -11,8 +11,6 @@ export const AppNavigator = () => {
 
   const Stack = createStackNavigator();
 
-  useEffect(() => {}, [token]);
-
   return (
     <Stack.Navigator headerMode="none">
       {token ? (

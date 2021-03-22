@@ -4,6 +4,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 // import FeedStack from './FeedStack';
 // import SearchStack from './SearchStack';
 import KitchenStack from './kitchen.navigator';
+import SettingsStack from './settings.navigator';
 import {Icon} from '@ui-kitten/components';
 
 const Tab = createBottomTabNavigator();
@@ -49,22 +50,15 @@ const MainNavigator = () => {
           ),
         }}
       />
-      {/* <Tab.Screen
-        name="SEARCH"
-        component={SearchStack}
+      <Tab.Screen
+        name="SETTINGS"
+        component={SettingsStack}
         options={{
           unmountOnBlur: true,
 
-          tabBarIcon: ({focused, color, size}) => (
-            <Icon
-              name="sunrise"
-              size={size ? size : 26}
-              color={focused ? Colors.active : color}
-              focused={focused}
-            />
-          ),
+          tabBarIcon: ({focused, color, size}) => <Icon name="settings" />,
         }}
-      /> */}
+      />
     </Tab.Navigator>
   );
 };
