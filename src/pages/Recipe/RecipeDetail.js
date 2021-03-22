@@ -48,12 +48,7 @@ export const RecipeDetail = ({navigation}) => {
       const count = await measures.length;
       setTotalCost(sum);
       setTotalCount(count);
-    } catch (error) {
-      Alert.alert(
-        'Items not found!',
-        'Please add a new ingredient to this recipe to start getting the cost.',
-      );
-    }
+    } catch (error) {}
   }, [measures]);
 
   //Recalcula a formula acima toda vez que há uma mudanca na lista de ingredientes do prato.

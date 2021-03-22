@@ -1,3 +1,5 @@
+import React from 'react';
+
 import {
   Divider,
   Icon,
@@ -5,8 +7,7 @@ import {
   TopNavigation,
   TopNavigationAction,
 } from '@ui-kitten/components';
-import React from 'react';
-import {SafeAreaView, View} from 'react-native';
+import {Alert, SafeAreaView, View} from 'react-native';
 import AddMeasureTemplate from '../../templates/AddMeasureTemplate';
 import {useSelector, useDispatch} from 'react-redux';
 import {useFocusEffect, useNavigation} from '@react-navigation/core';
@@ -15,6 +16,7 @@ import {useTranslation} from 'react-i18next';
 const BackIcon = (props) => <Icon {...props} name="arrow-back" />;
 export const AddMeasure = () => {
   const {t, i18n} = useTranslation();
+  const failed = useSelector((state) => state.measures.failed);
   const dispatch = useDispatch();
   const navigation = useNavigation();
   // const ingredients = useSelector((state) => state.ingredients.ingredients);
@@ -33,6 +35,29 @@ export const AddMeasure = () => {
   React.useEffect(() => {
     dispatch.ingredients.listAsync();
   }, [loadingIngredient]);
+
+  React.useEffect(() => {
+    failed &&
+      Alert.alert(
+        t('Invalid_Unit'),
+        t('Change_Unit'),
+        [
+          {
+            text: 'Ok',
+            onPress: () => {
+              dispatch.measures.alertOff();
+            },
+            style: 'cancel',
+          },
+        ],
+        {
+          cancelable: true,
+          onDismiss: () => {
+            dispatch.measures.alertOff();
+          },
+        },
+      );
+  }, [failed]);
 
   return (
     <SafeAreaView style={{flex: 1}}>

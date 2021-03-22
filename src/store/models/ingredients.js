@@ -9,6 +9,7 @@ export const ingredients = createModel()({
     ingredients: [],
     selected: {},
     selectedId: null,
+    failed: false,
   },
   reducers: {
     list(state, payload) {
@@ -29,11 +30,26 @@ export const ingredients = createModel()({
         selectedId: payload,
       };
     },
+    failed(state, payload) {
+      return {
+        ...state,
+        failed: true,
+      };
+    },
+    understood(state, payload) {
+      return {
+        ...state,
+        failed: false,
+      };
+    },
     add(state, payload) {
       return {...state, ingredients: [...state.ingredients, payload]};
     },
   },
   effects: (dispatch) => ({
+    async alertOff(payload, rootState) {
+      dispatch.measures.understood();
+    },
     async addAsync(payload, rootState) {
       try {
         const {brand, ingredient, price, region, seller, size, unit} = payload;
@@ -54,13 +70,7 @@ export const ingredients = createModel()({
         dispatch.ingredients.add(data);
         // console.log(data);
       } catch (err) {
-        Alert.alert('Invalid unit!', err, [
-          {
-            text: 'OK',
-            onPress: () => {},
-            style: 'cancel',
-          },
-        ]);
+        dispatch.measures.failed();
       }
     },
     async listAsync(payload, rootState) {

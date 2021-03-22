@@ -12,6 +12,7 @@ import {StyleSheet, View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import Popularity from '../atoms/Popularity';
 import {useDispatch, useSelector} from 'react-redux';
+import {useTranslation} from 'react-i18next';
 
 export const MeasureList = ({
   data,
@@ -23,16 +24,17 @@ export const MeasureList = ({
   width,
   ...props
 }) => {
+  const {t, i18n} = useTranslation();
   const dispatch = useDispatch();
   const measures = useSelector((state) => state.measures.selected);
   const renderItemIcon = (props) => <Icon {...props} name="trash-outline" />;
 
   const renderItem = ({item, index}) => (
     <ListItem
-      title={`${item.ingredients.name} | Brand - ${item.ingredients.brand} `}
-      description={`quantity: ${Number(item.quantity).toFixed(2)}${
+      title={`${item.ingredients.name} | ${item.ingredients.brand} `}
+      description={`${t('quantity')}: ${Number(item.quantity).toFixed(2)}${
         item.unit
-      } - cost: $${Number(item.cost).toFixed(2)}  `}
+      } - ${t('cost')}: $${Number(item.cost).toFixed(2)}  `}
       accessoryRight={() =>
         cta && (
           <Layout style={{flexDirection: 'row'}}>

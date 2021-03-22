@@ -16,6 +16,7 @@ import SizeInput from '../molecules/SizeInput';
 import {useDispatch} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import * as Yup from 'yup';
+import {useTranslation} from 'react-i18next';
 
 const data = [
   {title: 'Star Wars'},
@@ -27,22 +28,8 @@ const data = [
 
 const saveIcon = (props) => <Icon {...props} name="save-outline" />;
 
-const AddIngredientSchema = Yup.object().shape({
-  ingredient: Yup.string()
-    .min(2, 'Too Short!')
-    .max(50, 'Too Long!')
-    .required('Ingredient name is qequired'),
-  brand: Yup.string()
-    .min(2, 'Too Short!')
-    .max(50, 'Too Long!')
-    .required('Brand is required'),
-  seller: Yup.string().required('Seller name is required'),
-  region: Yup.string(),
-  size: Yup.number().moreThan(0).required('Package size is required'),
-  unit: Yup.string().required('Package unit is required'),
-  price: Yup.string().required('Package price is required'),
-});
 const AddIngredientForm = () => {
+  const {t, i18n} = useTranslation();
   const brandRef = useRef();
   const sellerRef = useRef();
   const soldRef = useRef();
@@ -54,6 +41,22 @@ const AddIngredientForm = () => {
   const [disabled, setDisabled] = React.useState(false);
   const navigation = useNavigation();
   const unitsArray = ['mL', 'g', 'L', 'KG'];
+
+  const AddIngredientSchema = Yup.object().shape({
+    ingredient: Yup.string()
+      .min(2, t('Too_Short'))
+      .max(50, t('Too_Long'))
+      .required(t('Ingredient_name_is_required')),
+    brand: Yup.string()
+      .min(2, t('Too_Short'))
+      .max(50, t('Too_Long'))
+      .required(t('Brand_is_required')),
+    seller: Yup.string().required(t('Seller_is_required')),
+    region: Yup.string(),
+    size: Yup.number().moreThan(0).required(t('Package_size_is_required')),
+    unit: Yup.string().required(t('Package_unit_is_required')),
+    price: Yup.string().required(t('Package_price_is_required')),
+  });
 
   return (
     <Formik
@@ -88,20 +91,20 @@ const AddIngredientForm = () => {
               appearance="alternative"
               status="basic"
               style={styles.title}>
-              Product info
+              {t('Product_info')}
             </Text>
             <Layout style={styles.rowContainer} level="1">
               <AutoCompleteField
                 style={styles.input}
                 array={data}
-                name="ingredient"
+                name={t('ingredient')}
                 returnKeyType="next"
                 value={values.ingredient}
                 setFieldValue={setFieldValue}
                 setFieldTouched={setFieldTouched}
                 onSubmitEditing={() => brandRef.current.focus()}
                 status={errors.ingredient && touched.ingredient && 'danger'}
-                placeholder="Ingredient Name"
+                placeholder={t('Ingredient_Name')}
                 autoCompleteType="off"
                 autoCorrect={false}
               />
@@ -120,7 +123,7 @@ const AddIngredientForm = () => {
                 setFieldTouched={setFieldTouched}
                 onSubmitEditing={() => sellerRef.current.focus()}
                 status={errors.brand && touched.brand && 'danger'}
-                placeholder="Brand"
+                placeholder={t('Brand')}
                 ref={brandRef}
                 autoCompleteType="off"
                 autoCorrect={false}
@@ -138,7 +141,7 @@ const AddIngredientForm = () => {
                 array={data}
                 name="seller"
                 status={errors.seller && touched.seller && 'danger'}
-                placeholder="Seller"
+                placeholder={t('Seller')}
                 returnKeyType="next"
                 onSubmitEditing={() => soldRef.current.focus()}
                 ref={sellerRef}
@@ -163,7 +166,7 @@ const AddIngredientForm = () => {
                 }}
                 ref={soldRef}
                 status={errors.region && touched.region && 'danger'}
-                placeholder="Region"
+                placeholder={t('Region')}
                 autoCompleteType="off"
                 autoCorrect={false}
               />
@@ -177,12 +180,12 @@ const AddIngredientForm = () => {
                 appearance="alternative"
                 status="basic"
                 style={styles.title}>
-                Package info
+                {t('Package_Info')}
               </Text>
               <Layout style={styles.rowContainer} level="3">
                 <SizeInput
                   status={errors.size && touched.size && 'danger'}
-                  placeholder="Package Size"
+                  placeholder={t('Package_Size')}
                   value={values.size}
                   setFieldValue={setFieldValue}
                   setFieldTouched={setFieldTouched}
@@ -201,7 +204,7 @@ const AddIngredientForm = () => {
               <Layout style={styles.rowContainer} level="3">
                 <Selector
                   status={errors.unit && touched.unit && 'danger'}
-                  placeholder="Unit"
+                  placeholder={t('Package_Unit')}
                   style={styles.input}
                   value={values.unit}
                   name="unit"
@@ -220,7 +223,7 @@ const AddIngredientForm = () => {
               <Layout style={styles.rowContainer} level="3">
                 <PriceInput
                   status={errors.price && touched.price && 'danger'}
-                  placeholder="Price"
+                  placeholder={t('Package_Price')}
                   value={values.price}
                   setFieldValue={setFieldValue}
                   setFieldTouched={setFieldTouched}
@@ -243,7 +246,7 @@ const AddIngredientForm = () => {
                 accessoryLeft={saveIcon}
                 onPress={handleSubmit}
                 appearance="filled">
-                Save
+                {t('Save')}
               </Button>
             </Layout>
           </Layout>

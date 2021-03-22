@@ -1,3 +1,4 @@
+import React from 'react';
 import {createModel} from '@rematch/core';
 import api from '../../services/api';
 import tron from '../../config/ReactotronConfig';
@@ -5,12 +6,13 @@ import tron from '../../config/ReactotronConfig';
 import {checkDollarSign} from '../../utils/functions';
 import {connect} from 'formik';
 import {Alert} from 'react-native';
-
+import {Trans} from 'react-i18next';
 export const measures = createModel()({
   state: {
     measures: [],
     selected: {},
     selectedId: null,
+    failed: false,
   },
   reducers: {
     list(state, payload) {
@@ -31,11 +33,26 @@ export const measures = createModel()({
         selectedId: payload,
       };
     },
+    failed(state, payload) {
+      return {
+        ...state,
+        failed: true,
+      };
+    },
+    understood(state, payload) {
+      return {
+        ...state,
+        failed: false,
+      };
+    },
     add(state, payload) {
       return {...state, ingredients: [...state.ingredients, payload]};
     },
   },
   effects: (dispatch) => ({
+    async alertOff(payload, rootState) {
+      dispatch.measures.understood();
+    },
     async addAsync(payload, rootState) {
       // API Object
       // "product_id": 1,
@@ -55,21 +72,7 @@ export const measures = createModel()({
           unit: values.unit,
         });
       } catch (err) {
-        Alert.alert(
-          'Invalid unit!',
-          'Please select a unit that matches the registered ingredient',
-          [
-            {
-              text: 'Cancel',
-              onPress: () => {},
-              style: 'cancel',
-            },
-          ],
-          {
-            cancelable: true,
-            onDismiss: () => {},
-          },
-        );
+        dispatch.measures.failed();
       }
     },
     async listAsync(payload, rootState) {

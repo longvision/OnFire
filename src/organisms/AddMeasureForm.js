@@ -24,18 +24,14 @@ import * as Yup from 'yup';
 import SelectorAction from '../molecules/SelectorAction';
 import AutocompleteField from '../molecules/AutocompleteField';
 import {current} from 'immer';
+import {useTranslation} from 'react-i18next';
 
 const unitsArray = ['mL', 'g', 'L', 'KG'];
 const saveIcon = (props) => <Icon {...props} name="save-outline" />;
 
-const AddMeasureSchema = Yup.object().shape({
-  ingredient: Yup.string().required('Ingredient name is qequired'),
-  unit: Yup.string().required('Unit is required'),
-  quantity: Yup.string().required('Quantity is required'),
-});
-
 const AddIcon = (props) => <Icon {...props} name="plus-outline" />;
 const AddMeasureForm = () => {
+  const {t, i18n} = useTranslation();
   const ingredients = useSelector((state) => state.ingredients.ingredients);
   const productId = useSelector((state) => state.recipes.selected.id);
   const navigation = useNavigation();
@@ -57,7 +53,11 @@ const AddMeasureForm = () => {
   const loadingAddList = useSelector(
     (state) => state.loading.effects.ingredients.addAsync,
   );
-
+  const AddMeasureSchema = Yup.object().shape({
+    ingredient: Yup.string().required(t('Ingredient_name_is_required')),
+    unit: Yup.string().required(t('Unit_is_required')),
+    quantity: Yup.string().required(t('Quantity_is_required')),
+  });
   useFocusEffect(
     React.useCallback(() => {
       // alert('Screen was focused');
@@ -111,16 +111,16 @@ const AddMeasureForm = () => {
               appearance="alternative"
               status="basic"
               style={styles.title}>
-              Select the ingredient
+              {t('Select_the_ingredient')}
             </Text>
 
             <Layout style={styles.rowContainer} level="3">
               <SelectorAction
                 status={errors.ingredient && touched.ingredient && 'danger'}
-                placeholder="Ingredient"
+                placeholder={t('Ingredient')}
                 style={styles.ingredients}
                 value={values.ingredient}
-                actionTitle="Add new ingredient"
+                actionTitle={t('Add_new_ingredient')}
                 icon={AddIcon}
                 ref={listRef}
                 navigateTo="AddIngredient"
@@ -150,11 +150,11 @@ const AddMeasureForm = () => {
                 appearance="alternative"
                 status="basic"
                 style={styles.title}>
-                {`Select the measure unit`}
+                {t('Select_the_unit_of_measurement')}
               </Text>
               <Selector
                 status={errors.unit && touched.unit && 'danger'}
-                placeholder="Unit"
+                placeholder={t('Unit')}
                 style={styles.input}
                 value={values.unit}
                 name="unit"
@@ -178,11 +178,11 @@ const AddMeasureForm = () => {
                   appearance="alternative"
                   status="basic"
                   style={styles.title}>
-                  Type the quantity
+                  {t('Enter_the_ingredient_amount')}
                 </Text>
                 <SizeInput
                   status={errors.quantity && touched.quantity && 'danger'}
-                  placeholder="Quantity to be added"
+                  placeholder={t('Quantity_to_be_added')}
                   value={values.quantity}
                   setFieldValue={setFieldValue}
                   setFieldTouched={setFieldTouched}
@@ -200,7 +200,7 @@ const AddMeasureForm = () => {
               </Layout>
             </Layout>
             <Layout style={styles.submit} level="3">
-              <Button onPress={handleSubmit}>ADD TO RECIPE</Button>
+              <Button onPress={handleSubmit}>{t('ADD_TO_RECIPE')}</Button>
             </Layout>
           </Layout>
         </Layout>
