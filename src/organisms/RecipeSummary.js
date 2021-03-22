@@ -35,7 +35,7 @@ export const RecipeSummary = ({
               {t(`Total_Cost`)}
             </Text>
             <Text style={styles.cardText} category="h2">
-              $ {totalCost}
+              {`${t('$')} ${totalCost}`}
             </Text>
           </Card>
           <Card style={styles.cardPop}>

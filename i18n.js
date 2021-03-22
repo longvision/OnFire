@@ -60,6 +60,7 @@ const resources = {
       Package_size_is_required: 'Package size is required.',
       Package_unit_is_required: 'Package unit is required.',
       Package_price_is_required: 'Package price is required.',
+      $: '$',
     },
   },
   pt: {
@@ -119,6 +120,7 @@ const resources = {
       Package_size_is_required: 'Tamanho da embalagem é necessária !',
       Package_unit_is_required: 'Unidade da embalagem é necessária !',
       Package_price_is_required: 'Preço do pacote/produto é necessário !',
+      $: 'R$',
     },
   },
 };

@@ -34,7 +34,7 @@ export const MeasureList = ({
       title={`${item.ingredients.name} | ${item.ingredients.brand} `}
       description={`${t('quantity')}: ${Number(item.quantity).toFixed(2)}${
         item.unit
-      } - ${t('cost')}: $${Number(item.cost).toFixed(2)}  `}
+      } - ${t('cost')}: ${t('$')}${Number(item.cost).toFixed(2)}  `}
       accessoryRight={() =>
         cta && (
           <Layout style={{flexDirection: 'row'}}>
