@@ -1,14 +1,26 @@
-import React from 'react';
-import {StyleSheet, View, ImageBackground, Image} from 'react-native';
+import React, {useEffect, useRef} from 'react';
+import {
+  StyleSheet,
+  View,
+  ImageBackground,
+  Platform,
+  Image,
+  Keyboard,
+} from 'react-native';
 import {Button, Input, Text, Layout} from '@ui-kitten/components';
 import {ImageOverlay} from './extra/image-overlay.js';
 import {EyeIcon, EyeOffIcon, PersonIcon} from './extra/icons';
 import {KeyboardAvoidingView} from './extra/3rd-party';
 import {useDispatch} from 'react-redux';
+import {useTranslation} from 'react-i18next';
+
 export const Login = ({navigation}) => {
+  const {t, i18n} = useTranslation();
   const [email, setEmail] = React.useState();
   const [password, setPassword] = React.useState();
   const [passwordVisible, setPasswordVisible] = React.useState(false);
+  const emailRef = useRef(null);
+  const passwordLoginRef = useRef(null);
   const dispatch = useDispatch();
   const onSignInButtonPress = () => {
     // navigation && navigation.navigate('');
@@ -27,35 +39,54 @@ export const Login = ({navigation}) => {
     setPasswordVisible(!passwordVisible);
   };
 
+  useEffect(() => {
+    emailRef.current.focus();
+  });
   return (
-    <>
+    <KeyboardAvoidingView
+      enabled
+      behavior={Platform.OS === 'ios' ? 'padding' : null}>
       <ImageOverlay
         style={styles.container}
         source={require('./images/Sesame-Steak-Salad.jpeg')}>
         <View style={styles.headerContainer}>
-          <Text category="h1" status="control">
-            Hello
-          </Text>
-          <Text style={styles.signInLabel} category="s1" status="control">
-            Sign in to your account
-          </Text>
+          <Layout
+            style={{
+              // Transparent background because mask is based off alpha channel.
+              backgroundColor: 'transparent',
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Text category="h1" status="control" style={styles.title}>
+              {t('Hello')}
+            </Text>
+          </Layout>
         </View>
-        <View style={styles.formContainer}>
-          <Layout style={styles.inputContainer}>
+        <Layout style={styles.formContainer} level="4">
+          <Text style={styles.signInLabel} category="s1" status="basic">
+            {t('SIGN_INTO')}
+          </Text>
+          <Layout style={styles.inputContainer} level="4">
             <Input
-              status="control"
+              status="primary"
               placeholder="Email"
               autoCapitalize="none"
               icon={PersonIcon}
+              ref={emailRef}
+              onSubmitEditing={() => {
+                passwordLoginRef.current.focus();
+              }}
               value={email}
               onChangeText={setEmail}
             />
             <Input
               style={styles.passwordInput}
-              status="control"
+              status="primary"
               placeholder="Password"
               icon={passwordVisible ? EyeIcon : EyeOffIcon}
               value={password}
+              ref={passwordLoginRef}
               secureTextEntry={!passwordVisible}
               onChangeText={setPassword}
               onIconPress={onPasswordIconPress}
@@ -64,32 +95,32 @@ export const Login = ({navigation}) => {
               <Button
                 style={styles.forgotPasswordButton}
                 appearance="ghost"
-                status="control"
+                status="basic"
                 onPress={onForgotPasswordButtonPress}>
                 Forgot your password?
               </Button>
             </View>
           </Layout>
-        </View>
+        </Layout>
         <Layout style={styles.buttonContainer}>
           <Button
             style={styles.signInButton}
-            status="control"
+            status="primary"
             size="giant"
             onPress={onSignInButtonPress}>
-            SIGN IN
+            {t('SIGN_IN')}
           </Button>
 
           <Button
             style={styles.signUpButton}
-            appearance="ghost"
             status="control"
+            appearance="ghost"
             onPress={onSignUpButtonPress}>
-            Don't have an account? Sign Up
+            {t('NO_ACCOUNT')}
           </Button>
         </Layout>
       </ImageOverlay>
-    </>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -100,30 +131,32 @@ const styles = StyleSheet.create({
   headerContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    minHeight: 216,
+    // minHeight: 216,
+    flex: 1,
   },
   formContainer: {
-    flex: 1,
-    marginTop: 32,
+    flex: 2,
+    // marginTop: 32,
+    alignItems: 'center',
     paddingHorizontal: 0,
   },
+  title: {
+    fontSize: 60,
+    fontWeight: 'bold',
+  },
   inputContainer: {
-    backgroundColor: '#0E490E',
     width: '100%',
     paddingHorizontal: 20,
     paddingTop: 40,
-    opacity: 0.9,
   },
   buttonContainer: {
-    backgroundColor: '#0E490E',
-    width: '100%',
-    padding: 20,
-    paddingVertical: 40,
-    borderRadius: 5,
-    opacity: 0.9,
+    backgroundColor: 'transparent',
+    flex: 1,
+    paddingTop: 20,
   },
   signInLabel: {
     marginTop: 16,
+    alignItems: 'center',
   },
   signInButton: {
     marginHorizontal: 16,

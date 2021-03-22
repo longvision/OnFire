@@ -61,6 +61,10 @@ const resources = {
       Package_unit_is_required: 'Package unit is required.',
       Package_price_is_required: 'Package price is required.',
       $: '$',
+      NO_ACCOUNT: "Don't have an account? Sign Up here!",
+      HELLO: 'HELLO',
+      SIGN_INTO: 'Sign in to your account',
+      SIGN_IN: 'Sign In',
     },
   },
   pt: {
@@ -121,6 +125,10 @@ const resources = {
       Package_unit_is_required: 'Unidade da embalagem é necessária !',
       Package_price_is_required: 'Preço do pacote/produto é necessário !',
       $: 'R$',
+      NO_ACCOUNT: 'Não possui uma conta? Crie uma aqui!',
+      HELLO: 'Olá',
+      SIGN_INTO: 'Entre com a sua conta',
+      SIGN_IN: 'Entrar',
     },
   },
 };
