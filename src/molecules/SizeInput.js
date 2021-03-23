@@ -46,6 +46,7 @@ const SizeInputField = (
       status="basic"
       disabled={disabled}
       clearButtonMode="always"
+      onFocus={() => setFieldValue(name, '')}
       value={value}
       ref={inputRef}
       onChangeText={handleChangeText}

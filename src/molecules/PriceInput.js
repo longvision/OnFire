@@ -47,6 +47,7 @@ const PriceInputField = (
     <Input
       style={style}
       keyboardType="numeric"
+      onFocus={() => setFieldValue(name, '')}
       disabled={disabled}
       status="basic"
       value={value}
