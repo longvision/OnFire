@@ -16,7 +16,7 @@ import {useSelector, useDispatch} from 'react-redux';
 const BackIcon = (props) => <Icon {...props} name="arrow-back" />;
 export const AddIngredient = ({navigation}) => {
   const {t, i18n} = useTranslation();
-
+  const dispatch = useDispatch();
   const failed = useSelector((state) => state.measures.failed);
   const navigateBack = () => {
     navigation.goBack();

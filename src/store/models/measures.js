@@ -110,7 +110,7 @@ export const measures = createModel()({
 
         const response = await api.get(`measures/${id}`);
 
-        const data = response.data;
+        const {data} = response;
 
         dispatch.measures.list(data);
 

@@ -1,5 +1,6 @@
 import React, {useImperativeHandle, useRef, forwardRef} from 'react';
 import {Input, Icon, Text} from '@ui-kitten/components';
+import {useTranslation} from 'react-i18next';
 const PriceInputField = (
   {
     placeholder,
@@ -16,12 +17,12 @@ const PriceInputField = (
   ref,
 ) => {
   const inputRef = useRef();
-
+  const {t, i18n} = useTranslation();
   const Icon = (iconProps) => <Icon {...iconProps} name={iconName} />;
 
   function currencyFormat(num) {
     return (
-      '$' +
+      `${t('$')}` +
       Number(num)
         .toFixed(mantissa)
         .replace(/(\d)(?=(\d{3})+(?!\d)(\.\d{1,4}))/g, '$1,')
@@ -33,7 +34,9 @@ const PriceInputField = (
   };
 
   const handleBlur = () => {
-    value[0] !== '$' && setFieldValue(name, currencyFormat(value).toString());
+    if (value[0] !== '$' || value[0] !== 'R') {
+      setFieldValue(name, currencyFormat(value).toString());
+    }
   };
   useImperativeHandle(ref, () => ({
     focus: () => {
