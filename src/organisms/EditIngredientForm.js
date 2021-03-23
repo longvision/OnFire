@@ -19,13 +19,7 @@ import * as Yup from 'yup';
 import {useTranslation} from 'react-i18next';
 import {ScrollView} from 'react-native-gesture-handler';
 
-const data = [
-  {title: 'Star Wars'},
-  {title: 'Back to the Future'},
-  {title: 'The Matrix'},
-  {title: 'Inception'},
-  {title: 'Interstellar'},
-];
+const data = [];
 
 const saveIcon = (props) => <Icon {...props} name="save-outline" />;
 const editIcon = (props) => <Icon {...props} name="edit-outline" />;

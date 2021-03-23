@@ -74,6 +74,17 @@ const resources = {
       Forgot_Password: 'Forgot Password',
       Enter_email: 'Please enter your email address',
       Enter_Token: 'Enter your TOKEN',
+      Password: 'Password',
+      Password_confirmation: 'Password Confirmation',
+      Reset_failed: 'Password Reset Failure',
+      Reset_success: 'Password Reset Success',
+      Login_again: 'You can now login using your new password!',
+      Retry_reset: 'Request a new token to create a new password.',
+      Account_created: 'Account successfully created!',
+      Login_now: 'You can now access the app',
+      Complete_the_form: 'Please complete the form',
+      Terms_and_conditions:
+        'You need to read and accept the terms and conditions first',
     },
   },
   pt: {
@@ -147,7 +158,19 @@ const resources = {
         'Verifique sua caixa de entrada de email para criar uma nova senha.',
       Forgot_Password: 'Esqueci minha Senha',
       Enter_email: 'Por favor digite o seu email',
-      Enter_Token: 'Digite o seu TOKEN enviado para seu email',
+      Enter_Token: 'Digite o TOKEN enviado para seu email',
+      Password: 'Senha',
+      Password_confirmation: 'Confirmação de Senha',
+      Reset_failed: 'Erro na redefinição da senha',
+      Reset_success: 'Senha redefinida',
+      Login_again:
+        'Agora você pode logar na sua conta usando a sua senha nova.',
+      Retry_reset: 'Solicite a criação da sua senha novamente.',
+      Account_created: 'Conta criada com sucesso!',
+      Login_now: 'Agora você pode logar no aplicativo!',
+      Complete_the_form: 'Por favor complete o formulário!',
+      Terms_and_conditions:
+        'Você precisa ler e aceitar os termos e condições do aplicativo.',
     },
   },
 };

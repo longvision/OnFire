@@ -8,6 +8,7 @@ export const auth = createModel()({
     token: null,
     recoveryToken: false,
     failed: false,
+    success: false,
   },
   reducers: {
     login(state, payload) {
@@ -30,6 +31,9 @@ export const auth = createModel()({
     },
     clearStore(state) {
       return {};
+    },
+    success(state) {
+      return {...state, success: true};
     },
   },
   effects: (dispatch) => ({
@@ -61,6 +65,21 @@ export const auth = createModel()({
       dispatch.auth.signOut();
       dispatch.auth.clearStore();
     },
+    async resetAsync(payload) {
+      try {
+        const {password, confirmation, token} = payload;
+
+        await api.put('passwords', {
+          token: token.join(''),
+          password: password,
+          password_confirmation: confirmation,
+        });
+
+        dispatch.auth.success();
+      } catch (err) {
+        dispatch.auth.failed();
+      }
+    },
     async forgotPasswordAsync(payload) {
       try {
         const {email} = payload;
@@ -69,6 +88,21 @@ export const auth = createModel()({
           email: email,
         });
         dispatch.auth.forgotPassword();
+      } catch (err) {
+        dispatch.auth.failed();
+      }
+    },
+    async signUpAsync(payload) {
+      try {
+        const {email, username, password} = payload;
+
+        await api.post('users', {
+          email: email,
+          username: username,
+          password: password,
+        });
+
+        dispatch.auth.success();
       } catch (err) {
         dispatch.auth.failed();
       }

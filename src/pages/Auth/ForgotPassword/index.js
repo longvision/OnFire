@@ -108,6 +108,7 @@ export const ForgotPassword = () => {
             keyboardType="email-address"
             autoCorrect={false}
             autoCapitalize="none"
+            onSubmitEditing={onResetPasswordButtonPress}
             icon={EmailIcon}
             value={email}
             onChangeText={setEmail}

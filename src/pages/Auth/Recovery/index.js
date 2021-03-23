@@ -25,12 +25,13 @@ export const Recovery = () => {
   const Nref = useRef(null);
   const passRef = useRef();
   const confirmRef = useRef();
-  const failed = useSelector((state) => state.auth.failed);
-  const recoveryAlert = useSelector((state) => state.auth.recoveryToken);
+  const fail = useSelector((state) => state.auth.failed);
+  const success = useSelector((state) => state.auth.success);
+
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const [token, setToken] = useState([]);
-  const [email, setEmail] = useState('');
+  const [pass, setPass] = useState('');
   const [confirm, setConfirm] = useState('');
 
   const navigateBack = () => {
@@ -45,15 +46,18 @@ export const Recovery = () => {
     />
   );
   const handleSubmit = () => {
-    // dispatch.auth.forgotPasswordAsync({email: email});
-    // navigation.goBack();
+    dispatch.auth.resetAsync({
+      password: pass,
+      confirmation: confirm,
+      token: token,
+    });
   };
 
   React.useEffect(() => {
-    failed &&
+    fail &&
       Alert.alert(
-        t('Invalid_Email'),
-        t('Check_Email'),
+        t('Reset_failed'),
+        t('Retry_reset'),
         [
           {
             text: 'Ok',
@@ -70,15 +74,16 @@ export const Recovery = () => {
           },
         },
       );
-    recoveryAlert &&
+    success &&
       Alert.alert(
-        t('Valid_Email'),
-        t('Check_Inbox'),
+        t('Reset_success'),
+        t('Login_again'),
         [
           {
             text: 'Ok',
             onPress: () => {
               dispatch.auth.alertOff();
+              navigation.navigate('Login');
             },
             style: 'default',
           },
@@ -87,10 +92,11 @@ export const Recovery = () => {
           cancelable: true,
           onDismiss: () => {
             dispatch.auth.alertOff();
+            navigation.navigate('Login');
           },
         },
       );
-  }, []);
+  }, [success, fail]);
 
   return (
     <ImageOverlay
@@ -237,15 +243,15 @@ export const Recovery = () => {
             onSubmitEditing={() => {
               confirmRef.current.focus();
             }}
-            placeholder="Password"
+            onFocus={() => setPass('')}
+            placeholder={t('Password')}
             ref={passRef}
             keyboardType="default"
             secureTextEntry={true}
             autoCapitalize="none"
             autoCorrect={false}
-            accessoryRight={EmailIcon}
-            value={email}
-            onChangeText={setEmail}
+            value={pass}
+            onChangeText={setPass}
           />
         </View>
 
@@ -253,14 +259,14 @@ export const Recovery = () => {
           <Input
             returnKeyType="send"
             status="control"
-            placeholder="Password_confirmation"
+            onFocus={() => setConfirm('')}
+            placeholder={t('Password_confirmation')}
             ref={confirmRef}
             keyboardType="default"
             autoCapitalize="none"
             secureTextEntry={true}
             autoCorrect={false}
             onSubmitEditing={handleSubmit}
-            accessoryRight={EmailIcon}
             value={confirm}
             onChangeText={setConfirm}
           />
