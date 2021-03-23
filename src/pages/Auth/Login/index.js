@@ -30,7 +30,7 @@ export const Login = () => {
   };
 
   const onSignUpButtonPress = () => {
-    navigation.navigate('Login');
+    navigation.navigate('SignUp');
   };
 
   const onForgotPasswordButtonPress = () => {
@@ -48,12 +48,11 @@ export const Login = () => {
       <ImageOverlay
         style={styles.container}
         source={require('./images/Sesame-Steak-Salad.jpeg')}>
-        <View style={styles.headerContainer}>
+        <View style={styles.formContainer} level="4">
           <Layout
             style={{
               // Transparent background because mask is based off alpha channel.
               backgroundColor: 'transparent',
-              flex: 1,
               justifyContent: 'center',
               alignItems: 'center',
             }}>
@@ -61,17 +60,16 @@ export const Login = () => {
               {t('Hello')}
             </Text>
           </Layout>
-        </View>
-        <Layout style={styles.formContainer} level="4">
-          <Text style={styles.signInLabel} category="s1" status="basic">
-            {t('SIGN_INTO')}
-          </Text>
-          <Layout style={styles.inputContainer} level="4">
+
+          <ImageOverlay style={styles.inputContainer}>
+            <Text style={styles.signInLabel} category="s1" status="control">
+              {t('SIGN_INTO')}
+            </Text>
             <Input
-              status="primary"
+              status="control"
               placeholder="Email"
               autoCapitalize="none"
-              icon={PersonIcon}
+              accessoryRight={PersonIcon}
               ref={emailRef}
               returnKeyType="next"
               onSubmitEditing={() => {
@@ -82,10 +80,10 @@ export const Login = () => {
             />
             <Input
               style={styles.passwordInput}
-              status="primary"
+              status="control"
               placeholder="Password"
               returnKeyType="done"
-              icon={passwordVisible ? EyeIcon : EyeOffIcon}
+              accessoryRight={passwordVisible ? EyeIcon : EyeOffIcon}
               value={password}
               ref={passwordLoginRef}
               secureTextEntry={!passwordVisible}
@@ -97,14 +95,14 @@ export const Login = () => {
               <Button
                 style={styles.forgotPasswordButton}
                 appearance="ghost"
-                status="basic"
+                status="control"
                 onPress={onForgotPasswordButtonPress}>
-                Forgot your password?
+                {t('FORGOT_PASS')}
               </Button>
             </View>
-          </Layout>
-        </Layout>
-        <Layout style={styles.buttonContainer}>
+          </ImageOverlay>
+        </View>
+        <ImageOverlay style={styles.buttonContainer}>
           <Button
             style={styles.signInButton}
             status="primary"
@@ -112,15 +110,16 @@ export const Login = () => {
             onPress={onSignInButtonPress}>
             {t('SIGN_IN')}
           </Button>
-
-          <Button
-            style={styles.signUpButton}
-            status="control"
-            appearance="ghost"
-            onPress={onSignUpButtonPress}>
-            {t('NO_ACCOUNT')}
-          </Button>
-        </Layout>
+          <ImageOverlay style={styles.noAccount}>
+            <Button
+              style={styles.signUpButton}
+              status="control"
+              appearance="ghost"
+              onPress={onSignUpButtonPress}>
+              {t('NO_ACCOUNT')}
+            </Button>
+          </ImageOverlay>
+        </ImageOverlay>
       </ImageOverlay>
     </KeyboardAvoidingView>
   );
@@ -129,6 +128,7 @@ export const Login = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    overlayColor: 'rgba(0, 0, 0, 0.250)',
   },
   headerContainer: {
     justifyContent: 'center',
@@ -136,15 +136,21 @@ const styles = StyleSheet.create({
     // minHeight: 216,
     flex: 1,
   },
+  noAccount: {
+    height: 44,
+    overlayColor: 'rgba(0, 0, 0, 0.0)',
+    marginTop: 22,
+    marginBottom: 44,
+  },
   formContainer: {
-    flex: 2,
-    // marginTop: 32,
+    flex: 1,
+    marginTop: 152,
     alignItems: 'center',
-    paddingHorizontal: 0,
   },
   title: {
     fontSize: 60,
     fontWeight: 'bold',
+    marginBottom: 50,
   },
   inputContainer: {
     width: '100%',
@@ -153,19 +159,19 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     backgroundColor: 'transparent',
-    flex: 1,
+    overlayColor: 'rgba(0, 128, 51, 0.550)',
+    // flex: 1,
     paddingTop: 20,
   },
   signInLabel: {
-    marginTop: 16,
+    marginBottom: 16,
     alignItems: 'center',
   },
   signInButton: {
-    marginHorizontal: 16,
+    marginHorizontal: 10,
   },
   signUpButton: {
-    marginVertical: 12,
-    marginHorizontal: 16,
+    // marginHorizontal: 16,
   },
   forgotPasswordContainer: {
     flexDirection: 'row',

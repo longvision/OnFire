@@ -1,10 +1,13 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {createModel} from '@rematch/core';
+import {Alert} from 'react-native';
 import api from '../../services/api';
 
 export const auth = createModel()({
   state: {
     token: null,
+    recoveryToken: false,
+    failed: false,
   },
   reducers: {
     login(state, payload) {
@@ -15,6 +18,15 @@ export const auth = createModel()({
     },
     signOut(state) {
       return {...state, token: null};
+    },
+    forgotPassword(state) {
+      return {...state, recoveryToken: true};
+    },
+    failed(state) {
+      return {...state, failed: true};
+    },
+    understood(state) {
+      return {...state, failed: false, recoveryToken: false};
     },
     clearStore(state) {
       return {};
@@ -39,7 +51,7 @@ export const auth = createModel()({
 
           // api.defaults.headers.Authorization = `Bearer ${token}`;
 
-          dispatch.auth.login({token});
+          dispatch.auth.login({token: token});
         }
 
         // history.push('/dashboard');
@@ -48,6 +60,21 @@ export const auth = createModel()({
     async signOutAsync() {
       dispatch.auth.signOut();
       dispatch.auth.clearStore();
+    },
+    async forgotPasswordAsync(payload) {
+      try {
+        const {email} = payload;
+
+        await api.post('passwords', {
+          email: email,
+        });
+        dispatch.auth.forgotPassword();
+      } catch (err) {
+        dispatch.auth.failed();
+      }
+    },
+    async alertOff() {
+      dispatch.auth.understood();
     },
   }),
 });

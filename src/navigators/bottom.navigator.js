@@ -10,7 +10,7 @@ import {Icon} from '@ui-kitten/components';
 const Tab = createBottomTabNavigator();
 // const FeedIcon = (props) => <Icon {...props} name="home-outline" />;
 
-// const PostIcon = (props) => <Icon {...props} name="plus-circle-outline" />;
+const PostIcon = (props) => <Icon {...props} name="plus-circle-outline" />;
 
 // const SearchIcon = (props) => <Icon {...props} name="search-outline" />;
 const MainNavigator = () => {
@@ -44,8 +44,7 @@ const MainNavigator = () => {
         component={KitchenStack}
         options={{
           unmountOnBlur: false,
-
-          tabBarIcon: ({focused, color, size}) => (
+          tabBarIcon: ({focused, color, size, ...props}) => (
             <Icon name="search-outline" />
           ),
         }}
@@ -55,8 +54,9 @@ const MainNavigator = () => {
         component={SettingsStack}
         options={{
           unmountOnBlur: true,
-
-          tabBarIcon: ({focused, color, size}) => <Icon name="settings" />,
+          tabBarIcon: ({focused, color, size, ...props}) => (
+            <Icon {...props} name="plus-circle-outline" />
+          ),
         }}
       />
     </Tab.Navigator>

@@ -17,8 +17,11 @@ import {
   PlusIcon,
 } from './extra/icons.js';
 import {KeyboardAvoidingView} from './extra/3rd-party';
+import {useNavigation} from '@react-navigation/core';
+import {ImageOverlay} from '../Login/extra/image-overlay';
 
-export const SignUp = ({navigation}) => {
+export const SignUp = () => {
+  const navigation = useNavigation();
   const [userName, setUserName] = React.useState();
   const [email, setEmail] = React.useState();
   const [password, setPassword] = React.useState();
@@ -28,11 +31,11 @@ export const SignUp = ({navigation}) => {
   const styles = useStyleSheet(themedStyles);
 
   const onSignUpButtonPress = () => {
-    navigation && navigation.navigate('SignUp2');
+    navigation.navigate('SignUp2');
   };
 
   const onSignInButtonPress = () => {
-    navigation && navigation.navigate('SignIn3');
+    navigation.navigate('SignIn3');
   };
 
   const onPasswordIconPress = () => {
@@ -45,14 +48,18 @@ export const SignUp = ({navigation}) => {
 
   return (
     <KeyboardAvoidingView style={styles.container}>
-      <View style={styles.headerContainer}>
-        <ProfileAvatar
+      {/* <View style={styles.headerContainer}> */}
+      <ImageOverlay
+        style={styles.headerContainer}
+        source={require('./assets/ramen.jpeg')}
+      />
+      {/* <ProfileAvatar
           style={styles.profileAvatar}
           resizeMode="center"
           source={require('./assets/image-person.png')}
           editButton={renderEditAvatarButton}
-        />
-      </View>
+        /> */}
+      {/* </View> */}
       <Layout style={styles.formContainer} level="1">
         <Input
           autoCapitalize="none"
