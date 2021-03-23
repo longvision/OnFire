@@ -66,7 +66,7 @@ const AddMeasureForm = () => {
       // quantityRef.current.focus();
       return () => {
         // alert('Screen was unfocused');
-        dispatch.measures.getAsync({id: productId});
+        // dispatch.measures.getAsync({id: productId});
         // Do something when the screen is unfocused
         // Useful for cleanup functions
       };

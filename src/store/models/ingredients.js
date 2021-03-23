@@ -30,13 +30,13 @@ export const ingredients = createModel()({
         selectedId: payload,
       };
     },
-    failed(state, payload) {
+    failed(state) {
       return {
         ...state,
         failed: true,
       };
     },
-    understood(state, payload) {
+    understood(state) {
       return {
         ...state,
         failed: false,
@@ -67,7 +67,7 @@ export const ingredients = createModel()({
         });
 
         const {data} = response;
-        dispatch.ingredients.add(data);
+        // dispatch.ingredients.add(data);
         // console.log(data);
       } catch (err) {
         dispatch.measures.failed();
@@ -99,9 +99,7 @@ export const ingredients = createModel()({
         dispatch.ingredients.setSelected(data);
 
         // history.push('/dashboard');
-      } catch (err) {
-        console.log(err);
-      }
+      } catch (err) {}
     },
     async updateAsync(payload, rootState) {
       try {
@@ -118,9 +116,7 @@ export const ingredients = createModel()({
           sold_region: values.region,
           brand: values.brand,
         });
-      } catch (err) {
-        console.log(err);
-      }
+      } catch (err) {}
     },
     async setSelectedIdAsync(payload) {
       dispatch.ingredients.setSelectedId(payload);

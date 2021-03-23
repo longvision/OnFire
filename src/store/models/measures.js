@@ -21,6 +21,12 @@ export const measures = createModel()({
         measures: payload,
       };
     },
+    addMeasure(state, payload) {
+      return {
+        ...state,
+        measures: [...state.measures, payload],
+      };
+    },
     setSelected(state, payload) {
       return {
         ...state,
@@ -48,6 +54,10 @@ export const measures = createModel()({
     add(state, payload) {
       return {...state, ingredients: [...state.ingredients, payload]};
     },
+    delete(state, payload) {
+      const newArray = state.measures.filter((item) => item.id !== payload);
+      return {...state, measures: newArray};
+    },
   },
   effects: (dispatch) => ({
     async alertOff(payload, rootState) {
@@ -65,12 +75,14 @@ export const measures = createModel()({
 
         api.defaults.headers.Authorization = `Bearer ${rootState.auth.token}`;
 
-        await api.post('measure', {
+        const measure = await api.post('measure', {
           product_id: productId,
           quantity: checkDollarSign(values.quantity),
           ingredient_id: ingredientId,
           unit: values.unit,
         });
+
+        dispatch.measures.addMeasure(measure.data);
       } catch (err) {
         dispatch.measures.failed();
       }
@@ -100,12 +112,10 @@ export const measures = createModel()({
 
         const data = response.data;
 
-        dispatch.measures.setSelected(data);
+        dispatch.measures.list(data);
 
         // history.push('/dashboard');
-      } catch (err) {
-        console.log(err);
-      }
+      } catch (err) {}
     },
     async updateAsync(payload, rootState) {
       try {
@@ -122,9 +132,7 @@ export const measures = createModel()({
           sold_region: values.region,
           brand: values.brand,
         });
-      } catch (err) {
-        console.log(err);
-      }
+      } catch (err) {}
     },
     async setSelectedIdAsync(payload) {
       dispatch.ingredients.setSelectedId(payload);
@@ -138,9 +146,8 @@ export const measures = createModel()({
         const {id} = payload;
 
         await api.delete(`measure/${id}`);
-      } catch (err) {
-        console.log(err);
-      }
+        dispatch.measures.delete(id);
+      } catch (err) {}
     },
   }),
 });

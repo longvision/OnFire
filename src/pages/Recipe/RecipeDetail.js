@@ -20,7 +20,7 @@ export const RecipeDetail = ({navigation}) => {
   const [totalCost, setTotalCost] = useState(0);
   const [totalCount, setTotalCount] = useState(0);
   const ingredients = useSelector((state) => state.ingredients.ingredients);
-  const measures = useSelector((state) => state.measures.selected);
+  const measures = useSelector((state) => state.measures.measures);
   const selectedRecipeId = useSelector((state) => state.recipes.selected.id);
 
   const navigateBack = () => {
@@ -58,7 +58,7 @@ export const RecipeDetail = ({navigation}) => {
 
   //Atualiza a lista toda vez que se cria ou se deleta um item novo.
   React.useEffect(() => {
-    dispatch.measures.getAsync({id: selectedRecipeId});
+    //   dispatch.measures.getAsync({id: selectedRecipeId});
   }, [loadingCreate, loadingDelete]);
 
   return (

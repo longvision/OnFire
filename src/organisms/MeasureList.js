@@ -27,7 +27,7 @@ export const MeasureList = ({
 }) => {
   const {t, i18n} = useTranslation();
   const dispatch = useDispatch();
-  const measures = useSelector((state) => state.measures.selected);
+  const measures = useSelector((state) => state.measures.measures);
   const renderItemIcon = (props) => <Icon {...props} name="trash-outline" />;
 
   const renderItem = ({item, index}) => (
