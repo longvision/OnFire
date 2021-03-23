@@ -55,7 +55,7 @@ export const ingredients = createModel()({
         const {brand, ingredient, price, region, seller, size, unit} = payload;
 
         api.defaults.headers.Authorization = `Bearer ${rootState.auth.token}`;
-        console.log(price);
+
         const response = await api.post('ingredient', {
           name: ingredient,
           brand: brand,
@@ -68,7 +68,6 @@ export const ingredients = createModel()({
 
         const {data} = response;
         // dispatch.ingredients.add(data);
-        // console.log(data);
       } catch (err) {
         dispatch.measures.failed();
       }

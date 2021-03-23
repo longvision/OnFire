@@ -42,8 +42,6 @@ export const recipes = createModel()({
           title: name,
           description: description,
         });
-
-        // console.log(data);
       } catch (err) {}
     },
     async listAsync(payload, rootState) {
