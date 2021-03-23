@@ -73,7 +73,7 @@ export const MyKitchen = ({navigation}) => {
           selectedIndex={selectedIndex}
           onSelect={onSelect}
           tabsArray={[t('Recipes'), t('Ingredients')]}>
-          <Tab title={t('RECIPES')}>
+          <Tab title={t('RECIPES')} style={{height: 44}}>
             <RecipeListTemplate
               addIcon={AddIcon}
               iconName={EditIcon}
@@ -81,7 +81,7 @@ export const MyKitchen = ({navigation}) => {
               recipes={recipes}
             />
           </Tab>
-          <Tab title={t('INGREDIENTS')}>
+          <Tab title={t('INGREDIENTS')} style={{height: 44}}>
             <IngredientListTemplate
               ingredients={ingredients}
               navigation={navigation}

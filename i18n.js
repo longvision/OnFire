@@ -85,6 +85,9 @@ const resources = {
       Complete_the_form: 'Please complete the form',
       Terms_and_conditions:
         'You need to read and accept the terms and conditions first',
+      SETTINGS: 'SETTINGS',
+      Settings: 'Settings',
+      KITCHEN: 'KITCHEN',
     },
   },
   pt: {
@@ -171,6 +174,9 @@ const resources = {
       Complete_the_form: 'Por favor complete o formulário!',
       Terms_and_conditions:
         'Você precisa ler e aceitar os termos e condições do aplicativo.',
+      KITCHEN: 'COZINHA',
+      SETTINGS: 'AJUSTES',
+      Settings: 'Ajustes',
     },
   },
 };

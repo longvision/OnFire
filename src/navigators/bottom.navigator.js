@@ -6,6 +6,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import KitchenStack from './kitchen.navigator';
 import SettingsStack from './settings.navigator';
 import {Icon} from '@ui-kitten/components';
+import {useTranslation} from 'react-i18next';
 
 const Tab = createBottomTabNavigator();
 // const FeedIcon = (props) => <Icon {...props} name="home-outline" />;
@@ -14,6 +15,7 @@ const PostIcon = (props) => <Icon {...props} name="plus-circle-outline" />;
 
 // const SearchIcon = (props) => <Icon {...props} name="search-outline" />;
 const MainNavigator = () => {
+  const {t, i18n} = useTranslation();
   return (
     <Tab.Navigator
       tabBarOptions={{
@@ -40,7 +42,7 @@ const MainNavigator = () => {
         }}
       /> */}
       <Tab.Screen
-        name="KITCHEN"
+        name={t('KITCHEN')}
         component={KitchenStack}
         options={{
           unmountOnBlur: false,
@@ -50,7 +52,7 @@ const MainNavigator = () => {
         }}
       />
       <Tab.Screen
-        name="SETTINGS"
+        name={t('SETTINGS')}
         component={SettingsStack}
         options={{
           unmountOnBlur: true,

@@ -55,13 +55,14 @@ const RecipeDetailTemplate = ({
 
   return (
     <Layout
+      level="1"
       style={{
-        justifyContent: 'flex-start',
+        justifyContent: 'center',
         alignItems: 'center',
         display: 'flex',
         flex: 1,
       }}>
-      <MeasureList img={true} cta={t('DELETE')} height="68%" width="92%" />
+      <MeasureList img={true} cta={t('DELETE')} height="78%" width="92%" />
 
       <Layout
         style={{

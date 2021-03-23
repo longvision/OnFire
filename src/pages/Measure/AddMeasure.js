@@ -69,7 +69,6 @@ export const AddMeasure = () => {
       <Divider />
       <Layout
         style={{
-          flex: 1,
           justifyContent: 'flex-end',
           alignItems: 'center',
         }}>

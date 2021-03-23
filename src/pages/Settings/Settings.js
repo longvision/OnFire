@@ -29,7 +29,7 @@ export const Settings = ({navigation}) => {
   return (
     <SafeAreaView style={{flex: 1}}>
       <TopNavigation
-        title={t('Recipes')}
+        title={t('Settings')}
         alignment="center"
         accessoryLeft={BackAction}
       />
