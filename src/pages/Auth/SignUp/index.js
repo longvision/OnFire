@@ -141,7 +141,7 @@ export const SignUp = () => {
           }}
           accessoryRight={PersonIcon}
           value={userName}
-          onChangeText={setUserName}
+          onChangeText={(text) => setUserName(text.toLowerCase())}
         />
         <Input
           style={styles.emailInput}
