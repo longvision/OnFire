@@ -27,7 +27,7 @@ const SizeInputField = (
 
   const handleChangeText = (text) => {
     // const val = Number(text);
-    setFieldValue(name, text);
+    setFieldValue(name, text.replace(/,/g, '.'));
   };
 
   const handleBlur = () => {
@@ -42,7 +42,7 @@ const SizeInputField = (
   return (
     <Input
       style={styles}
-      keyboardType="numeric"
+      keyboardType="decimal-pad"
       status="basic"
       disabled={disabled}
       clearButtonMode="always"
