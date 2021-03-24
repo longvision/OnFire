@@ -1,5 +1,5 @@
 {
-  "name": "OnFire",
+  "name": "Grammage",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -22,6 +22,9 @@
     "@rematch/persist": "^2.0.1",
     "@ui-kitten/components": "^5.0.0",
     "@ui-kitten/eva-icons": "^5.0.0",
+    "appcenter": "4.0.2",
+    "appcenter-analytics": "4.0.2",
+    "appcenter-crashes": "4.0.2",
     "axios": "^0.21.1",
     "formik": "^2.2.6",
     "i18next": "^19.9.2",

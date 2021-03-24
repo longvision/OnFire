@@ -14,7 +14,7 @@ const persistPlugin = createPersistPlugin({
 });
 
 const store = init({
-  name: 'OnFire',
+  name: 'Grammage',
   redux: {
     createStore: Reactotron.createStore,
     enhancers: [Reactotron.createEnhancer()],
