@@ -27,13 +27,13 @@ import {current} from 'immer';
 import {useTranslation} from 'react-i18next';
 
 const unitsArray = ['mL', 'g', 'L', 'KG'];
-const saveIcon = (props) => <Icon {...props} name="save-outline" />;
+const saveIcon = props => <Icon {...props} name="save-outline" />;
 
-const AddIcon = (props) => <Icon {...props} name="plus-outline" />;
+const AddIcon = props => <Icon {...props} name="plus-outline" />;
 const AddMeasureForm = () => {
   const {t, i18n} = useTranslation();
-  const ingredients = useSelector((state) => state.ingredients.ingredients);
-  const productId = useSelector((state) => state.recipes.selected.id);
+  const ingredients = useSelector(state => state.ingredients.ingredients);
+  const productId = useSelector(state => state.recipes.selected.id);
   const navigation = useNavigation();
   const unitAvailableRef = useRef();
 
@@ -51,7 +51,7 @@ const AddMeasureForm = () => {
   const [selectedId, setSelectedId] = React.useState();
 
   const loadingAddList = useSelector(
-    (state) => state.loading.effects.ingredients.addAsync,
+    state => state.loading.effects.ingredients.addAsync,
   );
   const AddMeasureSchema = Yup.object().shape({
     ingredient: Yup.string().required(t('Ingredient_name_is_required')),
@@ -74,7 +74,7 @@ const AddMeasureForm = () => {
   );
 
   useEffect(() => {
-    const listItems = ingredients.map((item) => item.name);
+    const listItems = ingredients.map(item => item.name);
     setOptionsArray(listItems);
   }, [ingredients]);
 
@@ -86,7 +86,7 @@ const AddMeasureForm = () => {
         quantity: '',
       }}
       validationSchema={AddMeasureSchema}
-      onSubmit={(values) => {
+      onSubmit={values => {
         dispatch.measures.addAsync({
           values: values,
           productId: productId,
@@ -129,15 +129,15 @@ const AddMeasureForm = () => {
                   onBlur={() => listRef.current.blur()}
                   data={optionsArray}
                   selectedIndex={selectedIngredientIndex}
-                  handlePressItem={(item) => {
+                  handlePressItem={item => {
                     const indexOfItem = ingredients.filter(
-                      (i) => i.name === item,
+                      i => i.name === item,
                     );
                     setSelectedId(indexOfItem[0].id);
 
                     setFieldValue('ingredient', item);
                   }}
-                  onSelect={(index) => {
+                  onSelect={index => {
                     setSelectedIngredientIndex(index);
                   }}
                 />
@@ -161,7 +161,7 @@ const AddMeasureForm = () => {
                   name="unit"
                   data={unitsArray}
                   selectedIndex={selectedUnitIndex}
-                  onSelect={(index) => {
+                  onSelect={index => {
                     setSelectedUnitIndex(index);
                     setFieldValue('unit', unitsArray[index.row]);
                     quantityRef.current.focus();
