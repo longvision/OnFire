@@ -30,7 +30,7 @@ const PriceInputField = (
   }
 
   const handleChangeText = (text) => {
-    setFieldValue(name, text.replace(/,/g, '.'));
+    setFieldValue(name, text);
   };
 
   const handleBlur = () => {

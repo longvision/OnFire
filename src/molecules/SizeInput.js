@@ -27,7 +27,7 @@ const SizeInputField = (
 
   const handleChangeText = (text) => {
     // const val = Number(text);
-    setFieldValue(name, text.replace(/,/g, '.'));
+    setFieldValue(name, text);
   };
 
   const handleBlur = () => {
