@@ -30,7 +30,7 @@ const PriceInputField = (
   }
 
   const handleChangeText = (text) => {
-    setFieldValue(name, text);
+    setFieldValue(name, text.replace(/,/g, '.'));
   };
 
   const handleBlur = () => {
@@ -46,7 +46,7 @@ const PriceInputField = (
   return (
     <Input
       style={style}
-      keyboardType="numeric"
+      keyboardType="decimal-pad"
       onFocus={() => setFieldValue(name, '')}
       disabled={disabled}
       status="basic"
