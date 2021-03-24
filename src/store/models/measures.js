@@ -4,9 +4,7 @@ import api from '../../services/api';
 import tron from '../../config/ReactotronConfig';
 
 import {checkDollarSign} from '../../utils/functions';
-import {connect} from 'formik';
-import {Alert} from 'react-native';
-import {Trans} from 'react-i18next';
+
 export const measures = createModel()({
   state: {
     measures: [],
@@ -74,10 +72,10 @@ export const measures = createModel()({
         const {values, productId, ingredientId} = payload;
 
         api.defaults.headers.Authorization = `Bearer ${rootState.auth.token}`;
-
+        console.log(values);
         const measure = await api.post('measure', {
           product_id: productId,
-          quantity: checkDollarSign(values.quantity),
+          quantity: values.quantity,
           ingredient_id: ingredientId,
           unit: values.unit,
         });

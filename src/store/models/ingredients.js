@@ -67,7 +67,7 @@ export const ingredients = createModel()({
         });
 
         const {data} = response;
-        // dispatch.ingredients.add(data);
+        dispatch.ingredients.add(data);
       } catch (err) {
         dispatch.measures.failed();
       }
