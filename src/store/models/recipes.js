@@ -42,8 +42,6 @@ export const recipes = createModel()({
           title: name,
           description: description,
         });
-
-        // console.log(data);
       } catch (err) {}
     },
     async listAsync(payload, rootState) {
@@ -66,31 +64,9 @@ export const recipes = createModel()({
         api.defaults.headers.Authorization = `Bearer ${rootState.auth.token}`;
         const {id} = payload;
         await api.delete(`product/${id}`);
-
-        // history.push('/dashboard');
-      } catch (err) {
-        console.log(err);
-      }
+      } catch (err) {}
     },
-    // async updateAsync(payload, rootState) {
-    //   try {
-    //     api.defaults.headers.Authorization = `Bearer ${rootState.auth.token}`;
-    //     const {values, id} = payload;
 
-    //     await api.patch(`ingredient/${id}`, {
-    //       id: id,
-    //       name: values.ingredient,
-    //       package_price: checkDollarSign(values.price),
-    //       package_size: values.size,
-    //       unit: values.unit,
-    //       seller: values.seller,
-    //       sold_region: values.region,
-    //       brand: values.brand,
-    //     });
-    //   } catch (err) {
-    //     console.log(err);
-    //   }
-    // },
     async setSelectedAsync(payload) {
       dispatch.recipes.setSelected(payload);
     },

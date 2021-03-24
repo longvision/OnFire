@@ -1,14 +1,28 @@
-import React from 'react';
-import {StyleSheet, View, ImageBackground, Image} from 'react-native';
+import React, {useEffect, useRef} from 'react';
+import {
+  StyleSheet,
+  View,
+  ImageBackground,
+  Platform,
+  Image,
+  Keyboard,
+} from 'react-native';
 import {Button, Input, Text, Layout} from '@ui-kitten/components';
 import {ImageOverlay} from './extra/image-overlay.js';
 import {EyeIcon, EyeOffIcon, PersonIcon} from './extra/icons';
 import {KeyboardAvoidingView} from './extra/3rd-party';
 import {useDispatch} from 'react-redux';
-export const Login = ({navigation}) => {
+import {useTranslation} from 'react-i18next';
+import {useNavigation} from '@react-navigation/core';
+
+export const Login = () => {
+  const {t, i18n} = useTranslation();
+  const navigation = useNavigation();
   const [email, setEmail] = React.useState();
   const [password, setPassword] = React.useState();
   const [passwordVisible, setPasswordVisible] = React.useState(false);
+  const emailRef = useRef(null);
+  const passwordLoginRef = useRef(null);
   const dispatch = useDispatch();
   const onSignInButtonPress = () => {
     // navigation && navigation.navigate('');
@@ -16,11 +30,11 @@ export const Login = ({navigation}) => {
   };
 
   const onSignUpButtonPress = () => {
-    navigation && navigation.navigate('Login');
+    navigation.navigate('SignUp');
   };
 
   const onForgotPasswordButtonPress = () => {
-    navigation && navigation.navigate('ForgotPassword');
+    navigation.navigate('ForgotPassword');
   };
 
   const onPasswordIconPress = () => {
@@ -28,25 +42,39 @@ export const Login = ({navigation}) => {
   };
 
   return (
-    <>
+    <KeyboardAvoidingView
+      enabled
+      behavior={Platform.OS === 'ios' ? 'padding' : null}>
       <ImageOverlay
         style={styles.container}
         source={require('./images/Sesame-Steak-Salad.jpeg')}>
-        <View style={styles.headerContainer}>
-          <Text category="h1" status="control">
-            Hello
-          </Text>
-          <Text style={styles.signInLabel} category="s1" status="control">
-            Sign in to your account
-          </Text>
-        </View>
-        <View style={styles.formContainer}>
-          <Layout style={styles.inputContainer}>
+        <View style={styles.formContainer} level="4">
+          <Layout
+            style={{
+              // Transparent background because mask is based off alpha channel.
+              backgroundColor: 'transparent',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Text category="h1" status="control" style={styles.title}>
+              {t('Hello')}
+            </Text>
+          </Layout>
+
+          <ImageOverlay style={styles.inputContainer}>
+            <Text style={styles.signInLabel} category="s1" status="control">
+              {t('SIGN_INTO')}
+            </Text>
             <Input
               status="control"
               placeholder="Email"
               autoCapitalize="none"
-              icon={PersonIcon}
+              accessoryRight={PersonIcon}
+              ref={emailRef}
+              returnKeyType="next"
+              onSubmitEditing={() => {
+                passwordLoginRef.current.focus();
+              }}
               value={email}
               onChangeText={setEmail}
             />
@@ -54,9 +82,12 @@ export const Login = ({navigation}) => {
               style={styles.passwordInput}
               status="control"
               placeholder="Password"
-              icon={passwordVisible ? EyeIcon : EyeOffIcon}
+              returnKeyType="done"
+              accessoryRight={passwordVisible ? EyeIcon : EyeOffIcon}
               value={password}
+              ref={passwordLoginRef}
               secureTextEntry={!passwordVisible}
+              onSubmitEditing={onSignInButtonPress}
               onChangeText={setPassword}
               onIconPress={onPasswordIconPress}
             />
@@ -66,71 +97,81 @@ export const Login = ({navigation}) => {
                 appearance="ghost"
                 status="control"
                 onPress={onForgotPasswordButtonPress}>
-                Forgot your password?
+                {t('FORGOT_PASS')}
               </Button>
             </View>
-          </Layout>
+          </ImageOverlay>
         </View>
-        <Layout style={styles.buttonContainer}>
+        <ImageOverlay style={styles.buttonContainer}>
           <Button
             style={styles.signInButton}
-            status="control"
+            status="primary"
             size="giant"
             onPress={onSignInButtonPress}>
-            SIGN IN
+            {t('SIGN_IN')}
           </Button>
-
-          <Button
-            style={styles.signUpButton}
-            appearance="ghost"
-            status="control"
-            onPress={onSignUpButtonPress}>
-            Don't have an account? Sign Up
-          </Button>
-        </Layout>
+          <ImageOverlay style={styles.noAccount}>
+            <Button
+              style={styles.signUpButton}
+              status="control"
+              appearance="ghost"
+              onPress={onSignUpButtonPress}>
+              {t('NO_ACCOUNT')}
+            </Button>
+          </ImageOverlay>
+        </ImageOverlay>
       </ImageOverlay>
-    </>
+    </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    overlayColor: 'rgba(0, 0, 0, 0.250)',
   },
   headerContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    minHeight: 216,
+    // minHeight: 216,
+    flex: 1,
+  },
+  noAccount: {
+    height: 44,
+    overlayColor: 'rgba(0, 0, 0, 0.0)',
+    marginTop: 22,
+    marginBottom: 44,
   },
   formContainer: {
     flex: 1,
-    marginTop: 32,
-    paddingHorizontal: 0,
+    marginTop: 152,
+    alignItems: 'center',
+  },
+  title: {
+    fontSize: 60,
+    fontWeight: 'bold',
+    marginBottom: 50,
   },
   inputContainer: {
-    backgroundColor: '#0E490E',
     width: '100%',
     paddingHorizontal: 20,
     paddingTop: 40,
-    opacity: 0.9,
   },
   buttonContainer: {
-    backgroundColor: '#0E490E',
-    width: '100%',
-    padding: 20,
-    paddingVertical: 40,
-    borderRadius: 5,
-    opacity: 0.9,
+    backgroundColor: 'transparent',
+    overlayColor: 'rgba(0, 128, 51, 0.550)',
+    // flex: 1,
+    paddingTop: 20,
   },
   signInLabel: {
-    marginTop: 16,
+    marginBottom: 16,
+    alignItems: 'center',
   },
   signInButton: {
-    marginHorizontal: 16,
+    marginHorizontal: 10,
   },
   signUpButton: {
-    marginVertical: 12,
-    marginHorizontal: 16,
+    // marginHorizontal: 16,
   },
   forgotPasswordContainer: {
     flexDirection: 'row',

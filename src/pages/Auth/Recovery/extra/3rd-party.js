@@ -1,4 +1,5 @@
 import React from 'react';
+import {ScrollViewProps} from 'react-native';
 
 /**
  * https://github.com/APSL/react-native-keyboard-aware-scroll-view

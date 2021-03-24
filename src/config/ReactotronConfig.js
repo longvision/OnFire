@@ -1,4 +1,7 @@
-import Reactotron, {trackGlobalErrors} from 'reactotron-react-native';
+import Reactotron, {
+  trackGlobalErrors,
+  networking,
+} from 'reactotron-react-native';
 import {reactotronRedux} from 'reactotron-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -16,6 +19,7 @@ const tron = Reactotron.setAsyncStorageHandler(AsyncStorage) // AsyncStorage wou
     errors: {veto: (stackFrame) => false}, // or turn it off with false
     overlay: false, // just turning off overlay
   })
+  .use(networking())
   .use(reactotronRedux())
   .use(trackGlobalErrors())
   .connect();

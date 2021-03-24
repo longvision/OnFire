@@ -1,11 +1,13 @@
 import React from 'react';
 import * as eva from '@eva-design/eva';
+
 import {
   ApplicationProvider,
   IconRegistry,
   Spinner,
 } from '@ui-kitten/components';
 import {EvaIconsPack} from '@ui-kitten/eva-icons';
+
 import {AppNavigator} from './src/navigators/navigation';
 import {ThemeContext} from './theme-context';
 import {default as theme} from './theme.json'; //
@@ -16,6 +18,8 @@ import store from './src/store';
 import {PersistGate} from 'redux-persist/lib/integration/react';
 
 import {NavigationContainer} from '@react-navigation/native';
+import {useEffect} from 'react/cjs/react.development';
+
 export default () => {
   const [dark, setDark] = React.useState('light');
 

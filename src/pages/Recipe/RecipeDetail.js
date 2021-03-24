@@ -10,15 +10,17 @@ import {
 import RecipeDetailTemplate from '../../templates/RecipeDetailTemplate';
 import {useSelector, useDispatch} from 'react-redux';
 import {useFocusEffect} from '@react-navigation/native';
+import {useTranslation} from 'react-i18next';
 
 const BackIcon = (props) => <Icon {...props} name="arrow-back" />;
 
 export const RecipeDetail = ({navigation}) => {
+  const {t, i18n} = useTranslation();
   const dispatch = useDispatch();
   const [totalCost, setTotalCost] = useState(0);
   const [totalCount, setTotalCount] = useState(0);
   const ingredients = useSelector((state) => state.ingredients.ingredients);
-  const measures = useSelector((state) => state.measures.selected);
+  const measures = useSelector((state) => state.measures.measures);
   const selectedRecipeId = useSelector((state) => state.recipes.selected.id);
 
   const navigateBack = () => {
@@ -46,12 +48,7 @@ export const RecipeDetail = ({navigation}) => {
       const count = await measures.length;
       setTotalCost(sum);
       setTotalCount(count);
-    } catch (error) {
-      Alert.alert(
-        'Items not found!',
-        'Please add a new ingredient to this recipe to start getting the cost.',
-      );
-    }
+    } catch (error) {}
   }, [measures]);
 
   //Recalcula a formula acima toda vez que há uma mudanca na lista de ingredientes do prato.
@@ -61,13 +58,13 @@ export const RecipeDetail = ({navigation}) => {
 
   //Atualiza a lista toda vez que se cria ou se deleta um item novo.
   React.useEffect(() => {
-    dispatch.measures.getAsync({id: selectedRecipeId});
+    //   dispatch.measures.getAsync({id: selectedRecipeId});
   }, [loadingCreate, loadingDelete]);
 
   return (
     <SafeAreaView style={{flex: 1}}>
       <TopNavigation
-        title="My Recipes"
+        title={t('Recipes')}
         alignment="center"
         accessoryLeft={BackAction}
       />

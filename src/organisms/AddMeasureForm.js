@@ -8,7 +8,7 @@ import {
   Card,
 } from '@ui-kitten/components';
 import React, {useRef, useState, useImperativeHandle, useEffect} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, ScrollView} from 'react-native';
 import PriceInput from '../molecules/PriceInput';
 import AutoCompleteField from '../molecules/AutocompleteField';
 import {Field, Formik} from 'formik';
@@ -24,18 +24,14 @@ import * as Yup from 'yup';
 import SelectorAction from '../molecules/SelectorAction';
 import AutocompleteField from '../molecules/AutocompleteField';
 import {current} from 'immer';
+import {useTranslation} from 'react-i18next';
 
 const unitsArray = ['mL', 'g', 'L', 'KG'];
 const saveIcon = (props) => <Icon {...props} name="save-outline" />;
 
-const AddMeasureSchema = Yup.object().shape({
-  ingredient: Yup.string().required('Ingredient name is qequired'),
-  unit: Yup.string().required('Unit is required'),
-  quantity: Yup.string().required('Quantity is required'),
-});
-
 const AddIcon = (props) => <Icon {...props} name="plus-outline" />;
 const AddMeasureForm = () => {
+  const {t, i18n} = useTranslation();
   const ingredients = useSelector((state) => state.ingredients.ingredients);
   const productId = useSelector((state) => state.recipes.selected.id);
   const navigation = useNavigation();
@@ -57,7 +53,11 @@ const AddMeasureForm = () => {
   const loadingAddList = useSelector(
     (state) => state.loading.effects.ingredients.addAsync,
   );
-
+  const AddMeasureSchema = Yup.object().shape({
+    ingredient: Yup.string().required(t('Ingredient_name_is_required')),
+    unit: Yup.string().required(t('Unit_is_required')),
+    quantity: Yup.string().required(t('Quantity_is_required')),
+  });
   useFocusEffect(
     React.useCallback(() => {
       // alert('Screen was focused');
@@ -66,7 +66,7 @@ const AddMeasureForm = () => {
       // quantityRef.current.focus();
       return () => {
         // alert('Screen was unfocused');
-        dispatch.measures.getAsync({id: productId});
+        // dispatch.measures.getAsync({id: productId});
         // Do something when the screen is unfocused
         // Useful for cleanup functions
       };
@@ -104,106 +104,108 @@ const AddMeasureForm = () => {
         touched,
         values,
       }) => (
-        <Layout style={styles.container} level="3">
-          <Layout style={styles.controlContainer} level="3">
-            <Text
-              category="h4"
-              appearance="alternative"
-              status="basic"
-              style={styles.title}>
-              Select the ingredient
-            </Text>
-
-            <Layout style={styles.rowContainer} level="3">
-              <SelectorAction
-                status={errors.ingredient && touched.ingredient && 'danger'}
-                placeholder="Ingredient"
-                style={styles.ingredients}
-                value={values.ingredient}
-                actionTitle="Add new ingredient"
-                icon={AddIcon}
-                ref={listRef}
-                navigateTo="AddIngredient"
-                name="ingredient"
-                onBlur={() => listRef.current.blur()}
-                data={optionsArray}
-                selectedIndex={selectedIngredientIndex}
-                handlePressItem={(item) => {
-                  const indexOfItem = ingredients.filter(
-                    (i) => i.name === item,
-                  );
-                  setSelectedId(indexOfItem[0].id);
-
-                  setFieldValue('ingredient', item);
-                }}
-                onSelect={(index) => {
-                  setSelectedIngredientIndex(index);
-                }}
-              />
-              <Text category="c2" appearance="hint" status="danger">
-                {errors.ingredient && touched.ingredient && errors.ingredient}
-              </Text>
-            </Layout>
-            <Layout style={styles.rowContainer} level="3">
+        <ScrollView style={{height: '100%'}}>
+          <Layout style={styles.container} level="1">
+            <Layout style={styles.controlContainer} level="3">
               <Text
                 category="h4"
                 appearance="alternative"
                 status="basic"
                 style={styles.title}>
-                {`Select the measure unit`}
+                {t('Select_the_ingredient')}
               </Text>
-              <Selector
-                status={errors.unit && touched.unit && 'danger'}
-                placeholder="Unit"
-                style={styles.input}
-                value={values.unit}
-                name="unit"
-                data={unitsArray}
-                selectedIndex={selectedUnitIndex}
-                onSelect={(index) => {
-                  setSelectedUnitIndex(index);
-                  setFieldValue('unit', unitsArray[index.row]);
-                  quantityRef.current.focus();
-                }}
-                ref={unitAvailableRef}
-              />
-              <Text category="c2" appearance="hint" status="danger">
-                {errors.unit && touched.unit && errors.unit}
-              </Text>
-            </Layout>
-            <Layout style={styles.packageContainer} level="3">
+
+              <Layout style={styles.rowContainer} level="3">
+                <SelectorAction
+                  status={errors.ingredient && touched.ingredient && 'danger'}
+                  placeholder={t('Ingredient')}
+                  style={styles.ingredients}
+                  value={values.ingredient}
+                  actionTitle={t('Add_new_ingredient')}
+                  icon={AddIcon}
+                  ref={listRef}
+                  navigateTo="AddIngredient"
+                  name="ingredient"
+                  onBlur={() => listRef.current.blur()}
+                  data={optionsArray}
+                  selectedIndex={selectedIngredientIndex}
+                  handlePressItem={(item) => {
+                    const indexOfItem = ingredients.filter(
+                      (i) => i.name === item,
+                    );
+                    setSelectedId(indexOfItem[0].id);
+
+                    setFieldValue('ingredient', item);
+                  }}
+                  onSelect={(index) => {
+                    setSelectedIngredientIndex(index);
+                  }}
+                />
+                <Text category="c2" appearance="hint" status="danger">
+                  {errors.ingredient && touched.ingredient && errors.ingredient}
+                </Text>
+              </Layout>
               <Layout style={styles.rowContainer} level="3">
                 <Text
                   category="h4"
                   appearance="alternative"
                   status="basic"
                   style={styles.title}>
-                  Type the quantity
+                  {t('Select_the_unit_of_measurement')}
                 </Text>
-                <SizeInput
-                  status={errors.quantity && touched.quantity && 'danger'}
-                  placeholder="Quantity to be added"
-                  value={values.quantity}
-                  setFieldValue={setFieldValue}
-                  setFieldTouched={setFieldTouched}
-                  name="quantity"
-                  mantissa={4}
-                  styles={styles.input}
-                  onSubmitEditing={() => {
-                    submitRef.current.focus();
+                <Selector
+                  status={errors.unit && touched.unit && 'danger'}
+                  placeholder={t('Unit')}
+                  style={styles.input}
+                  value={values.unit}
+                  name="unit"
+                  data={unitsArray}
+                  selectedIndex={selectedUnitIndex}
+                  onSelect={(index) => {
+                    setSelectedUnitIndex(index);
+                    setFieldValue('unit', unitsArray[index.row]);
+                    quantityRef.current.focus();
                   }}
-                  ref={quantityRef}
+                  ref={unitAvailableRef}
                 />
                 <Text category="c2" appearance="hint" status="danger">
-                  {errors.quantity && touched.quantity && errors.quantity}
+                  {errors.unit && touched.unit && errors.unit}
                 </Text>
+              </Layout>
+              <Layout style={styles.packageContainer} level="3">
+                <Layout style={styles.rowContainer} level="3">
+                  <Text
+                    category="h4"
+                    appearance="alternative"
+                    status="basic"
+                    style={styles.title}>
+                    {t('Enter_the_ingredient_amount')}
+                  </Text>
+                  <SizeInput
+                    status={errors.quantity && touched.quantity && 'danger'}
+                    placeholder={t('Quantity_to_be_added')}
+                    value={values.quantity}
+                    setFieldValue={setFieldValue}
+                    setFieldTouched={setFieldTouched}
+                    name="quantity"
+                    mantissa={4}
+                    styles={styles.input}
+                    onSubmitEditing={() => {
+                      submitRef.current.focus();
+                    }}
+                    ref={quantityRef}
+                  />
+                  <Text category="c2" appearance="hint" status="danger">
+                    {errors.quantity && touched.quantity && errors.quantity}
+                  </Text>
+                </Layout>
               </Layout>
             </Layout>
             <Layout style={styles.submit} level="3">
-              <Button onPress={handleSubmit}>ADD TO RECIPE</Button>
+              <Button onPress={handleSubmit}>{t('ADD_TO_RECIPE')}</Button>
             </Layout>
           </Layout>
-        </Layout>
+        </ScrollView>
       )}
     </Formik>
   );
@@ -234,7 +236,12 @@ const styles = StyleSheet.create({
     marginTop: 10,
     // margin: 2,
   },
-  container: {height: '100%', marginTop: 10},
+  container: {
+    height: '100%',
+    marginTop: 20,
+    paddingBottom: 35,
+    marginBottom: 35,
+  },
   rowContainer: {
     marginVertical: 3,
 
@@ -246,8 +253,8 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   controlContainer: {
-    borderRadius: 4,
     // margin: 2,
+    flex: 1,
     width: '100%',
     height: '100%',
     // padding: 6,

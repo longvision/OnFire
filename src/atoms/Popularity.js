@@ -4,9 +4,6 @@ import {Layout, Text} from '@ui-kitten/components';
 import {Rating} from 'react-native-ratings';
 
 const Popularity = ({title, start, show, titleCategory, count, imageSize}) => {
-  function ratingCompleted(rating) {
-    console.log('Rating is: ' + rating);
-  }
   return (
     <Layout
       style={
@@ -31,7 +28,7 @@ const Popularity = ({title, start, show, titleCategory, count, imageSize}) => {
         fractions={2}
         readonly={true}
         imageSize={imageSize}
-        onFinishRating={ratingCompleted}
+        // onFinishRating={ratingCompleted}
         style={{paddingVertical: 0}}
       />
     </Layout>

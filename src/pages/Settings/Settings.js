@@ -1,24 +1,27 @@
-import React from 'react';
-import {SafeAreaView} from 'react-native';
+import React, {useState} from 'react';
+import {SafeAreaView, Alert} from 'react-native';
 import {
+  Button,
   Divider,
   Icon,
-  Layout,
   TopNavigation,
   TopNavigationAction,
 } from '@ui-kitten/components';
 
-import IngredientDetailTemplate from '../../templates/IngredientDetailTemplate';
+import RecipeDetailTemplate from '../../templates/RecipeDetailTemplate';
+import {useSelector, useDispatch} from 'react-redux';
+import {useFocusEffect} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
 
 const BackIcon = (props) => <Icon {...props} name="arrow-back" />;
 
-export const IngredientDetail = ({route, navigation}) => {
+export const Settings = ({navigation}) => {
   const {t, i18n} = useTranslation();
+  const dispatch = useDispatch();
+
   const navigateBack = () => {
     navigation.goBack();
   };
-
   const BackAction = () => (
     <TopNavigationAction icon={BackIcon} onPress={navigateBack} />
   );
@@ -26,14 +29,18 @@ export const IngredientDetail = ({route, navigation}) => {
   return (
     <SafeAreaView style={{flex: 1}}>
       <TopNavigation
-        title={t('Ingredients')}
+        title={t('Settings')}
         alignment="center"
         accessoryLeft={BackAction}
       />
       <Divider />
-      <Layout style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <IngredientDetailTemplate selectedItem={route.params.item} />
-      </Layout>
+      <Button
+        status="control"
+        onPress={() => {
+          dispatch.auth.signOutAsync();
+        }}>
+        {t('Logout')}
+      </Button>
     </SafeAreaView>
   );
 };
