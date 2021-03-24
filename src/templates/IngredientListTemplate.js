@@ -29,7 +29,7 @@ const IngredientListTemplate = ({navigation, ingredients, addIcon}) => {
           price
           cta={t('Details')}
           btnSize="small"
-          containerStyle={{width: '100%'}}
+          containerStyle={{width: '100%', paddingBottom: 55}}
           titles={[t('Ingredient'), t('Price per Package'), '']}
         />
       </Layout>
