@@ -75,7 +75,7 @@ export const measures = createModel()({
         console.log(values);
         const measure = await api.post('measure', {
           product_id: productId,
-          quantity: values.quantity,
+          quantity: checkDollarSign(values.quantity),
           ingredient_id: ingredientId,
           unit: values.unit,
         });
