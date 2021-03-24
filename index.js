@@ -4,7 +4,7 @@
 import {ENV} from '@env';
 import './src/config/ReactotronConfig';
 if (ENV === 'development') {
-  tron.log('Reactotron Configured - OnFire ===================> App Start');
+  tron.log('Reactotron Configured - Grammage ===================> App Start');
 }
 import {AppRegistry} from 'react-native';
 import App from './App';
