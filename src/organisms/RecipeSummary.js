@@ -4,6 +4,7 @@ import {StyleSheet} from 'react-native';
 import {Button, Card, Layout, Spinner, Text} from '@ui-kitten/components';
 
 import {ThemedAwesomeIcon} from '../atoms/ThemedAwesomeIcon';
+import {useTranslation} from 'react-i18next';
 
 export const RecipeSummary = ({
   label,
@@ -16,6 +17,7 @@ export const RecipeSummary = ({
   ingredientsCount,
   ...props
 }) => {
+  const {t, i18n} = useTranslation();
   const AddIcon = (props) => {
     return <ThemedAwesomeIcon name="plus-outline" {...props} />;
   };
@@ -29,17 +31,19 @@ export const RecipeSummary = ({
       <Layout style={styles.main}>
         <Layout style={styles.container}>
           <Card style={styles.cardPop} status="info">
-            <Text style={styles.cardText} category="h5">{`Total Cost`}</Text>
+            <Text style={styles.cardText} category="h5">
+              {t(`Total_Cost`)}
+            </Text>
             <Text style={styles.cardText} category="h2">
-              $ {totalCost}
+              {`${t('$')} ${totalCost}`}
             </Text>
           </Card>
           <Card style={styles.cardPop}>
             <Text style={styles.cardText} category="h5">
-              {`Ingredients`}
+              {t(`Ingredients`)}
             </Text>
             <Text style={styles.cardText} category="h2">
-              {`${ingredientsCount} items`}
+              {`${ingredientsCount} ${t('items')}`}
             </Text>
           </Card>
         </Layout>
@@ -49,7 +53,7 @@ export const RecipeSummary = ({
               status="danger"
               accessoryLeft={DeleteIcon}
               onPress={handleDeleteMeasure}>
-              Delete Recipe
+              {t('Delete_Recipe')}
             </Button>
           </Layout>
           <Layout style={styles.buttonPop} status="info">
@@ -57,7 +61,7 @@ export const RecipeSummary = ({
               status="info"
               accessoryLeft={AddIcon}
               onPress={handleAddMeasure}>
-              Ingredient
+              {t('Ingredient')}
             </Button>
           </Layout>
         </Layout>
@@ -80,6 +84,7 @@ const styles = StyleSheet.create({
   },
   cardPop: {
     flex: 1,
+    height: 66,
     justifyContent: 'center',
     alignItems: 'center',
   },

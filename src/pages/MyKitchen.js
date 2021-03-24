@@ -10,6 +10,7 @@ import {
   TabView,
   TopNavigationAction,
 } from '@ui-kitten/components';
+import {useTranslation} from 'react-i18next';
 import {useDispatch, useSelector} from 'react-redux';
 import IngredientListTemplate from '../templates/IngredientListTemplate';
 import RecipeListTemplate from '../templates/RecipeListTemplate';
@@ -23,6 +24,7 @@ const AddIcon = (props) => <Icon {...props} name="plus-outline" />;
 const EditIcon = (props) => <Icon {...props} name="edit-2-outline" />;
 
 export const MyKitchen = ({navigation}) => {
+  const {t, i18n} = useTranslation();
   const ingredients = useSelector((state) => state.ingredients.ingredients);
   const recipes = useSelector((state) => state.recipes.recipes);
 
@@ -63,15 +65,15 @@ export const MyKitchen = ({navigation}) => {
   );
 
   return (
-    <SafeAreaView style={{height: '100%'}}>
-      <TopNavigation title="My Kitchen" alignment="center" />
+    <SafeAreaView style={{flex: 1}}>
+      <TopNavigation title={t('Kitchen')} alignment="center" />
       <Divider />
-      <Layout style={{flex: 10}}>
+      <Layout style={{flex: 1}}>
         <TabView
           selectedIndex={selectedIndex}
           onSelect={onSelect}
-          tabsArray={['Recipes', 'Shelf']}>
-          <Tab title="RECIPES">
+          tabsArray={[t('Recipes'), t('Ingredients')]}>
+          <Tab title={t('RECIPES')} style={{height: 44}}>
             <RecipeListTemplate
               addIcon={AddIcon}
               iconName={EditIcon}
@@ -79,7 +81,7 @@ export const MyKitchen = ({navigation}) => {
               recipes={recipes}
             />
           </Tab>
-          <Tab title="INGREDIENTS">
+          <Tab title={t('INGREDIENTS')} style={{height: 44}}>
             <IngredientListTemplate
               ingredients={ingredients}
               navigation={navigation}

@@ -11,15 +11,17 @@ import {
   useNavigation,
 } from '@react-navigation/native';
 import * as Yup from 'yup';
+import {useTranslation} from 'react-i18next';
 
 const saveIcon = (props) => <Icon {...props} name="save-outline" />;
 
-const AddRecipeSchema = Yup.object().shape({
-  name: Yup.string().required('Recipe name is required'),
-  description: Yup.string().required('A Description is required'),
-});
 const AddRecipeForm = ({handleClose}) => {
+  const {t, i18n} = useTranslation();
   // const navigation = useNavigation();
+  const AddRecipeSchema = Yup.object().shape({
+    name: Yup.string().required(t('Recipe_name_is_required')),
+    description: Yup.string().required(t('Description_is_required')),
+  });
   const nameRef = useRef();
   const descriptionRef = useRef();
 
@@ -55,13 +57,13 @@ const AddRecipeForm = ({handleClose}) => {
       }) => (
         // <Layout style={styles.container} level="1">
         <Layout style={styles.controlContainer} level="1">
-          <Text
+          {/* <Text
             category="h4"
             appearance="alternative"
             status="basic"
             style={styles.title}>
-            Recipe's name
-          </Text>
+            {t('Recipes_name')}
+          </Text> */}
           <Layout style={styles.rowContainer} level="1">
             <AutoCompleteField
               style={styles.input}
@@ -71,7 +73,7 @@ const AddRecipeForm = ({handleClose}) => {
               array={[]}
               name="name"
               status={errors.name && touched.name && 'danger'}
-              placeholder="Recipe name"
+              placeholder={t('Recipes_name')}
               returnKeyType="next"
               onSubmitEditing={() => descriptionRef.current.focus()}
               ref={nameRef}
@@ -91,7 +93,7 @@ const AddRecipeForm = ({handleClose}) => {
               array={[]}
               name="description"
               status={errors.description && touched.description && 'danger'}
-              placeholder="Description"
+              placeholder={t('Description')}
               returnKeyType="next"
               onSubmitEditing={() => {}}
               ref={descriptionRef}
@@ -103,7 +105,7 @@ const AddRecipeForm = ({handleClose}) => {
             </Text>
           </Layout>
           <Layout style={styles.submit} level="1">
-            <Button onPress={handleSubmit}>CREATE RECIPE</Button>
+            <Button onPress={handleSubmit}>{t('CREATE_RECIPE')}</Button>
           </Layout>
         </Layout>
         // </Layout>

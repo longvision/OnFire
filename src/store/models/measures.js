@@ -1,22 +1,28 @@
+import React from 'react';
 import {createModel} from '@rematch/core';
 import api from '../../services/api';
 import tron from '../../config/ReactotronConfig';
 
 import {checkDollarSign} from '../../utils/functions';
-import {connect} from 'formik';
-import {Alert} from 'react-native';
 
 export const measures = createModel()({
   state: {
     measures: [],
     selected: {},
     selectedId: null,
+    failed: false,
   },
   reducers: {
     list(state, payload) {
       return {
         ...state,
         measures: payload,
+      };
+    },
+    addMeasure(state, payload) {
+      return {
+        ...state,
+        measures: [...state.measures, payload],
       };
     },
     setSelected(state, payload) {
@@ -31,11 +37,30 @@ export const measures = createModel()({
         selectedId: payload,
       };
     },
+    failed(state, payload) {
+      return {
+        ...state,
+        failed: true,
+      };
+    },
+    understood(state, payload) {
+      return {
+        ...state,
+        failed: false,
+      };
+    },
     add(state, payload) {
       return {...state, ingredients: [...state.ingredients, payload]};
     },
+    delete(state, payload) {
+      const newArray = state.measures.filter((item) => item.id !== payload);
+      return {...state, measures: newArray};
+    },
   },
   effects: (dispatch) => ({
+    async alertOff(payload, rootState) {
+      dispatch.measures.understood();
+    },
     async addAsync(payload, rootState) {
       // API Object
       // "product_id": 1,
@@ -47,29 +72,17 @@ export const measures = createModel()({
         const {values, productId, ingredientId} = payload;
 
         api.defaults.headers.Authorization = `Bearer ${rootState.auth.token}`;
-
-        await api.post('measure', {
+        console.log(values);
+        const measure = await api.post('measure', {
           product_id: productId,
-          quantity: checkDollarSign(values.quantity),
+          quantity: values.quantity,
           ingredient_id: ingredientId,
           unit: values.unit,
         });
+
+        dispatch.measures.addMeasure(measure.data);
       } catch (err) {
-        Alert.alert(
-          'Invalid unit!',
-          'Please select a unit that matches the registered ingredient',
-          [
-            {
-              text: 'Cancel',
-              onPress: () => {},
-              style: 'cancel',
-            },
-          ],
-          {
-            cancelable: true,
-            onDismiss: () => {},
-          },
-        );
+        dispatch.measures.failed();
       }
     },
     async listAsync(payload, rootState) {
@@ -95,14 +108,12 @@ export const measures = createModel()({
 
         const response = await api.get(`measures/${id}`);
 
-        const data = response.data;
+        const {data} = response;
 
-        dispatch.measures.setSelected(data);
+        dispatch.measures.list(data);
 
         // history.push('/dashboard');
-      } catch (err) {
-        console.log(err);
-      }
+      } catch (err) {}
     },
     async updateAsync(payload, rootState) {
       try {
@@ -119,9 +130,7 @@ export const measures = createModel()({
           sold_region: values.region,
           brand: values.brand,
         });
-      } catch (err) {
-        console.log(err);
-      }
+      } catch (err) {}
     },
     async setSelectedIdAsync(payload) {
       dispatch.ingredients.setSelectedId(payload);
@@ -135,9 +144,8 @@ export const measures = createModel()({
         const {id} = payload;
 
         await api.delete(`measure/${id}`);
-      } catch (err) {
-        console.log(err);
-      }
+        dispatch.measures.delete(id);
+      } catch (err) {}
     },
   }),
 });

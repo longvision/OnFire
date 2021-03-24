@@ -9,6 +9,7 @@ export const ingredients = createModel()({
     ingredients: [],
     selected: {},
     selectedId: null,
+    failed: false,
   },
   reducers: {
     list(state, payload) {
@@ -29,11 +30,26 @@ export const ingredients = createModel()({
         selectedId: payload,
       };
     },
+    failed(state) {
+      return {
+        ...state,
+        failed: true,
+      };
+    },
+    understood(state) {
+      return {
+        ...state,
+        failed: false,
+      };
+    },
     add(state, payload) {
       return {...state, ingredients: [...state.ingredients, payload]};
     },
   },
   effects: (dispatch) => ({
+    async alertOff(payload, rootState) {
+      dispatch.measures.understood();
+    },
     async addAsync(payload, rootState) {
       try {
         const {brand, ingredient, price, region, seller, size, unit} = payload;
@@ -52,15 +68,8 @@ export const ingredients = createModel()({
 
         const {data} = response;
         dispatch.ingredients.add(data);
-        // console.log(data);
       } catch (err) {
-        Alert.alert('Invalid unit!', err, [
-          {
-            text: 'OK',
-            onPress: () => {},
-            style: 'cancel',
-          },
-        ]);
+        dispatch.measures.failed();
       }
     },
     async listAsync(payload, rootState) {
@@ -89,9 +98,7 @@ export const ingredients = createModel()({
         dispatch.ingredients.setSelected(data);
 
         // history.push('/dashboard');
-      } catch (err) {
-        console.log(err);
-      }
+      } catch (err) {}
     },
     async updateAsync(payload, rootState) {
       try {
@@ -108,9 +115,7 @@ export const ingredients = createModel()({
           sold_region: values.region,
           brand: values.brand,
         });
-      } catch (err) {
-        console.log(err);
-      }
+      } catch (err) {}
     },
     async setSelectedIdAsync(payload) {
       dispatch.ingredients.setSelectedId(payload);

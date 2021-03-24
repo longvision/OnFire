@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Icon, List, Layout, Text} from '@ui-kitten/components';
+import {Button, Icon, List, Layout, Text, Divider} from '@ui-kitten/components';
 
 import {StyleSheet, View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
@@ -32,47 +32,50 @@ export const RecipeList = ({
   }
 
   const renderItem = ({item, index}) => (
-    <Layout
-      style={{
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        width: '100%',
-        paddingHorizontal: 15,
-        marginTop: 2,
-        padding: 7,
-      }}>
-      <Layout style={{width: 150}}>
-        <Text style={{marginBottom: 10}} category="s1">
-          {item.title}
-        </Text>
-        <Text style={{marginBottom: 10}} category="p2">
-          {item.description}
-        </Text>
+    <>
+      <Layout
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          width: '100%',
+          paddingHorizontal: 15,
+          marginTop: 2,
+          padding: 7,
+        }}>
+        <Layout style={{width: 150}}>
+          <Text style={{marginBottom: 10}} category="s1">
+            {item.title}
+          </Text>
+          <Text style={{marginBottom: 10}} category="p2">
+            {item.description}
+          </Text>
+        </Layout>
+        <Layout>
+          {rating && (
+            <Popularity
+              // title={ratingTitle}
+              // start={2.556}
+              // count={5}
+              imageSize={15}
+            />
+          )}
+        </Layout>
+        <Layout>
+          {cta && (
+            <Button
+              size={btnSize}
+              onPress={() => handlePress(item)}
+              // status="basic"
+              appearance="outline"
+              accessoryLeft={assessoryLeft}>
+              {cta}
+            </Button>
+          )}
+        </Layout>
       </Layout>
-      <Layout>
-        {rating && (
-          <Popularity
-            // title={ratingTitle}
-            // start={2.556}
-            // count={5}
-            imageSize={15}
-          />
-        )}
-      </Layout>
-      <Layout>
-        {cta && (
-          <Button
-            size={btnSize}
-            onPress={() => handlePress(item)}
-            // status="basic"
-            appearance="outline"
-            accessoryLeft={assessoryLeft}>
-            {cta}
-          </Button>
-        )}
-      </Layout>
-    </Layout>
+      <Divider />
+    </>
   );
 
   return (
@@ -83,7 +86,11 @@ export const RecipeList = ({
           titles={titles}
           style={{paddingHorizontal: 15, marginTop: 2, padding: 7}}
         />
-        <List style={{height: height}} data={recipes} renderItem={renderItem} />
+        <List
+          style={{height: height, backgroundColor: 'white'}}
+          data={recipes}
+          renderItem={renderItem}
+        />
       </Layout>
     </>
   );

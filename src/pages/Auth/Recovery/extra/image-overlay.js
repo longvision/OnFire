@@ -6,20 +6,16 @@ import {
   StyleSheet,
   View,
   ViewStyle,
-  Image,
 } from 'react-native';
 
-const DEFAULT_OVERLAY_COLOR = 'rgba(0, 128, 51, 0.900)';
+const DEFAULT_OVERLAY_COLOR = 'rgba(0, 0, 0, 0.45)';
 
 export const ImageOverlay = (props) => {
-  const {style, children, source, ...imageBackgroundProps} = props;
+  const {style, children, ...imageBackgroundProps} = props;
   const {overlayColor, ...imageBackgroundStyle} = StyleSheet.flatten(style);
 
   return (
-    <ImageBackground
-      {...imageBackgroundProps}
-      source={source}
-      style={imageBackgroundStyle}>
+    <ImageBackground {...imageBackgroundProps} style={imageBackgroundStyle}>
       <View
         style={[
           StyleSheet.absoluteFill,
