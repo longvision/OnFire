@@ -40,7 +40,7 @@ export default () => {
           theme={{...eva[dark], ...theme}}
           customMapping={mapping}>
           <NavigationContainer>
-            {Platform.OS === 'ios' && <StatusBar barStyle="light-content" />}
+            {Platform.OS === 'ios' && <StatusBar barStyle="dark-content" />}
             <AppNavigator />
           </NavigationContainer>
         </ApplicationProvider>
