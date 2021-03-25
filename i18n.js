@@ -88,6 +88,8 @@ const resources = {
       SETTINGS: 'SETTINGS',
       Settings: 'Settings',
       KITCHEN: 'KITCHEN',
+      EMPTY_RECIPES:
+        'Please add a new Ingredient to start creating you recipes! ',
     },
   },
   pt: {
@@ -177,6 +179,8 @@ const resources = {
       KITCHEN: 'COZINHA',
       SETTINGS: 'AJUSTES',
       Settings: 'Ajustes',
+      EMPTY_RECIPES:
+        'Por favor adicione um novo ingrediente para começar a criar receitas!',
     },
   },
 };
