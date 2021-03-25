@@ -9,6 +9,7 @@ const SizeInputField = (
     styles,
     name,
     setFieldValue,
+    onSubmitEditing,
     setFieldTouched,
     iconProps,
     mantissa,
@@ -17,7 +18,7 @@ const SizeInputField = (
 ) => {
   const inputRef = useRef();
 
-  const Icon = (iconProps) => <Icon {...iconProps} name={iconName} />;
+  const Icon = iconProps => <Icon {...iconProps} name={iconName} />;
 
   function sizeFormat(num) {
     return `${Number(num)
@@ -25,8 +26,9 @@ const SizeInputField = (
       .replace(/(\d)(?=(\d{3})+(?!\d)(\.\d{1,4}))/g, '$1,')}`;
   }
 
-  const handleChangeText = (text) => {
+  const handleChangeText = text => {
     // const val = Number(text);
+
     setFieldValue(name, text);
   };
 

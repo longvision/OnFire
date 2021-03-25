@@ -53,7 +53,7 @@ export const Login = () => {
             style={{
               // Transparent background because mask is based off alpha channel.
               backgroundColor: 'transparent',
-              justifyContent: 'center',
+              // justifyContent: 'flex-start',
               alignItems: 'center',
             }}>
             <Text category="h1" status="control" style={styles.title}>
@@ -144,13 +144,14 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     flex: 1,
-    marginTop: 152,
+    // marginTop: 152,
     alignItems: 'center',
   },
   title: {
     fontSize: 60,
     fontWeight: 'bold',
-    marginBottom: 50,
+    // marginBottom: 50,
+    marginTop: 30,
   },
   inputContainer: {
     width: '100%',
