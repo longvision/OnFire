@@ -7,47 +7,31 @@ import KitchenStack from './kitchen.navigator';
 import SettingsStack from './settings.navigator';
 import {Icon} from '@ui-kitten/components';
 import {useTranslation} from 'react-i18next';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Tab = createBottomTabNavigator();
 // const FeedIcon = (props) => <Icon {...props} name="home-outline" />;
-
-const PostIcon = (props) => <Icon {...props} name="plus-circle-outline" />;
 
 // const SearchIcon = (props) => <Icon {...props} name="search-outline" />;
 const MainNavigator = () => {
   const {t, i18n} = useTranslation();
   return (
     <Tab.Navigator
+      initialRouteName="KITCHEN"
       tabBarOptions={{
-        // activeTintColor: Colors.active,
         // inactiveTintColor: Colors.inactive,
         activeTintColor: '#5F9D11',
-        labelStyle: {fontWeight: 'bold'},
-        // inactiveBackgroundColor: Colors.inactivebk,
+        labelStyle: {fontWeight: 'bold', fontSize: 14},
+        // inactiveBackgroundColor: '#FF3351',
         // activeBackgroundColor: Colors.activebk,
       }}>
-      {/* <Tab.Screen
-        name="Social"
-        component={FeedStack}
-        options={{
-          unmountOnBlur: true,
-          tabBarIcon: ({focused, color, size}) => (
-            <Icon
-              name="file-text"
-              size={size ? size : 26}
-              color={focused ? Colors.active : color}
-              focused={focused}
-            />
-          ),
-        }}
-      /> */}
       <Tab.Screen
         name={t('KITCHEN')}
         component={KitchenStack}
         options={{
-          unmountOnBlur: false,
+          unmountOnBlur: true,
           tabBarIcon: ({focused, color, size, ...props}) => (
-            <Icon name="search-outline" />
+            <MaterialCommunityIcons name="shaker" color={focused} size={size} />
           ),
         }}
       />
@@ -57,7 +41,7 @@ const MainNavigator = () => {
         options={{
           unmountOnBlur: true,
           tabBarIcon: ({focused, color, size, ...props}) => (
-            <Icon {...props} name="plus-circle-outline" />
+            <MaterialCommunityIcons name="cog" color={color} size={size} />
           ),
         }}
       />

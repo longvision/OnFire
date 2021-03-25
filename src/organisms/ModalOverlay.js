@@ -1,28 +1,38 @@
 import React from 'react';
 import {StyleSheet} from 'react-native';
-import {Avatar, Button, Layout, Popover, Text} from '@ui-kitten/components';
+import {
+  Avatar,
+  Button,
+  Layout,
+  Popover,
+  Text,
+  Modal,
+} from '@ui-kitten/components';
 import {useTranslation} from 'react-i18next';
 
-export const PopoverOverlay = ({
-  handleClose,
+export const ModalOverlay = ({
+  onBackdropPress,
   visible,
   children,
-  anchor,
+  text,
   placement,
+  handleClose,
 }) => {
   const {t, i18n} = useTranslation();
   return (
-    <Popover
+    <Modal
       backdropStyle={styles.backdrop}
       visible={visible}
       placement={placement}
-      anchor={anchor}
-      onBackdropPress={handleClose}>
+      onBackdropPress={onBackdropPress}
+      handleClose={handleClose}>
       <Layout style={styles.content}>
-        <Text category="h3">{t('Create_Recipes')}</Text>
+        <Layout>
+          <Text category="h3">{text}</Text>
+        </Layout>
         {children}
       </Layout>
-    </Popover>
+    </Modal>
   );
 };
 
@@ -33,7 +43,8 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     paddingHorizontal: 4,
     paddingVertical: 15,
-    marginBottom: 15,
+    marginBottom: 175,
+    padding: 15,
     height: 280,
     width: 360,
   },
@@ -43,6 +54,6 @@ const styles = StyleSheet.create({
   backdrop: {
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
     width: '100%',
-    height: 600,
+    height: '100%',
   },
 });

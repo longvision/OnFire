@@ -7,6 +7,7 @@ import {
   ListItem,
   Text,
   Divider,
+  Card,
 } from '@ui-kitten/components';
 
 import {StyleSheet, View} from 'react-native';
@@ -32,26 +33,37 @@ export const MeasureList = ({
 
   const renderItem = ({item, index}) => (
     <>
-      <ListItem
-        title={`${item.ingredients.name} | ${item.ingredients.brand} `}
-        description={`${t('quantity')}: ${Number(item.quantity).toFixed(2)}${
-          item.unit
-        } - ${t('cost')}: ${t('$')}${Number(item.cost).toFixed(2)}  `}
-        accessoryRight={() =>
-          cta && (
-            <Layout style={{flexDirection: 'row'}} level="1">
-              {rating && <Popularity start={2.556} count={5} size={17} />}
-              <Button
-                size="tiny"
-                onPress={() => dispatch.measures.deleteAsync({id: item.id})}
-                appearance="outline"
-                accessoryLeft={img && renderItemIcon}>
-                {cta}
-              </Button>
-            </Layout>
-          )
-        }
-      />
+      <Layout
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center',
+          width: '100%',
+        }}>
+        <Layout style={{width: '80%'}}>
+          <Text
+            status="primary"
+            category="s1">{`${item.ingredients.name} | ${item.ingredients.brand} `}</Text>
+          <Text category="p2">
+            {`${t('quantity')}: ${Number(item.quantity).toFixed(2)}${
+              item.unit
+            }`}
+          </Text>
+          <Text category="p2">
+            {`${t('cost')}: ${t('$')}${Number(item.cost).toFixed(2)}  `}
+          </Text>
+        </Layout>
+
+        <Button
+          size="medium"
+          style={{width: 60, height: 60, marginLeft: 3}}
+          onPress={() => dispatch.measures.deleteAsync({id: item.id})}
+          appearance="outline"
+          accessoryLeft={img && renderItemIcon}>
+          {cta}
+        </Button>
+      </Layout>
       <Divider />
     </>
   );
