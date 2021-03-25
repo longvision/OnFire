@@ -13,7 +13,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import {useFocusEffect} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
 
-const BackIcon = (props) => <Icon {...props} name="arrow-back" />;
+const BackIcon = props => <Icon {...props} name="arrow-back" />;
 
 export const Settings = ({navigation}) => {
   const {t, i18n} = useTranslation();
@@ -28,11 +28,7 @@ export const Settings = ({navigation}) => {
 
   return (
     <SafeAreaView style={{flex: 1}}>
-      <TopNavigation
-        title={t('Settings')}
-        alignment="center"
-        accessoryLeft={BackAction}
-      />
+      <TopNavigation title={t('Settings')} alignment="center" />
       <Divider />
       <Button
         status="control"
