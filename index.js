@@ -1,9 +1,9 @@
 /**
  * @format
  */
-import {ENV} from '@env';
+import {NODE_ENV} from '@env';
 import './src/config/ReactotronConfig';
-if (ENV === 'development') {
+if (NODE_ENV === 'development') {
   tron.log('Reactotron Configured - Grammage ===================> App Start');
 }
 import {AppRegistry} from 'react-native';

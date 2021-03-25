@@ -64,7 +64,8 @@ export const measures = createModel()({
       try {
         const {values, productId, ingredientId} = payload;
         api.defaults.headers.Authorization = `Bearer ${rootState.auth.token}`;
-        const measure = await api.post('/measure', {
+
+        const measure = await api.post('measure', {
           product_id: productId,
           quantity: checkDollarSign(values.quantity),
           ingredient_id: ingredientId,

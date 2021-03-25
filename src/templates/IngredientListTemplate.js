@@ -10,13 +10,6 @@ import {useTranslation} from 'react-i18next';
 
 const IngredientListTemplate = ({navigation, ingredients, addIcon}) => {
   const {t, i18n} = useTranslation();
-  const [visible, setVisible] = useState(false);
-
-  const dispatch = useDispatch();
-
-  const handlePress = () => {
-    navigation.navigate('AddIngredient');
-  };
 
   return (
     <Layout style={{height: '100%'}}>
@@ -32,21 +25,6 @@ const IngredientListTemplate = ({navigation, ingredients, addIcon}) => {
           containerStyle={{width: '100%', paddingBottom: 55}}
           titles={[t('Ingredient'), t('Price per Package'), '']}
         />
-      </Layout>
-      <Layout
-        style={{
-          marginVertical: 2,
-          alignItems: 'center',
-          flex: 1,
-        }}>
-        <Button
-          size="large"
-          status="primary"
-          accessoryLeft={addIcon}
-          onPress={handlePress}
-          appearance="filled">
-          {t('Add_Ingredient')}
-        </Button>
       </Layout>
     </Layout>
   );
