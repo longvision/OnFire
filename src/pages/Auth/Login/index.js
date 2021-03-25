@@ -18,8 +18,8 @@ import {useNavigation} from '@react-navigation/core';
 export const Login = () => {
   const {t, i18n} = useTranslation();
   const navigation = useNavigation();
-  const [email, setEmail] = React.useState();
-  const [password, setPassword] = React.useState();
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
   const [passwordVisible, setPasswordVisible] = React.useState(false);
   const emailRef = useRef(null);
   const passwordLoginRef = useRef(null);
@@ -76,7 +76,7 @@ export const Login = () => {
                 passwordLoginRef.current.focus();
               }}
               value={email}
-              onChangeText={setEmail}
+              onChangeText={text => setEmail(text.trim())}
             />
             <Input
               style={styles.passwordInput}
@@ -88,7 +88,7 @@ export const Login = () => {
               ref={passwordLoginRef}
               secureTextEntry={!passwordVisible}
               onSubmitEditing={onSignInButtonPress}
-              onChangeText={setPassword}
+              onChangeText={text => setPassword(text.trim())}
               onIconPress={onPasswordIconPress}
             />
             <View style={styles.forgotPasswordContainer}>
