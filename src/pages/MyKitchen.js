@@ -4,6 +4,7 @@ import {
   Button,
   Divider,
   Icon,
+  Text,
   Layout,
   TopNavigation,
   Tab,
