@@ -15,14 +15,14 @@ import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 
-const BackIcon = (props) => <Icon {...props} name="arrow-back" />;
+const BackIcon = props => <Icon {...props} name="arrow-back" />;
 export const ForgotPassword = () => {
   const {t, i18n} = useTranslation();
-  const failed = useSelector((state) => state.auth.failed);
-  const recoveryAlert = useSelector((state) => state.auth.recoveryToken);
+  const failed = useSelector(state => state.auth.failed);
+  const recoveryAlert = useSelector(state => state.auth.recoveryToken);
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const [email, setEmail] = React.useState();
+  const [email, setEmail] = React.useState('');
 
   const navigateBack = () => {
     navigation.goBack();
@@ -111,7 +111,7 @@ export const ForgotPassword = () => {
             onSubmitEditing={onResetPasswordButtonPress}
             icon={EmailIcon}
             value={email}
-            onChangeText={setEmail}
+            onChangeText={text => setEmail(text.trim())}
           />
         </View>
         <View style={styles.buttonContainer}>

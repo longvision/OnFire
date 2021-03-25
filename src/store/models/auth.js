@@ -27,7 +27,7 @@ export const auth = createModel()({
       return {...state, failed: true};
     },
     understood(state) {
-      return {...state, failed: false, recoveryToken: false};
+      return {...state, failed: false, recoveryToken: false, success: false};
     },
     clearStore(state) {
       return {};
@@ -53,13 +53,8 @@ export const auth = createModel()({
 
         const {token} = response.data;
 
-        // api.defaults.headers.Authorization = `Bearer ${token}`;
-
         dispatch.auth.login({token: token});
-      } catch (err) {
-        // history.push('/dashboard');
-        // }
-      }
+      } catch (err) {}
     },
     async signOutAsync() {
       dispatch.auth.signOut();

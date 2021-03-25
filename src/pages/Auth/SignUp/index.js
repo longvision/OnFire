@@ -25,13 +25,13 @@ import {useTranslation} from 'react-i18next';
 
 export const SignUp = () => {
   const {t, i18n} = useTranslation();
-  const signUpfail = useSelector((state) => state.auth.failed);
-  const signUpSuccess = useSelector((state) => state.auth.success);
+  const signUpfail = useSelector(state => state.auth.failed);
+  const signUpSuccess = useSelector(state => state.auth.success);
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const [userName, setUserName] = React.useState();
-  const [email, setEmail] = React.useState();
-  const [password, setPassword] = React.useState();
+  const [userName, setUserName] = React.useState('');
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
   const [termsAccepted, setTermsAccepted] = React.useState(false);
   const [passwordVisible, setPasswordVisible] = React.useState(false);
   const firstRef = useRef(null);
@@ -141,7 +141,7 @@ export const SignUp = () => {
           }}
           accessoryRight={PersonIcon}
           value={userName}
-          onChangeText={(text) => setUserName(text.toLowerCase())}
+          onChangeText={text => setUserName(text.toLowerCase().trim())}
         />
         <Input
           style={styles.emailInput}
@@ -153,7 +153,7 @@ export const SignUp = () => {
           ref={secondRef}
           accessoryRight={EmailIcon}
           value={email}
-          onChangeText={setEmail}
+          onChangeText={text => setEmail(text.trim())}
         />
         <Input
           style={styles.passwordInput}
@@ -163,7 +163,7 @@ export const SignUp = () => {
           placeholder="Password"
           accessoryRight={passwordVisible ? EyeIcon : EyeOffIcon}
           value={password}
-          onChangeText={setPassword}
+          onChangeText={text => setPassword(text)}
           onIconPress={onPasswordIconPress}
         />
         <CheckBox
@@ -171,7 +171,7 @@ export const SignUp = () => {
           textStyle={styles.termsCheckBoxText}
           text={`I read and agreed to the Terms & Conditions`}
           checked={termsAccepted}
-          onChange={(checked) => setTermsAccepted(checked)}>
+          onChange={checked => setTermsAccepted(checked)}>
           <Text>{'I read and accepted the Terms & Conditions'}</Text>
         </CheckBox>
       </Layout>
