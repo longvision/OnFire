@@ -57,23 +57,23 @@ export const measures = createModel()({
     },
   },
   effects: dispatch => ({
-    async alertOff(payload, rootState) {
+    async alertOff() {
       dispatch.measures.understood();
     },
     async addAsync(payload, rootState) {
       try {
         const {values, productId, ingredientId} = payload;
-
         api.defaults.headers.Authorization = `Bearer ${rootState.auth.token}`;
+        api.defaults.headers.accept = 'application/json';
 
         const measure = await api.post('measure', {
           product_id: productId,
-          quantity: checkDollarSign(values.quantity),
+          quantity: Number(checkDollarSign(values.quantity)),
           ingredient_id: ingredientId,
           unit: values.unit,
         });
 
-        dispatch.measures.addMeasure(measure.data);
+        this.addMeasure(measure.data);
       } catch (err) {
         dispatch.measures.failed();
       }

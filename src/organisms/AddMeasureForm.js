@@ -7,24 +7,23 @@ import {
   StyleService,
   Card,
 } from '@ui-kitten/components';
-import React, {useRef, useState, useImperativeHandle, useEffect} from 'react';
+import React, {useRef, useEffect} from 'react';
 import {View, StyleSheet, ScrollView} from 'react-native';
-import PriceInput from '../molecules/PriceInput';
-import AutoCompleteField from '../molecules/AutocompleteField';
-import {Field, Formik} from 'formik';
 
-import SizeInput from '../molecules/SizeInput';
+import {Field, Formik} from 'formik';
+import {useTranslation} from 'react-i18next';
+
 import {useDispatch, useSelector} from 'react-redux';
 import {
   NavigationHelpersContext,
   useFocusEffect,
   useNavigation,
 } from '@react-navigation/native';
+import SizeInput from '../molecules/SizeInput';
 import * as Yup from 'yup';
 import SelectorAction from '../molecules/SelectorAction';
 import AutocompleteField from '../molecules/AutocompleteField';
 import {current} from 'immer';
-import {useTranslation} from 'react-i18next';
 
 const unitsArray = ['mL', 'g', 'L', 'KG'];
 const saveIcon = props => <Icon {...props} name="save-outline" />;
@@ -32,6 +31,7 @@ const saveIcon = props => <Icon {...props} name="save-outline" />;
 const AddIcon = props => <Icon {...props} name="plus-outline" />;
 const AddMeasureForm = () => {
   const {t, i18n} = useTranslation();
+  const dispatch = useDispatch();
   const ingredients = useSelector(state => state.ingredients.ingredients);
   const productId = useSelector(state => state.recipes.selected.id);
   const navigation = useNavigation();
@@ -40,7 +40,6 @@ const AddMeasureForm = () => {
   const quantityRef = useRef(null);
   const submitRef = useRef();
   const listRef = useRef(null);
-  const dispatch = useDispatch();
   const [selectedIngredientIndex, setSelectedIngredientIndex] = React.useState(
     0,
   );
@@ -92,6 +91,7 @@ const AddMeasureForm = () => {
           productId: productId,
           ingredientId: selectedId,
         });
+
         navigation.goBack();
       }}>
       {({
@@ -134,12 +134,9 @@ const AddMeasureForm = () => {
                       i => i.name === item,
                     );
                     setSelectedId(indexOfItem[0].id);
-
                     setFieldValue('ingredient', item);
                   }}
-                  onSelect={index => {
-                    setSelectedIngredientIndex(index);
-                  }}
+                  onSelect={index => setSelectedIngredientIndex(index)}
                 />
                 <Text category="c2" appearance="hint" status="danger">
                   {errors.ingredient && touched.ingredient && errors.ingredient}
@@ -190,9 +187,7 @@ const AddMeasureForm = () => {
                     name="quantity"
                     mantissa={4}
                     styles={styles.input}
-                    onSubmitEditing={() => {
-                      submitRef.current.focus();
-                    }}
+                    onSubmitEditing={() => submitRef.current.focus()}
                     ref={quantityRef}
                   />
                   <Text category="c2" appearance="hint" status="danger">
@@ -202,7 +197,9 @@ const AddMeasureForm = () => {
               </Layout>
             </Layout>
             <Layout style={styles.submit} level="3">
-              <Button onPress={handleSubmit}>{t('ADD_TO_RECIPE')}</Button>
+              <Button type="button" onPress={handleSubmit}>
+                {t('ADD_TO_RECIPE')}
+              </Button>
             </Layout>
           </Layout>
         </ScrollView>

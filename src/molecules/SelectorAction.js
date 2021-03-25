@@ -36,16 +36,18 @@ const SelectorRawAction = (
   // const displayValue = data && data[selectedIndex.row];
   const displayValue = value;
 
-  const renderOption = (item) => (
-    <SelectItem
-      key={item}
-      title={item}
-      onPress={() => {
-        handlePressItem(item);
-        inputRef.current.blur();
-      }}
-    />
-  );
+  const renderOption = item => {
+    return (
+      <SelectItem
+        key={item}
+        title={item}
+        onPress={() => {
+          handlePressItem(item);
+          inputRef.current.blur();
+        }}
+      />
+    );
+  };
 
   useImperativeHandle(ref, () => ({
     focus: () => {
@@ -68,7 +70,8 @@ const SelectorRawAction = (
           disabled={disabled}
           ref={inputRef}
           selectedIndex={selectedIndex}
-          onSelect={onSelect}>
+          // onSelect={onSelect}
+        >
           <SelectItem
             key="AddNewMeasure"
             title={actionTitle}

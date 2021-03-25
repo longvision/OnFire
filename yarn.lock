@@ -2684,9 +2684,9 @@
   "version" "1.1.1"
 
 "electron-to-chromium@^1.3.649":
-  "integrity" "sha512-VEXDzYblnlT+g8Q3gedwzgKOso1evkeJzV8lih7lV8mL8eAnGVnKyC3KsFT6S+R5PQO4ffdr1PI16/ElibY/kQ=="
-  "resolved" "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.698.tgz"
-  "version" "1.3.698"
+  "integrity" "sha512-fjt43CPXdPYwD9ybmKbNeLwZBmCVdLY2J5fGZub7/eMPuiqQznOGNXv/wurnpXIlE7ScHnvG9Zi+H4/i6uMKmw=="
+  "resolved" "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.699.tgz"
+  "version" "1.3.699"
 
 "emoji-regex@^7.0.1":
   "integrity" "sha512-CwBLREIQ7LvYFB0WyRvwhq5N5qPhc6PMjD6bYggFlI5YyDgl+0vxq5VHbMOFqLg7hfWzmu8T5Z1QofhmTIhItA=="
@@ -4523,7 +4523,7 @@
     "import-local" "^3.0.2"
     "jest-cli" "^25.5.4"
 
-"jetifier@^1.6.2":
+"jetifier@^1.6.2", "jetifier@^1.6.6":
   "integrity" "sha512-JNAkmPeB/GS2tCRqUzRPsTOHpGDah7xP18vGJfIjZC+W2sxEHbxgJxetIjIqhjQ3yYbYNEELkM/spKLtwoOSUQ=="
   "resolved" "https://registry.yarnpkg.com/jetifier/-/jetifier-1.6.6.tgz"
   "version" "1.6.6"
@@ -6029,7 +6029,7 @@
 
 "react-native-eject@^0.1.2":
   "integrity" "sha512-ITuAYOLMOiSXNAjWeucQPm5i6VVweuh/Zo2gfMFSCf1DjVrdOocWwy2kkg65ypbbt26tW6Vd3ZrqNRCsC9rqDA=="
-  "resolved" "https://registry.npmjs.org/react-native-eject/-/react-native-eject-0.1.2.tgz"
+  "resolved" "https://registry.yarnpkg.com/react-native-eject/-/react-native-eject-0.1.2.tgz"
   "version" "0.1.2"
 
 "react-native-eva-icons@^1.3.1":

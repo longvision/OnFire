@@ -150,7 +150,8 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 60,
     fontWeight: 'bold',
-    marginBottom: 50,
+    // marginBottom: 50,
+    marginTop: 30,
   },
   inputContainer: {
     width: '100%',
