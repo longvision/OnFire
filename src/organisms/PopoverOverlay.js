@@ -30,10 +30,11 @@ const styles = StyleSheet.create({
   content: {
     flexDirection: 'column',
     alignItems: 'center',
+    justifyContent: 'flex-start',
     paddingHorizontal: 4,
     paddingVertical: 8,
     marginTop: 10,
-    height: 600,
+    height: 300,
     width: 360,
   },
   avatar: {

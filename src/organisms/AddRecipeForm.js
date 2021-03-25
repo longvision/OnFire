@@ -13,7 +13,7 @@ import {
 import * as Yup from 'yup';
 import {useTranslation} from 'react-i18next';
 
-const saveIcon = (props) => <Icon {...props} name="save-outline" />;
+const saveIcon = props => <Icon {...props} name="save-outline" />;
 
 const AddRecipeForm = ({handleClose}) => {
   const {t, i18n} = useTranslation();
@@ -38,7 +38,7 @@ const AddRecipeForm = ({handleClose}) => {
         description: '',
       }}
       validationSchema={AddRecipeSchema}
-      onSubmit={(values) => {
+      onSubmit={values => {
         dispatch.recipes.addAsync({
           name: values.name,
           description: values.description,
@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
   },
 
   submit: {
-    marginTop: 20,
+    marginTop: 10,
   },
   controlContainer: {
     width: '100%',
