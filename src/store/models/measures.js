@@ -1,4 +1,3 @@
-import React from 'react';
 import {createModel} from '@rematch/core';
 import api from '../../services/api';
 import tron from '../../config/ReactotronConfig';
@@ -53,34 +52,26 @@ export const measures = createModel()({
       return {...state, ingredients: [...state.ingredients, payload]};
     },
     delete(state, payload) {
-      const newArray = state.measures.filter((item) => item.id !== payload);
+      const newArray = state.measures.filter(item => item.id !== payload);
       return {...state, measures: newArray};
     },
   },
-  effects: (dispatch) => ({
-    async alertOff(payload, rootState) {
+  effects: dispatch => ({
+    async alertOff() {
       dispatch.measures.understood();
     },
     async addAsync(payload, rootState) {
-      // API Object
-      // "product_id": 1,
-      // "quantity": 10,
-      // "unit": "mL",
-      // "ingredient_id": 2
-
       try {
         const {values, productId, ingredientId} = payload;
-
         api.defaults.headers.Authorization = `Bearer ${rootState.auth.token}`;
-        console.log(values);
-        const measure = await api.post('measure', {
+        const measure = await api.post('/measure', {
           product_id: productId,
           quantity: checkDollarSign(values.quantity),
           ingredient_id: ingredientId,
           unit: values.unit,
         });
 
-        dispatch.measures.addMeasure(measure.data);
+        this.addMeasure(measure.data);
       } catch (err) {
         dispatch.measures.failed();
       }
@@ -123,7 +114,7 @@ export const measures = createModel()({
         await api.patch(`ingredient/${id}`, {
           id: id,
           name: values.ingredient,
-          package_price: checkDollarSign(values.price),
+          package_price: checkDollarSign(values.price.toString()),
           package_size: values.size,
           unit: values.unit,
           seller: values.seller,

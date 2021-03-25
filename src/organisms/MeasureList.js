@@ -27,8 +27,8 @@ export const MeasureList = ({
 }) => {
   const {t, i18n} = useTranslation();
   const dispatch = useDispatch();
-  const measures = useSelector((state) => state.measures.measures);
-  const renderItemIcon = (props) => <Icon {...props} name="trash-outline" />;
+  const measures = useSelector(state => state.measures.measures);
+  const renderItemIcon = props => <Icon {...props} name="trash-outline" />;
 
   const renderItem = ({item, index}) => (
     <>
@@ -59,7 +59,7 @@ export const MeasureList = ({
   return (
     <>
       <Text>{props.label && props.label}</Text>
-      <Layout style={{width: width}} level="1">
+      <Layout style={{width: width, paddingBottom: 55}} level="1">
         <List
           style={{height: height, backgroundColor: 'white'}}
           data={measures}
