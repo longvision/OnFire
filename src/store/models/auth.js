@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {createModel} from '@rematch/core';
-import {Alert} from 'react-native';
+
 import api from '../../services/api';
 
 export const auth = createModel()({
@@ -36,30 +36,30 @@ export const auth = createModel()({
       return {...state, success: true};
     },
   },
-  effects: (dispatch) => ({
+  effects: dispatch => ({
     async loginAsync(payload, rootState) {
       try {
-        const data = await AsyncStorage.getItem('persist:root');
-        const localToken = JSON.parse(JSON.parse(data).auth).token;
-        if (localToken) {
-          dispatch.auth.login({token: localToken});
-        } else {
-          const {email, password} = payload;
+        // const data = await AsyncStorage.getItem('persist:root');
+        // const localToken = JSON.parse(JSON.parse(data).auth).token;
+        // if (localToken) {
+        //   dispatch.auth.login({token: localToken});
+        // } else {
+        const {email, password} = payload;
 
-          const response = await api.post('sessions', {
-            email,
-            password,
-          });
+        const response = await api.post('sessions', {
+          email,
+          password,
+        });
 
-          const {token} = response.data;
+        const {token} = response.data;
 
-          // api.defaults.headers.Authorization = `Bearer ${token}`;
+        // api.defaults.headers.Authorization = `Bearer ${token}`;
 
-          dispatch.auth.login({token: token});
-        }
-
+        dispatch.auth.login({token: token});
+      } catch (err) {
         // history.push('/dashboard');
-      } catch (err) {}
+        // }
+      }
     },
     async signOutAsync() {
       dispatch.auth.signOut();
