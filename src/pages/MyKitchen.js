@@ -84,7 +84,7 @@ export const MyKitchen = ({navigation}) => {
       <TopNavigation title={t('Kitchen')} alignment="center" />
       <Divider />
       <ModalOverlay
-        style={{top: -100}}
+        // style={{top: -100}}
         text={t('Create_Recipes')}
         visible={visible}
         onBackdropPress={handleHideModal}>
@@ -96,16 +96,12 @@ export const MyKitchen = ({navigation}) => {
           onSelect={onSelect}
           tabsArray={[t('Recipes'), t('Ingredients')]}>
           <Tab title={t('RECIPES')} style={{height: 44}}>
-            {recipes.length ? (
-              <RecipeListTemplate
-                addIcon={AddIcon}
-                iconName={EditIcon}
-                navigation={navigation}
-                recipes={recipes}
-              />
-            ) : (
-              <Text>{t('EMPTY_RECIPES')}</Text>
-            )}
+            <RecipeListTemplate
+              addIcon={AddIcon}
+              iconName={EditIcon}
+              navigation={navigation}
+              recipes={recipes}
+            />
           </Tab>
 
           <Tab title={t('INGREDIENTS')} style={{height: 44}}>
