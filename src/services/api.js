@@ -1,9 +1,11 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://10.0.2.2:3333/', //Android Localhost
-  // baseURL: 'http://localhost:3333/', //iOS Localhost/
+  // baseURL: 'http://10.0.2.2:3333/', //Android Localhost
+  // baseURL: 'http://10.0.1.1:3333/', //Android Localhost
+  baseURL: 'http://localhost:3333/', //iOS Localhost/
   // baseURL: 'http://192.168.1.200:3333/', //Android Localhost
+  // baseURL: 'http://127.168.1.200:3333/', //Android Localhost
   // baseURL: 'http://localhost:3333/', //iOS
   // baseURL: 'https://recipeapi-dev.onrender.com/', //Render
   // baseURL: 'https://nodedeploy.smartflashcards.app/', //producao
