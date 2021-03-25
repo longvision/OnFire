@@ -95,12 +95,16 @@ export const MyKitchen = ({navigation}) => {
           onSelect={onSelect}
           tabsArray={[t('Recipes'), t('Ingredients')]}>
           <Tab title={t('RECIPES')} style={{height: 44}}>
-            <RecipeListTemplate
-              addIcon={AddIcon}
-              iconName={EditIcon}
-              navigation={navigation}
-              recipes={recipes}
-            />
+            {recipes.length ? (
+              <RecipeListTemplate
+                addIcon={AddIcon}
+                iconName={EditIcon}
+                navigation={navigation}
+                recipes={recipes}
+              />
+            ) : (
+              <Text>{t('EMPTY_RECIPES')}</Text>
+            )}
           </Tab>
 
           <Tab title={t('INGREDIENTS')} style={{height: 44}}>
