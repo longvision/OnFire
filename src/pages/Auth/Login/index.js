@@ -47,19 +47,22 @@ export const Login = () => {
       behavior={Platform.OS === 'ios' ? 'padding' : null}>
       <ImageOverlay
         style={styles.container}
-        source={require('./images/Sesame-Steak-Salad.jpeg')}>
+        source={require('./images/image-background.jpeg')}>
         <View style={styles.formContainer} level="4">
-          <Layout
+          <View
             style={{
               // Transparent background because mask is based off alpha channel.
               backgroundColor: 'transparent',
               // justifyContent: 'flex-start',
+
               alignItems: 'center',
             }}>
-            <Text category="h1" status="control" style={styles.title}>
-              {t('Hello')}
-            </Text>
-          </Layout>
+            <Image
+              style={{width: 350, height: 200}}
+              resizeMode="contain"
+              source={require('../../../assets/logo.png')}
+            />
+          </View>
 
           <ImageOverlay style={styles.inputContainer}>
             <Text style={styles.signInLabel} category="s1" status="control">
@@ -160,7 +163,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     backgroundColor: 'transparent',
-    overlayColor: 'rgba(0, 128, 51, 0.550)',
+
     // flex: 1,
     paddingTop: 20,
   },
