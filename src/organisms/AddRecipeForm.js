@@ -13,7 +13,7 @@ import {
 import * as Yup from 'yup';
 import {useTranslation} from 'react-i18next';
 
-const saveIcon = (props) => <Icon {...props} name="save-outline" />;
+const saveIcon = props => <Icon {...props} name="save-outline" />;
 
 const AddRecipeForm = ({handleClose}) => {
   const {t, i18n} = useTranslation();
@@ -38,7 +38,7 @@ const AddRecipeForm = ({handleClose}) => {
         description: '',
       }}
       validationSchema={AddRecipeSchema}
-      onSubmit={(values) => {
+      onSubmit={values => {
         dispatch.recipes.addAsync({
           name: values.name,
           description: values.description,
@@ -55,8 +55,7 @@ const AddRecipeForm = ({handleClose}) => {
         touched,
         values,
       }) => (
-        // <Layout style={styles.container} level="1">
-        <Layout style={styles.controlContainer} level="1">
+        <Layout level="1">
           {/* <Text
             category="h4"
             appearance="alternative"
@@ -108,7 +107,6 @@ const AddRecipeForm = ({handleClose}) => {
             <Button onPress={handleSubmit}>{t('CREATE_RECIPE')}</Button>
           </Layout>
         </Layout>
-        // </Layout>
       )}
     </Formik>
   );
@@ -137,20 +135,20 @@ const styles = StyleSheet.create({
     marginTop: 10,
     // margin: 2,
   },
-  container: {},
+
   rowContainer: {
     marginVertical: 3,
-
+    width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
   },
 
   submit: {
-    marginTop: 20,
+    marginTop: 10,
   },
   controlContainer: {
     width: '100%',
-    height: '80%',
+    height: '100%',
 
     justifyContent: 'center',
     alignItems: 'center',

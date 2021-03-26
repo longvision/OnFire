@@ -31,7 +31,7 @@ const resources = {
       Package_Unit: 'Product Unit',
       Package_Price: 'Product Price',
       Save: 'Save',
-      Package_Info: 'Package Info',
+      Package_Info: 'Product/Package Info',
       quantity: 'quantity',
       cost: 'cost',
       Recipes_name: "Recipe's Name",
@@ -88,6 +88,8 @@ const resources = {
       SETTINGS: 'SETTINGS',
       Settings: 'Settings',
       KITCHEN: 'KITCHEN',
+      EMPTY_RECIPES:
+        'Please add a new Ingredient to start creating you recipes! ',
     },
   },
   pt: {
@@ -113,11 +115,11 @@ const resources = {
       Brand: 'Marca do produto',
       Seller: 'Vendedor',
       Region: 'Regiào da compra',
-      Package_Size: 'Tamanho da embalagem',
-      Package_Unit: 'Unidade de medida da embalagem',
+      Package_Size: 'Tamanho do produto comprado',
+      Package_Unit: 'Unidade de medida do produto',
       Package_Price: 'Preço do produto',
       Save: 'Salvar',
-      Package_Info: 'Dados da embalagem',
+      Package_Info: 'Dados do Pacote/Embalagem',
       quantity: 'quantidade',
       cost: 'custo',
       Recipes_name: 'Nome da receita',
@@ -177,6 +179,8 @@ const resources = {
       KITCHEN: 'COZINHA',
       SETTINGS: 'AJUSTES',
       Settings: 'Ajustes',
+      EMPTY_RECIPES:
+        'Por favor adicione um novo ingrediente para começar a criar receitas!',
     },
   },
 };

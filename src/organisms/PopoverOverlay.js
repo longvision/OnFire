@@ -7,7 +7,7 @@ export const PopoverOverlay = ({
   handleClose,
   visible,
   children,
-  renderToggleButton,
+  anchor,
   placement,
 }) => {
   const {t, i18n} = useTranslation();
@@ -16,7 +16,7 @@ export const PopoverOverlay = ({
       backdropStyle={styles.backdrop}
       visible={visible}
       placement={placement}
-      anchor={renderToggleButton}
+      anchor={anchor}
       onBackdropPress={handleClose}>
       <Layout style={styles.content}>
         <Text category="h3">{t('Create_Recipes')}</Text>
@@ -30,10 +30,11 @@ const styles = StyleSheet.create({
   content: {
     flexDirection: 'column',
     alignItems: 'center',
+    justifyContent: 'flex-start',
     paddingHorizontal: 4,
-    paddingVertical: 8,
-    marginTop: 10,
-    height: 600,
+    paddingVertical: 15,
+    marginBottom: 15,
+    height: 280,
     width: 360,
   },
   avatar: {
@@ -42,5 +43,6 @@ const styles = StyleSheet.create({
   backdrop: {
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
     width: '100%',
+    height: 600,
   },
 });

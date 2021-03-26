@@ -44,7 +44,7 @@ const SizeInputField = (
   return (
     <Input
       style={styles}
-      keyboardType="decimal-pad"
+      keyboardType="numeric"
       status="basic"
       disabled={disabled}
       clearButtonMode="always"

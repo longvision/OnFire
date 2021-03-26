@@ -1,9 +1,10 @@
 import React, {useEffect, useState, useCallback} from 'react';
-import {SafeAreaView} from 'react-native';
+import {KeyboardAvoidingView, Platform, SafeAreaView} from 'react-native';
 import {
   Button,
   Divider,
   Icon,
+  Text,
   Layout,
   TopNavigation,
   Tab,
@@ -18,21 +19,25 @@ import RecipeListTemplate from '../templates/RecipeListTemplate';
 import {RecipeList} from '../organisms/RecipeList';
 import {ThemedAwesomeIcon} from '../atoms/ThemedAwesomeIcon';
 import {useFocusEffect} from '@react-navigation/native';
+import {PopoverOverlay} from '../organisms/PopoverOverlay';
+import AddRecipeForm from '../organisms/AddRecipeForm';
+import {ModalOverlay} from '../organisms/ModalOverlay';
 
-const BackIcon = (props) => <Icon {...props} name="arrow-back" />;
-const AddIcon = (props) => <Icon {...props} name="plus-outline" />;
-const EditIcon = (props) => <Icon {...props} name="edit-2-outline" />;
+const BackIcon = props => <Icon {...props} name="arrow-back" />;
+const AddIcon = props => <Icon {...props} name="plus-outline" />;
+const EditIcon = props => <Icon {...props} name="edit-2-outline" />;
 
 export const MyKitchen = ({navigation}) => {
   const {t, i18n} = useTranslation();
-  const ingredients = useSelector((state) => state.ingredients.ingredients);
-  const recipes = useSelector((state) => state.recipes.recipes);
+  const [visible, setVisible] = useState(false);
+  const ingredients = useSelector(state => state.ingredients.ingredients);
+  const recipes = useSelector(state => state.recipes.recipes);
 
   const loadingUpdate = useSelector(
-    (state) => state.loading.effects.ingredients.updateAsync,
+    state => state.loading.effects.ingredients.updateAsync,
   );
   const loadingCreate = useSelector(
-    (state) => state.loading.effects.recipes.addAsync,
+    state => state.loading.effects.recipes.addAsync,
   );
 
   const [selectedIndex, setSelectedIndex] = React.useState(0);
@@ -45,10 +50,20 @@ export const MyKitchen = ({navigation}) => {
   const BackAction = () => (
     <TopNavigationAction icon={BackIcon} onPress={navigateBack} />
   );
-  const EditIcon = (props) => {
+  const EditIcon = props => {
     return <ThemedAwesomeIcon name="edit-2-outline" {...props} />;
   };
-  const onSelect = (index) => setSelectedIndex(index);
+  const onSelect = index => setSelectedIndex(index);
+  const handlePress = () => {
+    navigation.navigate('AddIngredient');
+  };
+
+  function handleAddMeasure() {
+    setVisible(true);
+  }
+  function handleHideModal() {
+    setVisible(false);
+  }
 
   useFocusEffect(
     React.useCallback(() => {
@@ -68,6 +83,13 @@ export const MyKitchen = ({navigation}) => {
     <SafeAreaView style={{flex: 1}}>
       <TopNavigation title={t('Kitchen')} alignment="center" />
       <Divider />
+      <ModalOverlay
+        // style={{top: -100}}
+        text={t('Create_Recipes')}
+        visible={visible}
+        onBackdropPress={handleHideModal}>
+        <AddRecipeForm handleClose={() => setVisible(false)} />
+      </ModalOverlay>
       <Layout style={{flex: 1}}>
         <TabView
           selectedIndex={selectedIndex}
@@ -81,15 +103,40 @@ export const MyKitchen = ({navigation}) => {
               recipes={recipes}
             />
           </Tab>
+
           <Tab title={t('INGREDIENTS')} style={{height: 44}}>
-            <IngredientListTemplate
-              ingredients={ingredients}
-              navigation={navigation}
-              addIcon={AddIcon}
-            />
+            <Layout
+              style={{
+                height: '100%',
+              }}>
+              <IngredientListTemplate
+                ingredients={ingredients}
+                navigation={navigation}
+                addIcon={AddIcon}
+              />
+            </Layout>
           </Tab>
         </TabView>
       </Layout>
+      {selectedIndex === 0 ? (
+        <Button
+          size="large"
+          status="primary"
+          onPress={handleAddMeasure}
+          accessoryLeft={AddIcon}
+          appearance="filled">
+          {t('Create_Recipes')}
+        </Button>
+      ) : (
+        <Button
+          size="large"
+          status="primary"
+          accessoryLeft={AddIcon}
+          onPress={handlePress}
+          appearance="filled">
+          {t('Add_Ingredient')}
+        </Button>
+      )}
     </SafeAreaView>
   );
 };

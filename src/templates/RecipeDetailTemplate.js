@@ -62,7 +62,7 @@ const RecipeDetailTemplate = ({
         display: 'flex',
         flex: 1,
       }}>
-      <MeasureList img={true} cta={t('DELETE')} height="78%" width="92%" />
+      <MeasureList img={true} height="78%" width="92%" />
 
       <Layout
         style={{

@@ -1,13 +1,13 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import * as eva from '@eva-design/eva';
-
+import {Platform, StatusBar} from 'react-native';
 import {
   ApplicationProvider,
   IconRegistry,
   Spinner,
 } from '@ui-kitten/components';
 import {EvaIconsPack} from '@ui-kitten/eva-icons';
-
+import SplashScreen from 'react-native-splash-screen';
 import {AppNavigator} from './src/navigators/navigation';
 import {ThemeContext} from './theme-context';
 import {default as theme} from './theme.json'; //
@@ -18,7 +18,6 @@ import store from './src/store';
 import {PersistGate} from 'redux-persist/lib/integration/react';
 
 import {NavigationContainer} from '@react-navigation/native';
-import {useEffect} from 'react/cjs/react.development';
 
 export default () => {
   const [dark, setDark] = React.useState('light');
@@ -27,6 +26,9 @@ export default () => {
     const nextTheme = dark === 'light' ? 'dark' : 'light';
     setDark(nextTheme);
   };
+  useEffect(() => {
+    SplashScreen.hide();
+  }, []);
 
   return (
     <Provider store={store}>
@@ -38,6 +40,7 @@ export default () => {
           theme={{...eva[dark], ...theme}}
           customMapping={mapping}>
           <NavigationContainer>
+            {Platform.OS === 'ios' && <StatusBar barStyle="dark-content" />}
             <AppNavigator />
           </NavigationContainer>
         </ApplicationProvider>
