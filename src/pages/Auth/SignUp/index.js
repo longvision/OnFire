@@ -129,67 +129,75 @@ export const SignUp = () => {
       {/* <View style={styles.headerContainer}> */}
       <ImageOverlay
         style={styles.headerContainer}
-        source={require('./assets/background.jpeg')}
-      />
-      <Layout style={styles.formContainer} level="1">
-        <Input
-          autoCapitalize="none"
-          placeholder="User Name"
-          ref={firstRef}
-          onSubmitEditing={() => {
-            secondRef.current.focus();
-          }}
-          accessoryRight={PersonIcon}
-          value={userName}
-          onChangeText={text => setUserName(text.toLowerCase().trim())}
-        />
-        <Input
-          style={styles.emailInput}
-          autoCapitalize="none"
-          onSubmitEditing={() => {
-            thirdRef.current.focus();
-          }}
-          placeholder="Email"
-          ref={secondRef}
-          accessoryRight={EmailIcon}
-          value={email}
-          onChangeText={text => setEmail(text.trim())}
-        />
-        <Input
-          style={styles.passwordInput}
-          ref={thirdRef}
-          autoCapitalize="none"
-          secureTextEntry={!passwordVisible}
-          placeholder="Password"
-          accessoryRight={passwordVisible ? EyeIcon : EyeOffIcon}
-          value={password}
-          onChangeText={text => setPassword(text)}
-          onIconPress={onPasswordIconPress}
-        />
-        <CheckBox
-          style={styles.termsCheckBox}
-          textStyle={styles.termsCheckBoxText}
-          text={`I read and agreed to the Terms & Conditions`}
-          checked={termsAccepted}
-          onChange={checked => setTermsAccepted(checked)}>
-          <Text>{'I read and accepted the Terms & Conditions'}</Text>
-        </CheckBox>
-      </Layout>
-      <View style={styles.buttonContainer}>
-        <Button
-          style={styles.signUpButton}
-          size="giant"
-          onPress={onSignUpButtonPress}>
-          SIGN UP
-        </Button>
-        <Button
-          style={styles.signInButton}
-          appearance="ghost"
-          status="basic"
-          onPress={onSignInButtonPress}>
-          Already have an account? Sign In
-        </Button>
-      </View>
+        source={require('./assets/background.jpeg')}>
+        <View style={styles.inputContainer}>
+          <Layout style={styles.formContainer}>
+            <Input
+              autoCapitalize="none"
+              placeholder="User Name"
+              status="control"
+              ref={firstRef}
+              onSubmitEditing={() => {
+                secondRef.current.focus();
+              }}
+              accessoryRight={PersonIcon}
+              value={userName}
+              onChangeText={text => setUserName(text.toLowerCase().trim())}
+            />
+            <Input
+              style={styles.emailInput}
+              autoCapitalize="none"
+              status="control"
+              onSubmitEditing={() => {
+                thirdRef.current.focus();
+              }}
+              placeholder="Email"
+              ref={secondRef}
+              accessoryRight={EmailIcon}
+              value={email}
+              onChangeText={text => setEmail(text.trim())}
+            />
+            <Input
+              style={styles.passwordInput}
+              ref={thirdRef}
+              autoCapitalize="none"
+              status="control"
+              secureTextEntry={!passwordVisible}
+              placeholder="Password"
+              accessoryRight={passwordVisible ? EyeIcon : EyeOffIcon}
+              value={password}
+              onChangeText={text => setPassword(text)}
+              onIconPress={onPasswordIconPress}
+            />
+            <CheckBox
+              style={styles.termsCheckBox}
+              status="control"
+              textStyle={styles.termsCheckBoxText}
+              text={`I read and agreed to the Terms & Conditions`}
+              checked={termsAccepted}
+              onChange={checked => setTermsAccepted(checked)}>
+              <Text status="control">
+                {'I read and accepted the Terms & Conditions'}
+              </Text>
+            </CheckBox>
+          </Layout>
+        </View>
+        <View style={styles.buttonContainer}>
+          <Button
+            style={styles.signUpButton}
+            size="giant"
+            onPress={onSignUpButtonPress}>
+            SIGN UP
+          </Button>
+          <Button
+            style={styles.signInButton}
+            appearance="ghost"
+            status="control"
+            onPress={onSignInButtonPress}>
+            Already have an account? Sign In
+          </Button>
+        </View>
+      </ImageOverlay>
     </KeyboardAvoidingView>
   );
 };
@@ -201,7 +209,7 @@ const themedStyles = StyleService.create({
   headerContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    minHeight: 216,
+    flex: 1,
     backgroundColor: 'color-primary-default',
   },
   profileAvatar: {
@@ -215,7 +223,16 @@ const themedStyles = StyleService.create({
   buttonContainer: {
     justifyContent: 'flex-end',
     marginBottom: 24,
+
     flex: 1,
+  },
+  inputContainer: {
+    width: '100%',
+    justifyContent: 'center',
+    flex: 1,
+    paddingHorizontal: 20,
+    backgroundColor: 'rgba(0, 0, 0, 0.750)',
+    // paddingTop: 40,
   },
   editAvatarButton: {
     width: 40,
@@ -223,8 +240,12 @@ const themedStyles = StyleService.create({
     borderRadius: 20,
   },
   formContainer: {
+    backgroundColor: 'transparent',
+    // paddingTop: 32,
+    // marginTop: 40,
     flex: 1,
-    paddingTop: 32,
+    justifyContent: 'center',
+    alignItems: 'center',
     paddingHorizontal: 16,
   },
   emailInput: {
