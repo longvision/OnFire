@@ -129,7 +129,7 @@ export const SignUp = () => {
       {/* <View style={styles.headerContainer}> */}
       <ImageOverlay
         style={styles.headerContainer}
-        source={require('./assets/ramen.jpeg')}
+        source={require('./assets/background.jpeg')}
       />
       <Layout style={styles.formContainer} level="1">
         <Input

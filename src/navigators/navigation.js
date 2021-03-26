@@ -9,8 +9,6 @@ import {useSelector} from 'react-redux';
 export const AppNavigator = () => {
   const token = useSelector(state => state.auth.token);
 
-  useEffect(() => {}, [token]);
-
   return (
     // <Stack.Navigator headerMode="none">
     <>
