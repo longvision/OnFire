@@ -164,10 +164,8 @@ export const SignUp = () => {
               status="control"
               secureTextEntry={!passwordVisible}
               placeholder="Password"
-              accessoryRight={passwordVisible ? EyeIcon : EyeOffIcon}
               value={password}
               onChangeText={text => setPassword(text)}
-              onIconPress={onPasswordIconPress}
             />
             <CheckBox
               style={styles.termsCheckBox}
