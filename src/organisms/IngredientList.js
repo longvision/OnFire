@@ -6,6 +6,7 @@ import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import Popularity from '../atoms/Popularity';
 import ListTitle from '../atoms/ListTitle';
 import {useDispatch} from 'react-redux';
+import {useTranslation} from 'react-i18next';
 
 export const IngredientList = ({
   data,
@@ -22,6 +23,7 @@ export const IngredientList = ({
   width,
   ...props
 }) => {
+  const {t, i18n} = useTranslation();
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
@@ -57,7 +59,7 @@ export const IngredientList = ({
             <Text category="s1">
               {`${Number(item.package_size).toFixed(2)} ${item.unit}`}
             </Text>
-            <Text category="s2">{`$${Number(item.package_price).toFixed(
+            <Text category="s2">{`${t('$')}${Number(item.package_price).toFixed(
               2,
             )}`}</Text>
           </Layout>
