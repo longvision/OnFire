@@ -46,7 +46,6 @@ const PriceInputField = (
     const usNotation = /^\d+(\.\d)?\d*$/;
 
     if (usNotation.test(value)) {
-      console.log('is US Number Notation: ', usNotation.test(value));
       const final = Number(value).toLocaleString('en-US', {
         minimumFractionDigits: 0,
         maximumFractionDigits: 2,
