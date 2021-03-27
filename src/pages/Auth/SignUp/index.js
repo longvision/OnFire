@@ -34,6 +34,7 @@ export const SignUp = () => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [userError, setUserError] = React.useState(false);
+  const [emailError, setEmailError] = React.useState(false);
   const [termsAccepted, setTermsAccepted] = React.useState(false);
   // const [passwordVisible, setPasswordVisible] = React.useState(false);
   const firstRef = useRef(null);
@@ -42,8 +43,8 @@ export const SignUp = () => {
   const forthRef = useRef(null);
 
   const styles = useStyleSheet(themedStyles);
-  const regex = /^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){3,18}[a-zA-Z0-9]$/;
-
+  const usernameRegex = /^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){3,18}[a-zA-Z0-9]$/;
+  const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
   const onSignUpButtonPress = () => {
     if (termsAccepted && email && userName && password) {
       dispatch.auth.signUpAsync({
@@ -141,7 +142,7 @@ export const SignUp = () => {
               status="control"
               ref={firstRef}
               onSubmitEditing={() => {
-                if (!regex.test(userName)) {
+                if (!usernameRegex.test(userName)) {
                   setUserName('');
                   setUserError(true);
                 } else {
@@ -155,7 +156,7 @@ export const SignUp = () => {
               onChangeText={text => setUserName(text.toLowerCase().trim())}
             />
             {userError && (
-              <Text category="s1" status="warning">
+              <Text category="s2" status="warning">
                 {t('userError')}
               </Text>
             )}
@@ -164,7 +165,13 @@ export const SignUp = () => {
               autoCapitalize="none"
               status="control"
               onSubmitEditing={() => {
-                thirdRef.current.focus();
+                if (!emailRegex.test(email)) {
+                  setEmail('');
+                  setEmailError(true);
+                } else {
+                  thirdRef.current.focus();
+                  setEmailError(false);
+                }
               }}
               placeholder="Email"
               ref={secondRef}
@@ -172,6 +179,11 @@ export const SignUp = () => {
               value={email}
               onChangeText={text => setEmail(text.trim())}
             />
+            {emailError && (
+              <Text category="s2" status="warning">
+                {t('emailError')}
+              </Text>
+            )}
             <Input
               style={styles.passwordInput}
               ref={thirdRef}
