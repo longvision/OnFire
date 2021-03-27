@@ -43,7 +43,7 @@ const PriceInputField = (
     setFieldValue(name, text);
   };
   const handleBlur = () => {
-    const usNotation = /^[1-9]\d*(\.\d+)?$/;
+    const usNotation = /^\d+(\.\d)?\d*$/;
 
     if (usNotation.test(value)) {
       console.log('is US Number Notation: ', usNotation.test(value));
