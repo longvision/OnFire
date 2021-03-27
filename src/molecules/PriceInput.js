@@ -18,7 +18,7 @@ const PriceInputField = (
 ) => {
   const inputRef = useRef();
   const {t, i18n} = useTranslation();
-  const Icon = (iconProps) => <Icon {...iconProps} name={iconName} />;
+  const Icon = iconProps => <Icon {...iconProps} name={iconName} />;
 
   function currencyFormat(num) {
     return (
@@ -29,7 +29,7 @@ const PriceInputField = (
     );
   }
 
-  const handleChangeText = (text) => {
+  const handleChangeText = text => {
     setFieldValue(name, text);
   };
 
@@ -51,6 +51,8 @@ const PriceInputField = (
       disabled={disabled}
       status="basic"
       value={value}
+      keyboardType="default"
+      autoCapitalize="none"
       clearButtonMode="always"
       ref={inputRef}
       onChangeText={handleChangeText}

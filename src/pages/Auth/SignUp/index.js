@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useRef, useEffect} from 'react';
 import {View, Alert} from 'react-native';
 import {
   Button,
@@ -16,6 +16,7 @@ import {
   EyeOffIcon,
   PersonIcon,
   PlusIcon,
+  PassIcon,
 } from './extra/icons.js';
 import {KeyboardAvoidingView} from './extra/3rd-party';
 import {useNavigation} from '@react-navigation/native';
@@ -32,14 +33,16 @@ export const SignUp = () => {
   const [userName, setUserName] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const [userError, setUserError] = React.useState(false);
   const [termsAccepted, setTermsAccepted] = React.useState(false);
-  const [passwordVisible, setPasswordVisible] = React.useState(false);
+  // const [passwordVisible, setPasswordVisible] = React.useState(false);
   const firstRef = useRef(null);
   const secondRef = useRef(null);
   const thirdRef = useRef(null);
   const forthRef = useRef(null);
 
   const styles = useStyleSheet(themedStyles);
+  const regex = /^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){3,18}[a-zA-Z0-9]$/;
 
   const onSignUpButtonPress = () => {
     if (termsAccepted && email && userName && password) {
@@ -71,13 +74,13 @@ export const SignUp = () => {
     navigation.navigate('Login');
   };
 
-  const onPasswordIconPress = () => {
-    setPasswordVisible(!passwordVisible);
-  };
+  // const onPasswordIconPress = () => {
+  //   setPasswordVisible(!passwordVisible);
+  // };
 
-  const renderEditAvatarButton = () => (
-    <Button style={styles.editAvatarButton} status="basic" icon={PlusIcon} />
-  );
+  // const renderEditAvatarButton = () => (
+  //   <Button style={styles.editAvatarButton} status="basic" icon={PlusIcon} />
+  // );
 
   React.useEffect(() => {
     signUpfail &&
@@ -138,12 +141,25 @@ export const SignUp = () => {
               status="control"
               ref={firstRef}
               onSubmitEditing={() => {
-                secondRef.current.focus();
+                if (!regex.test(userName)) {
+                  setUserName('');
+                  setUserError(true);
+                } else {
+                  secondRef.current.focus();
+                  setUserError(false);
+                }
               }}
+              autoCorrect={false}
               accessoryRight={PersonIcon}
               value={userName}
               onChangeText={text => setUserName(text.toLowerCase().trim())}
             />
+            {userError && (
+              <Text category="s1" status="warning">
+                {' '}
+                {t('userError')}
+              </Text>
+            )}
             <Input
               style={styles.emailInput}
               autoCapitalize="none"
@@ -162,8 +178,9 @@ export const SignUp = () => {
               ref={thirdRef}
               autoCapitalize="none"
               status="control"
-              secureTextEntry={!passwordVisible}
+              secureTextEntry={true}
               placeholder="Password"
+              accessoryRight={PassIcon}
               value={password}
               onChangeText={text => setPassword(text)}
             />

@@ -4,18 +4,14 @@ import {Icon, IconElement} from '@ui-kitten/components';
 
 export const EmailIcon = props => <Icon {...props} name="email" />;
 
-export const EyeIcon = ({onPasswordIconPress, ...props}) => (
-  <TouchableOpacity onPress={onPasswordIconPress}>
-    <Icon {...props} name="eye" onPress={onPasswordIconPress} />
-  </TouchableOpacity>
-);
+export const EyeIcon = props => <Icon {...props} name="eye" />;
 
-export const EyeOffIcon = ({onPasswordIconPress, ...props}) => (
-  <TouchableOpacity onPress={onPasswordIconPress}>
-    <Icon {...props} name="eye-off" />
-  </TouchableOpacity>
-);
+export const EyeOffIcon = props => <Icon {...props} name="eye-off" />;
 
 export const PersonIcon = props => <Icon {...props} name="person" />;
 
 export const PlusIcon = props => <Icon {...props} name="plus" />;
+
+export const PassIcon = props => (
+  <Icon {...props} name="more-horizontal-outline" />
+);
