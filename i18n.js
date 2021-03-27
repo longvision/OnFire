@@ -135,7 +135,7 @@ const resources = {
       Add_new_ingredient: 'Adicione novo ingrediente',
       Select_the_unit_of_measurement: 'Selecione a unidade de medida',
       Unit: 'Unidade',
-      Quantity_to_be_added: 'Quantidade a ser adicionada',
+      Quantity_to_be_added: '100,00 Quantidade a ser adicionada',
       ADD_TO_RECIPE: 'ADICIONAR À RECEITA',
       Ingredient_name_is_required: 'Nome do ingrediente é obrigatório.',
       Unit_is_required: `Unidade de medida é necessária.`,
@@ -200,7 +200,7 @@ i18next
   .use(i18nextReactNative)
   .init({
     resources,
-    lng: 'en',
+    lng: 'pt',
     keySeparator: false, // we do not use keys in form messages.welcome
     interpolation: {
       escapeValue: false, // react already safes from xss
