@@ -2,6 +2,7 @@ import React, {useImperativeHandle, useRef, forwardRef, useEffect} from 'react';
 import {Input, Icon, Text} from '@ui-kitten/components';
 import {useTranslation} from 'react-i18next';
 import {MaskService} from 'react-native-masked-text';
+import {PrivateValueStore} from '@react-navigation/core';
 const SizeInputField = (
   {
     placeholder,
@@ -24,41 +25,31 @@ const SizeInputField = (
   const {t, i18n} = useTranslation();
   const Icon = iconProps => <Icon {...iconProps} name={iconName} />;
 
-  function usFormat(text) {
-    const quantity = MaskService.toMask('money', text, {
-      unit: '',
-      separator: '.',
-      delimiter: ',',
-      suffixUnit: unit,
-    });
-    return quantity;
-  }
-
-  function brFormat(text) {
-    const quantity = MaskService.toMask('money', text, {
-      unit: '',
-      separator: ',',
-      delimiter: '.',
-      suffixUnit: unit,
-    });
-    return quantity;
-  }
-
   const handleChangeText = text => {
     setFieldValue(name, text);
   };
 
   const handleBlur = () => {
-    if (i18n.language === 'en') {
-      setFieldValue(name, usFormat(value));
+    const usNotation = /^[1-9]\d*(\.\d+)?$/;
+
+    if (usNotation.test(value)) {
+      console.log('is US Number Notation: ', usNotation.test(value));
+      const final = Number(value).toLocaleString('en-US', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2,
+      });
+      setFieldValue(name, final);
+      setFormattedSize(final);
+    } else {
+      const cleaned = value.replaceAll('.', '').replaceAll(',', '.');
+      const brFinal = Number(cleaned).toLocaleString('en-US', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2,
+      });
+
+      setFormattedSize(brFinal);
+      setFieldValue(name, brFinal);
     }
-    if (i18n.language === 'pt') {
-      setFieldValue(name, brFormat(value));
-    }
-    // const array = value.toString().splice(-2);
-    const serverFormat = [value.slice(0, -2), '.', value.slice(-2)].join('');
-    console.log(Number(serverFormat).toFixed(4));
-    setFormattedSize(Number(serverFormat).toFixed(4));
   };
 
   useImperativeHandle(ref, () => ({

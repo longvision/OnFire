@@ -22,80 +22,53 @@ const PriceInputField = (
   const {t, i18n} = useTranslation();
   const Icon = iconProps => <Icon {...iconProps} name={iconName} />;
 
-  // function dollarFormat(num) {
-  //   //format a number to 4 decimal points using dot notation.
-  //   // .replace(/(\d)(?=(\d{3})+(?!\d)(\.\d{1,4}))/g, '$1,')
-  //   return (
-  //     `$` +
-  //     Number(num).toLocaleString('en-US', {
-  //       minimumFractionDigits: 2,
-  //       maximumFractionDigits: 4,
-  //     })
-  //   );
-  // }
-  // function realFormat(num) {
-  //   const formatOriginalInput = text => {
-  //     console.log(text);
-  //     const clean = text.toString().replaceAll('.', '').replaceAll(',', '.');
-  //     return Number(clean).toLocaleString('pt-BR', {
-  //       minimumFractionDigits: 2,
-  //       maximumFractionDigits: 4,
-  //     });
-  //   };
-  //   //Check if number is brazilian notation
-  //   const dollarRegex = /(\d)(?=(\d{3})+(?!\d)(\.\d{1,4}))/;
-  //   console.log(dollarRegex.test(num));
-  //   if (!dollarRegex.test(num)) {
-  //     return (
-  //       `R$` +
-  //       Number(formatOriginalInput(num)).toLocaleString('pt-BR', {
-  //         minimumFractionDigits: 2,
-  //         maximumFractionDigits: 4,
-  //       })
-  //     );
-  //   } else {
-  //     //format a number to 4 decimal points using comma notation.
-  //     return (
-  //       `R$` +
-  //       Number(num).toLocaleString('pt-BR', {
-  //         minimumFractionDigits: 2,
-  //         maximumFractionDigits: 4,
-  //       })
-  //     );
-  //   }
-  // }
-
-  const dollarFormat = text => {
-    const money = MaskService.toMask('money', text, {
-      unit: '$',
-      separator: '.',
-      delimiter: ',',
-    });
-    return money;
-  };
-  const realFormat = text => {
-    const money = MaskService.toMask('money', text, {
-      unit: 'R$',
-      separator: ',',
-      delimiter: '.',
-    });
-    return money;
-  };
+  // const dollarFormat = text => {
+  //   const money = MaskService.toMask('money', text, {
+  //     unit: '$',
+  //     separator: '.',
+  //     delimiter: ',',
+  //   });
+  //   return money;
+  // };
+  // const realFormat = text => {
+  //   const money = MaskService.toMask('money', text, {
+  //     unit: 'R$',
+  //     separator: ',',
+  //     delimiter: '.',
+  //   });
+  //   return money;
+  // };
 
   const handleChangeText = text => {
     setFieldValue(name, text);
   };
-
   const handleBlur = () => {
-    if (i18n.language === 'en') {
-      setFieldValue(name, dollarFormat(value));
+    const usNotation = /^[1-9]\d*(\.\d+)?$/;
+
+    if (usNotation.test(value)) {
+      console.log('is US Number Notation: ', usNotation.test(value));
+      const final = Number(value).toLocaleString('en-US', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2,
+      });
+
+      setFieldValue(name, `${t('$')} ${final}`);
+      setFormattedPrice(final);
+    } else {
+      const cleaned = value.replaceAll('.', '').replaceAll(',', '.');
+      const final = Number(cleaned).toLocaleString('en-US', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2,
+      });
+      if (isNaN(final)) {
+        setFieldValue(name, '');
+      } else {
+        setFieldValue(name, `${t('$')} ${final}`);
+        setFormattedPrice(final);
+      }
     }
-    if (i18n.language === 'pt') {
-      setFieldValue(name, realFormat(value));
-    }
-    const serverFormat = [value.slice(0, -2), '.', value.slice(-2)].join('');
-    setFormattedPrice(Number(serverFormat).toFixed(4));
   };
+
   useImperativeHandle(ref, () => ({
     focus: () => {
       inputRef.current.focus();
@@ -114,14 +87,6 @@ const PriceInputField = (
       clearButtonMode="always"
       ref={inputRef}
       onChangeText={handleChangeText}
-      onChange={() => {
-        if (i18n.language === 'en') {
-          setFieldValue(name, dollarFormat(value));
-        }
-        if (i18n.language === 'pt') {
-          setFieldValue(name, realFormat(value));
-        }
-      }}
       onBlur={handleBlur}
       placeholder={t('price_placeholder')}
     />
