@@ -21,9 +21,9 @@ import {ScrollView} from 'react-native-gesture-handler';
 
 const data = [];
 
-const saveIcon = (props) => <Icon {...props} name="save-outline" />;
-const editIcon = (props) => <Icon {...props} name="edit-outline" />;
-const closeIcon = (props) => <Icon {...props} name="close-outline" />;
+const saveIcon = props => <Icon {...props} name="save-outline" />;
+const editIcon = props => <Icon {...props} name="edit-outline" />;
+const closeIcon = props => <Icon {...props} name="close-outline" />;
 
 const AddIngredientSchema = Yup.object().shape({
   ingredient: Yup.string()
@@ -36,7 +36,7 @@ const AddIngredientSchema = Yup.object().shape({
     .required('Brand is required'),
   seller: Yup.string().required('Seller name is required'),
   region: Yup.string(),
-  size: Yup.number().moreThan(0).required('Package size is required'),
+  size: Yup.string().required('Package size is required'),
   unit: Yup.string().required('Package unit is required'),
   price: Yup.string().required('Package price is required'),
 });
@@ -45,7 +45,9 @@ const EditIngredientForm = ({selectedItem}) => {
   const dispatch = useDispatch();
 
   const [selectedIndex, setSelectedIndex] = React.useState(0);
+  const [formattedSize, setFormattedSize] = React.useState('');
   const [disabled, setDisabled] = React.useState(true);
+  const [selectedUnit, setSelectedUnit] = React.useState('');
   const [packDisabled, setPackDisabled] = React.useState(true);
   const navigation = useNavigation();
   const brandRef = useRef();
@@ -75,7 +77,8 @@ const EditIngredientForm = ({selectedItem}) => {
         price: Number(selectedItem.package_price).toFixed(2),
       }}
       validationSchema={AddIngredientSchema}
-      onSubmit={(values) => {
+      onSubmit={values => {
+        values.size = formattedSize;
         dispatch.ingredients.updateAsync({values: values, id: selectedItem.id});
 
         navigation.navigate('MyKitchen');
@@ -221,27 +224,6 @@ const EditIngredientForm = ({selectedItem}) => {
                   />
                 </Layout>
                 <Layout style={styles.quantityDiv} level="3">
-                  <Layout style={styles.quantityRow1} level="3">
-                    <SizeInput
-                      status={errors.size && touched.size && 'danger'}
-                      placeholder={t('Package_Size')}
-                      value={values.size}
-                      setFieldValue={setFieldValue}
-                      setFieldTouched={setFieldTouched}
-                      disabled={packDisabled}
-                      setDisabled={setDisabled}
-                      mantissa={2}
-                      name="size"
-                      styles={styles.input}
-                      onSubmitEditing={() => {
-                        unitsRef.current.focus();
-                      }}
-                      ref={sizeRef}
-                    />
-                    <Text category="c2" appearance="hint" status="danger">
-                      {errors.size && touched.size && errors.size}
-                    </Text>
-                  </Layout>
                   <Layout style={styles.quantityRow2} level="3">
                     <Selector
                       status={errors.unit && touched.unit && 'danger'}
@@ -252,14 +234,39 @@ const EditIngredientForm = ({selectedItem}) => {
                       name="unit"
                       data={unitsArray}
                       selectedIndex={selectedIndex}
-                      onSelect={(index) => {
+                      onSelect={index => {
                         setSelectedIndex(index);
                         setFieldValue('unit', unitsArray[index.row]);
+                        setFieldValue('size', '');
+                        setSelectedUnit(unitsArray[index.row]);
                       }}
                       ref={unitsRef}
                     />
                     <Text category="c2" appearance="hint" status="danger">
                       {errors.unit && touched.unit && errors.unit}
+                    </Text>
+                  </Layout>
+                  <Layout style={styles.quantityRow1} level="3">
+                    <SizeInput
+                      status={errors.size && touched.size && 'danger'}
+                      placeholder={t('Package_Size')}
+                      value={values.size}
+                      setFieldValue={setFieldValue}
+                      unit={selectedUnit ? selectedUnit : ''}
+                      setFieldTouched={setFieldTouched}
+                      disabled={packDisabled}
+                      setDisabled={setDisabled}
+                      setFormattedSize={setFormattedSize}
+                      mantissa={2}
+                      name="size"
+                      styles={styles.input}
+                      onSubmitEditing={() => {
+                        unitsRef.current.focus();
+                      }}
+                      ref={sizeRef}
+                    />
+                    <Text category="c2" appearance="hint" status="danger">
+                      {errors.size && touched.size && errors.size}
                     </Text>
                   </Layout>
                 </Layout>

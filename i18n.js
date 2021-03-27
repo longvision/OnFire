@@ -94,6 +94,7 @@ const resources = {
       passError:
         'Passwords are different. Please verify and certify that they are the same.',
       emailError: 'Please check if you typed your email correctly.',
+      price_placeholder: '$00.00 (Product Price)',
     },
   },
   pt: {
@@ -189,16 +190,17 @@ const resources = {
       passError: 'Senhas não coincidem. Verifique se digitou ambas iguais!',
       emailError:
         'Formato de email inválido! Verifique se digitou corretamente.',
+      price_placeholder: 'R$00,00 (Preço do produto)',
     },
   },
 };
 
 i18n
-  .use(initReactI18next) // passes i18n down to react-i18next
   .use(i18nextReactNative)
+  .use(initReactI18next) // passes i18n down to react-i18next
   .init({
     resources,
-    lng: 'en',
+    lng: 'pt',
     keySeparator: false, // we do not use keys in form messages.welcome
     interpolation: {
       escapeValue: false, // react already safes from xss

@@ -43,8 +43,11 @@ export const SignUp = () => {
   const forthRef = useRef(null);
 
   const styles = useStyleSheet(themedStyles);
+
   const usernameRegex = /^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){3,18}[a-zA-Z0-9]$/;
+
   const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
   const onSignUpButtonPress = () => {
     if (termsAccepted && email && userName && password) {
       dispatch.auth.signUpAsync({
