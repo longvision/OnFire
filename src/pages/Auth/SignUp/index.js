@@ -156,7 +156,6 @@ export const SignUp = () => {
             />
             {userError && (
               <Text category="s1" status="warning">
-                {' '}
                 {t('userError')}
               </Text>
             )}
