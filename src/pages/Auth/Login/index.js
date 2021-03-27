@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import {Button, Input, Text, Layout} from '@ui-kitten/components';
 import {ImageOverlay} from './extra/image-overlay.js';
-import {EyeIcon, EyeOffIcon, PersonIcon} from './extra/icons';
+import {EyeIcon, EyeOffIcon, Pass, PersonIcon} from './extra/icons';
 import {KeyboardAvoidingView} from './extra/3rd-party';
 import {useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
@@ -86,10 +86,10 @@ export const Login = () => {
               status="control"
               placeholder="Password"
               returnKeyType="done"
-              accessoryRight={passwordVisible ? EyeIcon : EyeOffIcon}
+              accessoryRight={Pass}
               value={password}
               ref={passwordLoginRef}
-              secureTextEntry={!passwordVisible}
+              secureTextEntry={true}
               onSubmitEditing={onSignInButtonPress}
               onChangeText={text => setPassword(text.trim())}
               onIconPress={onPasswordIconPress}

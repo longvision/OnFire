@@ -90,6 +90,7 @@ const resources = {
       KITCHEN: 'KITCHEN',
       EMPTY_RECIPES:
         'Please add a new Ingredient to start creating you recipes! ',
+      userError: `Username consists of alphanumeric characters (a-zA-Z0-9), lowercase, or uppercase. Dot (.), underscore (_), and hyphens (-) are allowed however must not be the first or last character. The dot (.), underscore (_), or hyphen (-) can not appear consecutively, (e.g.: user..name). The number of characters must be between 5 to 20.`,
     },
   },
   pt: {
@@ -181,6 +182,7 @@ const resources = {
       Settings: 'Ajustes',
       EMPTY_RECIPES:
         'Por favor adicione um novo ingrediente para começar a criar receitas!',
+      userError: `Usernames (nomes de usuários) devem conter caracteres alphanuméricos maiúsculas ou minúsculas (um número, uma letra sem caracteres especiais). Pontos (.), linhas (_), e hífens (-) são aceitos, porém não podem ser o primeiro nem o último caractere. Ponto (.), linhas (_), ou hífens (-) também não podem se repetir mais de uma vez. (ex.: user..name). O número de caracteres deve ser entre 5 e 20.`,
     },
   },
 };
