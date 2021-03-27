@@ -30,25 +30,36 @@ const SizeInputField = (
   };
 
   const handleBlur = () => {
-    const usNotation = /^[1-9]\d*(\.\d+)?$/;
+    const usNotation = /^\d+(\.\d)?\d*$/;
 
     if (usNotation.test(value)) {
       console.log('is US Number Notation: ', usNotation.test(value));
-      const final = Number(value).toLocaleString('en-US', {
+      const usFinal = Number(value).toLocaleString('en-US', {
         minimumFractionDigits: 0,
         maximumFractionDigits: 2,
       });
-      setFieldValue(name, final);
-      setFormattedSize(final);
+      setFieldValue(name, usFinal);
+      setFormattedSize(usFinal);
     } else {
-      const cleaned = value.replaceAll('.', '').replaceAll(',', '.');
-      const brFinal = Number(cleaned).toLocaleString('en-US', {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 2,
-      });
+      if (value > 1) {
+        const cleaned = value.replaceAll('.', '').replaceAll(',', '.');
+        const brFinal = Number(cleaned).toLocaleString('en-US', {
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 2,
+        });
 
-      setFormattedSize(brFinal);
-      setFieldValue(name, brFinal);
+        setFormattedSize(brFinal);
+        setFieldValue(name, brFinal);
+      } else {
+        const cleaned = value.replaceAll(',', '.');
+        const final = Number(cleaned).toLocaleString('en-US', {
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 2,
+        });
+
+        setFormattedSize(final);
+        setFieldValue(name, final);
+      }
     }
   };
 
