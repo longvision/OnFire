@@ -33,7 +33,6 @@ const SizeInputField = (
     const usNotation = /^\d+(\.\d)?\d*$/;
 
     if (usNotation.test(value)) {
-      console.log('is US Number Notation: ', usNotation.test(value));
       const usFinal = Number(value).toLocaleString('en-US', {
         minimumFractionDigits: 0,
         maximumFractionDigits: 2,
