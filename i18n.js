@@ -200,7 +200,7 @@ i18next
   .use(i18nextReactNative)
   .init({
     resources,
-    lng: 'pt',
+    lng: 'en',
     keySeparator: false, // we do not use keys in form messages.welcome
     interpolation: {
       escapeValue: false, // react already safes from xss
