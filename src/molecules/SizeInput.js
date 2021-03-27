@@ -38,7 +38,7 @@ const SizeInputField = (
         minimumFractionDigits: 0,
         maximumFractionDigits: 2,
       });
-      setFieldValue(name, usFinal);
+      setFieldValue(name, `${usFinal} ${unit}`);
       setFormattedSize(usFinal);
     } else {
       if (value > 1) {
@@ -49,7 +49,7 @@ const SizeInputField = (
         });
 
         setFormattedSize(brFinal);
-        setFieldValue(name, brFinal);
+        setFieldValue(name, `${brFinal} ${unit}`);
       } else {
         const cleaned = value.replaceAll(',', '.');
         const final = Number(cleaned).toLocaleString('en-US', {
@@ -58,7 +58,7 @@ const SizeInputField = (
         });
 
         setFormattedSize(final);
-        setFieldValue(name, final);
+        setFieldValue(name, `${final} ${unit}`);
       }
     }
   };
