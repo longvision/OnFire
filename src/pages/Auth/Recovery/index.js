@@ -14,6 +14,7 @@ import {KeyboardAvoidingView} from './extra/3rd-party';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
+import PasswordInput from '../../../molecules/PasswordInput';
 
 const BackIcon = props => <Icon {...props} name="arrow-back" />;
 export const Recovery = () => {
@@ -54,11 +55,15 @@ export const Recovery = () => {
     />
   );
   const handleSubmit = () => {
-    dispatch.auth.resetAsync({
-      password: pass,
-      confirmation: confirm,
-      token: token,
-    });
+    if (confirm !== pass) {
+      Alert.alert(t('passError'));
+    } else {
+      dispatch.auth.resetAsync({
+        password: pass,
+        confirmation: confirm,
+        token: token,
+      });
+    }
   };
 
   React.useEffect(() => {
@@ -85,7 +90,7 @@ export const Recovery = () => {
     success &&
       Alert.alert(
         t('Reset_success'),
-        t('Login_again'),
+
         [
           {
             text: 'Ok',
@@ -263,14 +268,6 @@ export const Recovery = () => {
         </View>
 
         <View style={styles.formContainer}>
-          {/* <Input
-            status="control"
-            ref={confirmRef}
-            secureTextEntry={true}
-            onSubmitEditing={handleSubmit}
-            value={confirm}
-            onChangeText={setConfirm}
-          /> */}
           <PasswordInput
             value={confirm}
             returnKeyType="send"
@@ -283,6 +280,7 @@ export const Recovery = () => {
             handlePress={onPasswordIconPress2}
           />
         </View>
+
         <View style={styles.buttonContainer}>
           <Button size="giant" onPress={handleSubmit}>
             {t('RESET_PASSWORD')}
