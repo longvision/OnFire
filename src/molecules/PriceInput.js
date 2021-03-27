@@ -20,12 +20,22 @@ const PriceInputField = (
   const {t, i18n} = useTranslation();
   const Icon = iconProps => <Icon {...iconProps} name={iconName} />;
 
-  function currencyFormat(num) {
+  function dollarFormat(num) {
+    //format a number to 4 decimal points using dot notation.
     return (
       `${t('$')}` +
       Number(num)
         .toFixed(mantissa)
         .replace(/(\d)(?=(\d{3})+(?!\d)(\.\d{1,4}))/g, '$1,')
+    );
+  }
+  function realFormat(num) {
+    //format a number to 4 decimal points using comma notation.
+    return (
+      `${t('$')}` +
+      Number(num)
+        .toFixed(mantissa)
+        .replace(/(\d)(?=(\d{3})+(?!\d)(\,\d{1,4}))/g, '$1,')
     );
   }
 
@@ -34,8 +44,11 @@ const PriceInputField = (
   };
 
   const handleBlur = () => {
-    if (value[0] !== '$' || value[0] !== 'R') {
-      setFieldValue(name, currencyFormat(value).toString());
+    if (value[0] !== '$') {
+      setFieldValue(name, dollarFormat(value).toString());
+    }
+    if (value[0] !== 'R') {
+      setFieldValue(name, realFormat(value).toString());
     }
   };
   useImperativeHandle(ref, () => ({
