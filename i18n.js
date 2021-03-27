@@ -1,4 +1,4 @@
-import i18n from 'i18next';
+import i18next from 'i18next';
 import {initReactI18next} from 'react-i18next';
 import i18nextReactNative from 'i18next-react-native-language-detector';
 // the translations
@@ -195,9 +195,9 @@ const resources = {
   },
 };
 
-i18n
-  .use(i18nextReactNative)
+i18next
   .use(initReactI18next) // passes i18n down to react-i18next
+  .use(i18nextReactNative)
   .init({
     resources,
     lng: 'en',
@@ -207,4 +207,4 @@ i18n
     },
   });
 
-export default i18n;
+export default i18next;
