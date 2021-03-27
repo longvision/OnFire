@@ -3,7 +3,7 @@ import api from '../../services/api';
 import tron from '../../config/ReactotronConfig';
 
 import {checkDollarSign} from '../../utils/functions';
-import {Alert} from 'react-native';
+
 export const ingredients = createModel()({
   state: {
     ingredients: [],
@@ -46,7 +46,7 @@ export const ingredients = createModel()({
       return {...state, ingredients: [...state.ingredients, payload]};
     },
   },
-  effects: (dispatch) => ({
+  effects: dispatch => ({
     async alertOff(payload, rootState) {
       dispatch.measures.understood();
     },

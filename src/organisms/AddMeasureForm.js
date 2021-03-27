@@ -44,6 +44,7 @@ const AddMeasureForm = () => {
     0,
   );
   const [selectedUnitIndex, setSelectedUnitIndex] = React.useState(0);
+  const [formattedQuantity, setFormattedQuantity] = React.useState('');
 
   const [optionsArray, setOptionsArray] = React.useState([]);
 
@@ -86,6 +87,7 @@ const AddMeasureForm = () => {
       }}
       validationSchema={AddMeasureSchema}
       onSubmit={values => {
+        values.quantity = formattedQuantity;
         dispatch.measures.addAsync({
           values: values,
           productId: productId,
@@ -184,6 +186,7 @@ const AddMeasureForm = () => {
                     value={values.quantity}
                     setFieldValue={setFieldValue}
                     setFieldTouched={setFieldTouched}
+                    setFormattedSize={setFormattedQuantity}
                     name="quantity"
                     mantissa={4}
                     styles={styles.input}
