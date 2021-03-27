@@ -1,6 +1,6 @@
 import i18n from 'i18next';
 import {initReactI18next} from 'react-i18next';
-
+import i18nextReactNative from 'i18next-react-native-language-detector';
 // the translations
 // (tip move them in a JSON file and import them)
 const resources = {
@@ -195,9 +195,10 @@ const resources = {
 
 i18n
   .use(initReactI18next) // passes i18n down to react-i18next
+  .use(i18nextReactNative)
   .init({
     resources,
-    lng: 'pt',
+    lng: 'en',
     keySeparator: false, // we do not use keys in form messages.welcome
     interpolation: {
       escapeValue: false, // react already safes from xss
