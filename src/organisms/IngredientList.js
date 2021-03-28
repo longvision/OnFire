@@ -69,7 +69,7 @@ export const IngredientList = ({
             <Button
               size={btnSize}
               onPress={() => handlePressIngredientsDetails(item)}
-              // status="basic"
+              status="info"
               appearance="outline"
               accessoryLeft={assessoryLeft}>
               {cta}
