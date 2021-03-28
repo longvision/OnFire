@@ -87,14 +87,13 @@ export const MyKitchen = ({navigation}) => {
     React.useCallback(() => {
       // alert('Screen was focused');
       // Do something when the screen is focused
-      dispatch.ingredients.listAsync();
-      dispatch.recipes.listAsync();
+
       return () => {
         // alert('Screen was unfocused');
         // Do something when the screen is unfocused
         // Useful for cleanup functions
       };
-    }, [loadingUpdate, loadingCreate]),
+    }, [loadingUpdate]),
   );
 
   return (
@@ -147,6 +146,7 @@ export const MyKitchen = ({navigation}) => {
       {selectedIndex === 0 ? (
         <Button
           size="large"
+          style={{borderRadius: 0}}
           status="primary"
           onPress={handleAddRecipe}
           accessoryLeft={AddIcon}
@@ -157,6 +157,7 @@ export const MyKitchen = ({navigation}) => {
         <Button
           size="large"
           status="primary"
+          style={{borderRadius: 0}}
           accessoryLeft={AddIcon}
           onPress={handlePress}
           appearance="filled">

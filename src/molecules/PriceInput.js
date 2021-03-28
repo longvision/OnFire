@@ -54,16 +54,24 @@ const PriceInputField = (
       setFieldValue(name, `${t('$')} ${final}`);
       setFormattedPrice(final);
     } else {
-      const cleaned = value.replaceAll('.', '').replaceAll(',', '.');
-      const final = Number(cleaned).toLocaleString('en-US', {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 2,
-      });
-      if (isNaN(final)) {
-        setFieldValue(name, '');
+      if (value > 1) {
+        const cleaned = value.replaceAll('.', '').replaceAll(',', '.');
+        const brFinal = Number(cleaned).toLocaleString('en-US', {
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 2,
+        });
+
+        setFormattedPrice(brFinal);
+        setFieldValue(name, `${t('$')} ${brFinal}`);
       } else {
-        setFieldValue(name, `${t('$')} ${final}`);
+        const cleaned = value.replaceAll(',', '.');
+        const final = Number(cleaned).toLocaleString('en-US', {
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 2,
+        });
+
         setFormattedPrice(final);
+        setFieldValue(name, `${t('$')} ${final}`);
       }
     }
   };

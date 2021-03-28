@@ -10,7 +10,7 @@ import {
 import {Alert, SafeAreaView, View} from 'react-native';
 
 import {useSelector, useDispatch} from 'react-redux';
-import {useFocusEffect, useNavigation} from '@react-navigation/core';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
 import AddRecipeTemplate from '../../templates/AddRecipeTemplate';
 // import { Container } from './styles';

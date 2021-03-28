@@ -163,7 +163,7 @@ const AddIngredientForm = () => {
                   returnKeyType="next"
                   name="region"
                   onSubmitEditing={() => {
-                    sizeRef.current.focus();
+                    unitsRef.current.focus();
                   }}
                   ref={soldRef}
                   status={errors.region && touched.region && 'danger'}
@@ -199,6 +199,7 @@ const AddIngredientForm = () => {
                       setFieldValue('unit', unitsArray[index.row]);
                       setFieldValue('size', '');
                       setSelectedUnit(unitsArray[index.row]);
+                      sizeRef.current.focus();
                     }}
                     ref={unitsRef}
                   />
