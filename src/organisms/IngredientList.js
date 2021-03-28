@@ -13,7 +13,6 @@ export const IngredientList = ({
   cta,
   price,
   ratingTitle,
-
   img,
   containerStyle,
   titles,
@@ -45,7 +44,7 @@ export const IngredientList = ({
         }}>
         <Layout style={{flex: 4}}>
           <Text category="s1">{item.name}</Text>
-          <Text category="p2">{item.brand}</Text>
+          <Text category="p1">{item.brand}</Text>
         </Layout>
         {price && (
           <Layout

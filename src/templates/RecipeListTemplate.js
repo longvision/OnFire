@@ -8,8 +8,6 @@ import AddRecipeForm from '../organisms/AddRecipeForm';
 import {useTranslation} from 'react-i18next';
 
 const RecipeListTemplate = ({AddIcon, navigation, iconName, recipes}) => {
-  const {t, i18n} = useTranslation();
-
   return (
     <>
       <Layout style={{height: '100%'}}>
@@ -21,11 +19,9 @@ const RecipeListTemplate = ({AddIcon, navigation, iconName, recipes}) => {
             recipes={recipes}
             rating={false}
             navigation={navigation}
-            titles={[t('Description'), t('Details')]}
             cta
-            btnSize="medium"
             assessoryLeft={iconName}
-            containerStyle={{width: '98%'}}
+            containerStyle={{width: '100%'}}
           />
         </Layout>
       </Layout>
