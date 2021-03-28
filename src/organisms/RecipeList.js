@@ -74,6 +74,7 @@ export const RecipeList = ({
         contentContainerStyle={{
           paddingHorizontal: 8,
           paddingVertical: 4,
+          paddingBottom: 120,
         }}
         data={recipes}
         renderItem={renderItem}
