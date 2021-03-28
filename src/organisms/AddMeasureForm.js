@@ -187,6 +187,7 @@ const AddMeasureForm = () => {
                     setFieldValue={setFieldValue}
                     setFieldTouched={setFieldTouched}
                     setFormattedSize={setFormattedQuantity}
+                    unit={values.unit}
                     name="quantity"
                     mantissa={4}
                     styles={styles.input}
