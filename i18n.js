@@ -1,6 +1,6 @@
 import i18next from 'i18next';
 import {initReactI18next} from 'react-i18next';
-import i18nextReactNative from 'i18next-react-native-language-detector';
+
 // the translations
 // (tip move them in a JSON file and import them)
 const resources = {
@@ -195,9 +195,9 @@ const resources = {
   },
 };
 
+// i18nextReactNativeLanguageDetector
 i18next
   .use(initReactI18next) // passes i18n down to react-i18next
-  .use(i18nextReactNative)
   .init({
     resources,
     lng: 'en',

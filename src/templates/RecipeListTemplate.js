@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 
-import {Button, Card, Layout, Modal} from '@ui-kitten/components';
+import {Button, Card, Layout} from '@ui-kitten/components';
 import {StyleSheet, Text, View} from 'react-native';
 import {PopoverOverlay} from '../organisms/PopoverOverlay';
 import {RecipeList} from '../organisms/RecipeList';

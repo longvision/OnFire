@@ -1,17 +1,14 @@
-import React, {useEffect, useState, useCallback} from 'react';
-import {KeyboardAvoidingView, Platform, SafeAreaView} from 'react-native';
+import React, {useState} from 'react';
+import {SafeAreaView} from 'react-native';
 import {
   Button,
   Divider,
   Icon,
-  Text,
   Layout,
   TopNavigation,
   Tab,
   TabView,
   TopNavigationAction,
-  StyleService,
-  useStyleSheet,
   useTheme,
 } from '@ui-kitten/components';
 import {useTranslation} from 'react-i18next';
@@ -24,7 +21,7 @@ import {ThemedAwesomeIcon} from '../atoms/ThemedAwesomeIcon';
 import {useFocusEffect} from '@react-navigation/native';
 import {PopoverOverlay} from '../organisms/PopoverOverlay';
 import AddRecipeForm from '../organisms/AddRecipeForm';
-import {ModalOverlay} from '../organisms/ModalOverlay';
+
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 // import { Container } from './styles';
@@ -82,11 +79,8 @@ export const MyKitchen = ({navigation}) => {
     navigation.navigate('AddIngredient');
   };
 
-  function handleAddMeasure() {
-    setVisible(true);
-  }
-  function handleHideModal() {
-    setVisible(false);
+  function handleAddRecipe() {
+    navigation.navigate('AddRecipe');
   }
 
   useFocusEffect(
@@ -107,13 +101,7 @@ export const MyKitchen = ({navigation}) => {
     <SafeAreaView style={{flex: 1}}>
       <TopNavigation title={t('Kitchen')} alignment="center" />
       <Divider />
-      <ModalOverlay
-        // style={{top: -100}}
-        text={t('Create_Recipes')}
-        visible={visible}
-        onBackdropPress={handleHideModal}>
-        <AddRecipeForm handleClose={() => setVisible(false)} />
-      </ModalOverlay>
+
       <Layout style={{flex: 1}}>
         <TabView
           selectedIndex={selectedIndex}
@@ -160,7 +148,7 @@ export const MyKitchen = ({navigation}) => {
         <Button
           size="large"
           status="primary"
-          onPress={handleAddMeasure}
+          onPress={handleAddRecipe}
           accessoryLeft={AddIcon}
           appearance="filled">
           {t('Create_Recipes')}
