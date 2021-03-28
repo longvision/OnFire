@@ -5,7 +5,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 // import SearchStack from './SearchStack';
 import KitchenStack from './kitchen.navigator';
 import SettingsStack from './settings.navigator';
-import {Icon} from '@ui-kitten/components';
+import {Icon, useTheme} from '@ui-kitten/components';
 import {useTranslation} from 'react-i18next';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -15,12 +15,13 @@ const Tab = createBottomTabNavigator();
 // const SearchIcon = (props) => <Icon {...props} name="search-outline" />;
 const MainNavigator = () => {
   const {t, i18n} = useTranslation();
+  const theme = useTheme();
   return (
     <Tab.Navigator
       initialRouteName="KITCHEN"
       tabBarOptions={{
         // inactiveTintColor: Colors.inactive,
-        activeTintColor: '#5F9D11',
+        activeTintColor: theme['color-primary-400'],
         labelStyle: {fontWeight: 'bold', fontSize: 14},
         // inactiveBackgroundColor: '#FF3351',
         // activeBackgroundColor: Colors.activebk,
