@@ -1,21 +1,31 @@
 import React from 'react';
-import {Button, Icon, List, Layout, Text, Divider} from '@ui-kitten/components';
+import {
+  Button,
+  Icon,
+  List,
+  Layout,
+  Text,
+  Divider,
+  ListItem,
+  Card,
+} from '@ui-kitten/components';
 
 import {StyleSheet, View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import Popularity from '../atoms/Popularity';
 import ListTitle from '../atoms/ListTitle';
 import {useDispatch} from 'react-redux';
+import {useTranslation} from 'react-i18next';
 
 export const RecipeList = ({
   recipes,
   cta,
-  rating,
+  rating = true,
   ratingTitle,
   navigation,
   img,
   containerStyle,
-  titles,
+
   assessoryLeft,
   btnSize,
   height,
@@ -23,7 +33,7 @@ export const RecipeList = ({
   ...props
 }) => {
   const dispatch = useDispatch();
-
+  const {t, i18n} = useTranslation();
   function handlePress(item) {
     dispatch.recipes.setSelectedAsync(item);
     dispatch.measures.getAsync({id: item.id});
@@ -31,63 +41,40 @@ export const RecipeList = ({
     navigation.navigate('RecipeDetail');
   }
 
-  const renderItem = ({item, index}) => (
-    <>
-      <Layout
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          width: '100%',
-          paddingHorizontal: 15,
-          marginTop: 2,
-          padding: 7,
-        }}>
-        <Layout style={{width: 150}}>
-          <Text style={{marginBottom: 10}} category="s1">
-            {item.title}
-          </Text>
-          <Text style={{marginBottom: 10}} category="p2">
-            {item.description}
-          </Text>
-        </Layout>
-        <Layout>
-          {rating && (
-            <Popularity
-              // title={ratingTitle}
-              // start={2.556}
-              // count={5}
-              imageSize={15}
-            />
-          )}
-        </Layout>
-        <Layout>
-          {cta && (
-            <Button
-              size={btnSize}
-              onPress={() => handlePress(item)}
-              // status="basic"
-              appearance="outline"
-              accessoryLeft={assessoryLeft}>
-              {cta}
-            </Button>
-          )}
-        </Layout>
-      </Layout>
-      <Divider />
-    </>
+  const renderItemHeader = (headerProps, info) => (
+    <View {...headerProps}>
+      <Text category="h4">{info.item.title}</Text>
+    </View>
+  );
+
+  const renderItemFooter = footerProps => (
+    <View style={{height: 60, flexDirection: 'row', backgroundColor: 'white'}}>
+      <Text {...footerProps}>Rating</Text>
+      <Popularity title={ratingTitle} start={2.556} count={5} imageSize={15} />
+    </View>
+  );
+  const renderItem = info => (
+    <Card
+      style={{marginVertical: 2}}
+      onPress={() => handlePress(info.item)}
+      status="basic"
+      header={headerProps => renderItemHeader(headerProps, info)}
+      // footer={renderItemFooter} //will enable rating
+    >
+      <Text category="p2">{info.item.description}</Text>
+    </Card>
   );
 
   return (
     <>
       <Text>{props.label && props.label}</Text>
       <Layout style={containerStyle}>
-        <ListTitle
-          titles={titles}
-          style={{paddingHorizontal: 15, marginTop: 2, padding: 7}}
-        />
         <List
-          style={{height: height, backgroundColor: 'white'}}
+          style={{marginVertical: 4}}
+          contentContainerStyle={{
+            paddingHorizontal: 8,
+            paddingVertical: 4,
+          }}
           data={recipes}
           renderItem={renderItem}
         />

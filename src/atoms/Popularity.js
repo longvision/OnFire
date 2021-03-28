@@ -6,14 +6,12 @@ import {Rating} from 'react-native-ratings';
 const Popularity = ({title, start, show, titleCategory, count, imageSize}) => {
   return (
     <Layout
-      style={
-        {
-          // display: 'flex',
-          // marginHorizontal: 5,
-          // alignItems: 'center',
-          // justifyContent: 'center',
-        }
-      }>
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flex: 1,
+      }}>
       {title && <Text category={titleCategory}>{title}</Text>}
       {start && count && (
         <Text category={titleCategory}>{`${start} / ${count}`}</Text>
@@ -22,14 +20,14 @@ const Popularity = ({title, start, show, titleCategory, count, imageSize}) => {
         startingValue={start}
         type="custom"
         ratingColor="red"
-        ratingBackgroundColor="#c4c4c4"
+        ratingBackgroundColor="white"
         ratingCount={count}
         showRating={show}
         fractions={2}
         readonly={true}
         imageSize={imageSize}
         // onFinishRating={ratingCompleted}
-        style={{paddingVertical: 0}}
+        style={{paddingVertical: 0, backgroundColor: 'transparent'}}
       />
     </Layout>
   );
