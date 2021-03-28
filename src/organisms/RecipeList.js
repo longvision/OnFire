@@ -68,17 +68,17 @@ export const RecipeList = ({
   return (
     <>
       <Text>{props.label && props.label}</Text>
-      <Layout style={containerStyle}>
-        <List
-          style={{marginVertical: 4}}
-          contentContainerStyle={{
-            paddingHorizontal: 8,
-            paddingVertical: 4,
-          }}
-          data={recipes}
-          renderItem={renderItem}
-        />
-      </Layout>
+      {/* <Layout style={containerStyle}> */}
+      <List
+        style={{marginVertical: 4, backgroundColor: 'white'}}
+        contentContainerStyle={{
+          paddingHorizontal: 8,
+          paddingVertical: 4,
+        }}
+        data={recipes}
+        renderItem={renderItem}
+      />
+      {/* </Layout> */}
     </>
   );
 };

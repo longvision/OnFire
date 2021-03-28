@@ -106,9 +106,9 @@ const AddMeasureForm = () => {
         touched,
         values,
       }) => (
-        <ScrollView style={{height: '100%'}}>
+        <Layout style={{height: '70%'}}>
           <Layout style={styles.container} level="1">
-            <Layout style={styles.controlContainer} level="3">
+            <Layout style={styles.controlContainer} level="1">
               <Text
                 category="h4"
                 appearance="alternative"
@@ -117,7 +117,7 @@ const AddMeasureForm = () => {
                 {t('Select_the_ingredient')}
               </Text>
 
-              <Layout style={styles.rowContainer} level="3">
+              <Layout style={styles.rowContainer} level="1">
                 <SelectorAction
                   status={errors.ingredient && touched.ingredient && 'danger'}
                   placeholder={t('Ingredient')}
@@ -144,7 +144,7 @@ const AddMeasureForm = () => {
                   {errors.ingredient && touched.ingredient && errors.ingredient}
                 </Text>
               </Layout>
-              <Layout style={styles.rowContainer} level="3">
+              <Layout style={styles.rowContainer} level="1">
                 <Text
                   category="h4"
                   appearance="alternative"
@@ -171,8 +171,8 @@ const AddMeasureForm = () => {
                   {errors.unit && touched.unit && errors.unit}
                 </Text>
               </Layout>
-              <Layout style={styles.packageContainer} level="3">
-                <Layout style={styles.rowContainer} level="3">
+              <Layout style={styles.packageContainer} level="1">
+                <Layout style={styles.rowContainer} level="1">
                   <Text
                     category="h4"
                     appearance="alternative"
@@ -200,13 +200,13 @@ const AddMeasureForm = () => {
                 </Layout>
               </Layout>
             </Layout>
-            <Layout style={styles.submit} level="3">
+            <Layout style={styles.submit} level="1">
               <Button type="button" onPress={handleSubmit}>
                 {t('ADD_TO_RECIPE')}
               </Button>
             </Layout>
           </Layout>
-        </ScrollView>
+        </Layout>
       )}
     </Formik>
   );
