@@ -57,7 +57,7 @@ export const RecipeList = ({
     <Card
       style={{marginVertical: 2}}
       onPress={() => handlePress(info.item)}
-      status="basic"
+      status="primary"
       header={headerProps => renderItemHeader(headerProps, info)}
       // footer={renderItemFooter} //will enable rating
     >

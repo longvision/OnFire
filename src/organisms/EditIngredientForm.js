@@ -49,6 +49,7 @@ const EditIngredientForm = ({selectedItem}) => {
   const [disabled, setDisabled] = React.useState(true);
   const [selectedUnit, setSelectedUnit] = React.useState('');
   const [packDisabled, setPackDisabled] = React.useState(true);
+  const [formattedPrice, setFormattedPrice] = React.useState('');
   const navigation = useNavigation();
   const brandRef = useRef();
   const sellerRef = useRef();
@@ -79,6 +80,7 @@ const EditIngredientForm = ({selectedItem}) => {
       validationSchema={AddIngredientSchema}
       onSubmit={values => {
         values.size = formattedSize;
+        values.price = formattedPrice;
         dispatch.ingredients.updateAsync({values: values, id: selectedItem.id});
 
         navigation.navigate('MyKitchen');
@@ -252,7 +254,7 @@ const EditIngredientForm = ({selectedItem}) => {
                       placeholder={t('Package_Size')}
                       value={values.size}
                       setFieldValue={setFieldValue}
-                      unit={selectedUnit ? selectedUnit : ''}
+                      unit={selectedUnit ? selectedUnit : values.unit}
                       setFieldTouched={setFieldTouched}
                       disabled={packDisabled}
                       setDisabled={setDisabled}
@@ -279,6 +281,7 @@ const EditIngredientForm = ({selectedItem}) => {
                     value={values.price}
                     setFieldValue={setFieldValue}
                     setFieldTouched={setFieldTouched}
+                    setFormattedPrice={setFormattedPrice}
                     style={styles.input}
                     name="price"
                     mantissa={2}
