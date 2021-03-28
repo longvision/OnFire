@@ -27,6 +27,7 @@ export const recipes = createModel()({
         selectedId: payload,
       };
     },
+
     add(state, payload) {
       return {...state, recipes: [...state.recipes, payload]};
     },
@@ -44,6 +45,15 @@ export const recipes = createModel()({
         });
 
         dispatch.recipes.add(res.data);
+      } catch (err) {}
+    },
+    async updateAsync(payload, rootState) {
+      try {
+        const {product_id} = payload;
+
+        api.defaults.headers.Authorization = `Bearer ${rootState.auth.token}`;
+
+        await api.patch(`/product/${product_id}`);
       } catch (err) {}
     },
     async listAsync(payload, rootState) {
