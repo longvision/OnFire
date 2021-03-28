@@ -31,17 +31,19 @@ export const recipes = createModel()({
       return {...state, recipes: [...state.recipes, payload]};
     },
   },
-  effects: (dispatch) => ({
+  effects: dispatch => ({
     async addAsync(payload, rootState) {
       try {
         const {name, description} = payload;
 
         api.defaults.headers.Authorization = `Bearer ${rootState.auth.token}`;
 
-        await api.post('product', {
+        const res = await api.post('product', {
           title: name,
           description: description,
         });
+
+        dispatch.recipes.add(res.data);
       } catch (err) {}
     },
     async listAsync(payload, rootState) {

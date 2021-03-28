@@ -4,10 +4,18 @@ import AuthNavigator from './auth.navigator';
 import MainNavigator from './bottom.navigator';
 
 import {createStackNavigator} from '@react-navigation/stack';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 
 export const AppNavigator = () => {
   const token = useSelector(state => state.auth.token);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (token) {
+      dispatch.ingredients.listAsync();
+      dispatch.recipes.listAsync();
+    }
+  }, [token]);
 
   return (
     // <Stack.Navigator headerMode="none">
