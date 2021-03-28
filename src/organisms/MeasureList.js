@@ -70,13 +70,18 @@ export const MeasureList = ({
   return (
     <>
       <Text>{props.label && props.label}</Text>
-      <Layout style={{width: width, paddingBottom: 55}} level="1">
-        <List
-          style={{height: height, backgroundColor: 'white'}}
-          data={measures}
-          renderItem={renderItem}
-        />
-      </Layout>
+      {/* <Layout style={{width: width, paddingBottom: 55}} level="1"> */}
+      <List
+        style={{height: height, backgroundColor: 'white'}}
+        data={measures}
+        renderItem={renderItem}
+        contentContainerStyle={{
+          paddingHorizontal: 8,
+          paddingVertical: 4,
+          paddingBottom: 120,
+        }}
+      />
+      {/* </Layout> */}
     </>
   );
 };
