@@ -84,7 +84,7 @@ const PriceInputField = (
   return (
     <Input
       style={style}
-      keyboardType="decimal-pad"
+      keyboardType="numeric"
       onFocus={() => setFieldValue(name, '')}
       disabled={disabled}
       status="basic"

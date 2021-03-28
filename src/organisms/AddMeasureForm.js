@@ -46,6 +46,7 @@ const AddMeasureForm = () => {
   const [selectedUnitIndex, setSelectedUnitIndex] = React.useState(0);
   const [formattedQuantity, setFormattedQuantity] = React.useState('');
 
+  const [selectedUnit, setSelectedUnit] = React.useState('');
   const [optionsArray, setOptionsArray] = React.useState([]);
 
   const [selectedId, setSelectedId] = React.useState();
@@ -163,7 +164,7 @@ const AddMeasureForm = () => {
                   onSelect={index => {
                     setSelectedUnitIndex(index);
                     setFieldValue('unit', unitsArray[index.row]);
-                    setFieldValue('size', '');
+                    setFieldValue('quantity', '');
                     setSelectedUnit(unitsArray[index.row]);
                     quantityRef.current.focus();
                   }}
@@ -189,7 +190,7 @@ const AddMeasureForm = () => {
                     setFieldValue={setFieldValue}
                     setFieldTouched={setFieldTouched}
                     setFormattedSize={setFormattedQuantity}
-                    unit={values.unit}
+                    unit={selectedUnit ? selectedUnit : values.unit}
                     name="quantity"
                     mantissa={4}
                     styles={styles.input}
