@@ -166,7 +166,7 @@ const AddMeasureForm = () => {
                     setFieldValue('unit', unitsArray[index.row]);
                     setFieldValue('quantity', '');
                     setSelectedUnit(unitsArray[index.row]);
-                    quantityRef.current.focus();
+                    // quantityRef.current.focus();
                   }}
                   ref={unitAvailableRef}
                 />
@@ -190,7 +190,7 @@ const AddMeasureForm = () => {
                     setFieldValue={setFieldValue}
                     setFieldTouched={setFieldTouched}
                     setFormattedSize={setFormattedQuantity}
-                    unit={selectedUnit ? selectedUnit : values.unit}
+                    unit={selectedUnit ? selectedUnit : ''}
                     name="quantity"
                     mantissa={4}
                     styles={styles.input}
