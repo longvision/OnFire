@@ -199,6 +199,7 @@ const AddIngredientForm = () => {
                       setFieldValue('unit', unitsArray[index.row]);
                       setFieldValue('size', '');
                       setSelectedUnit(unitsArray[index.row]);
+                      setFormattedSize('');
                       sizeRef.current.focus();
                     }}
                     ref={unitsRef}
@@ -216,8 +217,6 @@ const AddIngredientForm = () => {
                     setFieldTouched={setFieldTouched}
                     name="size"
                     unit={selectedUnit ? selectedUnit : ''}
-
-
                     styles={styles.input}
                     mantissa={4}
                     setFormattedSize={setFormattedSize}

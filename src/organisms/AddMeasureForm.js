@@ -165,7 +165,9 @@ const AddMeasureForm = () => {
                     setSelectedUnitIndex(index);
                     setFieldValue('unit', unitsArray[index.row]);
                     setFieldValue('quantity', '');
+                    setFormattedQuantity('');
                     setSelectedUnit(unitsArray[index.row]);
+
                     // quantityRef.current.focus();
                   }}
                   ref={unitAvailableRef}

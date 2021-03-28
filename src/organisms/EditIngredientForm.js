@@ -239,6 +239,7 @@ const EditIngredientForm = ({selectedItem}) => {
                         setSelectedIndex(index);
                         setFieldValue('unit', unitsArray[index.row]);
                         setFieldValue('size', '');
+                        setFormattedSize('');
                         setSelectedUnit(unitsArray[index.row]);
                       }}
                       ref={unitsRef}
