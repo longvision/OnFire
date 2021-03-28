@@ -5,7 +5,7 @@ import {
   SafeAreaView,
   StyleSheet,
 } from 'react-native';
-import {Card, Layout, Button, Icon, Modal, Text} from '@ui-kitten/components';
+import {Card, Layout, Button, Icon, Text} from '@ui-kitten/components';
 import {MeasureList} from '../organisms/MeasureList';
 
 import {RecipeSummary} from '../organisms/RecipeSummary';

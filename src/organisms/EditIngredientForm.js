@@ -7,7 +7,7 @@ import {
   StyleService,
 } from '@ui-kitten/components';
 import React, {useRef, useImperativeHandle, useEffect} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, ScrollView} from 'react-native';
 import PriceInput from '../molecules/PriceInput';
 import AutoCompleteField from '../molecules/AutocompleteField';
 import {Field, Formik} from 'formik';
@@ -17,7 +17,6 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import * as Yup from 'yup';
 import {useTranslation} from 'react-i18next';
-import {ScrollView} from 'react-native-gesture-handler';
 
 const data = [];
 

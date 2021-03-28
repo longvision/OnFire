@@ -42,12 +42,12 @@ export const Login = () => {
   };
 
   return (
-    <KeyboardAvoidingView
-      enabled
-      behavior={Platform.OS === 'ios' ? 'padding' : null}>
-      <ImageOverlay
-        style={styles.container}
-        source={require('./images/image-background.jpeg')}>
+    <ImageOverlay
+      source={require('./images/image-background.jpeg')}
+      style={styles.container}>
+      <KeyboardAvoidingView
+        enabled
+        behavior={Platform.OS === 'ios' ? 'padding' : null}>
         <View style={styles.formContainer} level="4">
           <View
             style={{
@@ -123,20 +123,19 @@ export const Login = () => {
             </Button>
           </ImageOverlay>
         </ImageOverlay>
-      </ImageOverlay>
-    </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
+    </ImageOverlay>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    height: '100%',
     overlayColor: 'rgba(0, 0, 0, 0.250)',
   },
   headerContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    // minHeight: 216,
     flex: 1,
   },
   noAccount: {

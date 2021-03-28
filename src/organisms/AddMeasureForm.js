@@ -163,6 +163,8 @@ const AddMeasureForm = () => {
                   onSelect={index => {
                     setSelectedUnitIndex(index);
                     setFieldValue('unit', unitsArray[index.row]);
+                    setFieldValue('size', '');
+                    setSelectedUnit(unitsArray[index.row]);
                     quantityRef.current.focus();
                   }}
                   ref={unitAvailableRef}
