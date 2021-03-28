@@ -10,6 +10,9 @@ import {
   Tab,
   TabView,
   TopNavigationAction,
+  StyleService,
+  useStyleSheet,
+  useTheme,
 } from '@ui-kitten/components';
 import {useTranslation} from 'react-i18next';
 import {useDispatch, useSelector} from 'react-redux';
@@ -22,16 +25,37 @@ import {useFocusEffect} from '@react-navigation/native';
 import {PopoverOverlay} from '../organisms/PopoverOverlay';
 import AddRecipeForm from '../organisms/AddRecipeForm';
 import {ModalOverlay} from '../organisms/ModalOverlay';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+
+// import { Container } from './styles';
 
 const BackIcon = props => <Icon {...props} name="arrow-back" />;
 const AddIcon = props => <Icon {...props} name="plus-outline" />;
 const EditIcon = props => <Icon {...props} name="edit-2-outline" />;
 
 export const MyKitchen = ({navigation}) => {
+  const theme = useTheme();
   const {t, i18n} = useTranslation();
   const [visible, setVisible] = useState(false);
   const ingredients = useSelector(state => state.ingredients.ingredients);
   const recipes = useSelector(state => state.recipes.recipes);
+
+  const RecipeIcon = props => (
+    <MaterialCommunityIcons
+      {...props}
+      style={{color: theme['color-primary-300']}}
+      size={24}
+      name="pasta"
+    />
+  );
+  const IngredientIcon = props => (
+    <MaterialCommunityIcons
+      {...props}
+      style={{color: theme['color-primary-300']}}
+      size={24}
+      name="shaker-outline"
+    />
+  );
 
   const loadingUpdate = useSelector(
     state => state.loading.effects.ingredients.updateAsync,
@@ -95,7 +119,14 @@ export const MyKitchen = ({navigation}) => {
           selectedIndex={selectedIndex}
           onSelect={onSelect}
           tabsArray={[t('Recipes'), t('Ingredients')]}>
-          <Tab title={t('RECIPES')} style={{height: 44}}>
+          <Tab
+            title={t('RECIPES')}
+            style={{
+              backgroundColor:
+                selectedIndex === 0 ? theme['color-basic-200'] : null,
+              height: 44,
+            }}
+            icon={RecipeIcon}>
             <RecipeListTemplate
               addIcon={AddIcon}
               iconName={EditIcon}
@@ -104,7 +135,14 @@ export const MyKitchen = ({navigation}) => {
             />
           </Tab>
 
-          <Tab title={t('INGREDIENTS')} style={{height: 44}}>
+          <Tab
+            title={t('INGREDIENTS')}
+            style={{
+              backgroundColor:
+                selectedIndex === 1 ? theme['color-basic-200'] : null,
+              height: 44,
+            }}
+            icon={IngredientIcon}>
             <Layout
               style={{
                 height: '100%',
