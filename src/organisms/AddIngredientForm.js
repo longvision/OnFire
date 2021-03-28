@@ -216,6 +216,8 @@ const AddIngredientForm = () => {
                     setFieldTouched={setFieldTouched}
                     name="size"
                     unit={selectedUnit ? selectedUnit : ''}
+
+
                     styles={styles.input}
                     mantissa={4}
                     setFormattedSize={setFormattedSize}
