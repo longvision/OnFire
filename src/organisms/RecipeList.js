@@ -16,6 +16,7 @@ import Popularity from '../atoms/Popularity';
 import ListTitle from '../atoms/ListTitle';
 import {useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
+import {ImageCarousel} from '../molecules/ImageCarousel';
 
 export const RecipeList = ({
   recipes,
@@ -41,34 +42,46 @@ export const RecipeList = ({
     navigation.navigate('RecipeDetail');
   }
 
-  const renderItemHeader = (headerProps, info) => (
-    <View {...headerProps}>
-      <Text category="h4">{info.item.title}</Text>
+  const renderItemFooter = info => (
+    <View
+      style={{
+        margin: 25,
+        flexDirection: 'row',
+      }}>
+      <Text category="s1">{info.item.description}</Text>
     </View>
   );
 
-  const renderItemFooter = footerProps => (
-    <View style={{height: 60, flexDirection: 'row', backgroundColor: 'white'}}>
-      <Text {...footerProps}>Rating</Text>
-      <Popularity title={ratingTitle} start={2.556} count={5} imageSize={15} />
+  // const renderItemFooter = footerProps => (
+  //   <View style={{height: 60, flexDirection: 'row', backgroundColor: 'white'}}>
+  //     <Text {...footerProps}>Rating</Text>
+  //     <Popularity title={ratingTitle} start={2.556} count={5} imageSize={15} />
+  //   </View>
+  // );
+  const renderItemHeader = (headerProps, info) => (
+    <View {...headerProps}>
+      <Text status="basic" category="h4">
+        {info.item.title}
+      </Text>
     </View>
   );
   const renderItem = info => (
     <Card
-      style={{marginVertical: 2}}
+      style={{marginVertical: 5, borderColor: 'blue'}}
       onPress={() => handlePress(info.item)}
-      status="basic"
+      status="info"
       header={headerProps => renderItemHeader(headerProps, info)}
-      // footer={renderItemFooter} //will enable rating
+      footer={() => renderItemFooter(info)} //will enable rating
     >
-      <Text category="p2">{info.item.description}</Text>
+      {info.item.files.length > 0 ? (
+        <ImageCarousel data={info.item.files} />
+      ) : null}
     </Card>
   );
 
   return (
     <>
       <Text>{props.label && props.label}</Text>
-      {/* <Layout style={containerStyle}> */}
       <List
         style={{marginVertical: 4, backgroundColor: 'white'}}
         contentContainerStyle={{
@@ -79,7 +92,6 @@ export const RecipeList = ({
         data={recipes}
         renderItem={renderItem}
       />
-      {/* </Layout> */}
     </>
   );
 };
