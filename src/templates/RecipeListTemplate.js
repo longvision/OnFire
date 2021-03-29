@@ -19,6 +19,11 @@ const RecipeListTemplate = ({AddIcon, navigation, iconName, recipes}) => {
             recipes={recipes}
             rating={false}
             navigation={navigation}
+            handleCamera={id => {
+              navigation.navigate('Camera', {
+                product_id: id,
+              });
+            }}
             cta
             assessoryLeft={iconName}
             containerStyle={{width: '100%'}}

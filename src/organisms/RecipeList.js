@@ -72,7 +72,7 @@ export const RecipeList = ({
         {info.item.title}
       </Text>
       {info.item.files.length == 0 && (
-        <Button status="info" onPress={handleCamera}>
+        <Button status="info" onPress={() => handleCamera(info.item.id)}>
           {t('Add_Image')}
         </Button>
       )}
