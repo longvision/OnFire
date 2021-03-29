@@ -27,7 +27,7 @@ export const ImageCarousel = ({data}) => {
   return (
     <FlatList
       data={data}
-      keyExtractor={item => item.product_id}
+      keyExtractor={item => `${item.product_id}-${item.url}`}
       style={{flex: 1}}
       renderItem={({item}) => {
         return <Slide data={item} />;

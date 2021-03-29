@@ -26,7 +26,7 @@ export const RecipeList = ({
   navigation,
   img,
   containerStyle,
-
+  handleCamera,
   assessoryLeft,
   btnSize,
   height,
@@ -59,10 +59,23 @@ export const RecipeList = ({
   //   </View>
   // );
   const renderItemHeader = (headerProps, info) => (
-    <View {...headerProps}>
-      <Text status="basic" category="h4">
+    <View
+      {...headerProps}
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        flexDirection: 'row',
+        height: 44,
+      }}>
+      <Text status="basic" category="h4" style={{marginLeft: 15}}>
         {info.item.title}
       </Text>
+      {info.item.files.length == 0 && (
+        <Button status="info" onPress={handleCamera}>
+          {t('Add_Image')}
+        </Button>
+      )}
     </View>
   );
   const renderItem = info => (
