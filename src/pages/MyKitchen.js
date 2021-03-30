@@ -118,9 +118,28 @@ export const MyKitchen = ({navigation}) => {
       <Divider />
 
       <Layout style={{flex: 1}}>
-        <ButtonGroup style={{margin: 2}} appearance="outline" status="success">
-          <Button onPress={() => setSelectedIndex(0)}>Recipes</Button>
-          <Button onPress={() => setSelectedIndex(1)}>Ingredients</Button>
+        <ButtonGroup
+          style={{margin: 2, display: 'flex', width: '100%'}}
+          appearance="outline"
+          status="success">
+          <Button
+            style={{
+              display: 'flex',
+              width: '50%',
+              backgroundColor: selectedIndex === 0 ? '#BBF9B3' : 'white',
+            }}
+            onPress={() => setSelectedIndex(0)}>
+            Recipes
+          </Button>
+          <Button
+            style={{
+              display: 'flex',
+              width: '50%',
+              backgroundColor: selectedIndex === 1 ? '#BBF9B3' : 'white',
+            }}
+            onPress={() => setSelectedIndex(1)}>
+            Ingredients
+          </Button>
         </ButtonGroup>
         {(fileModelUpdateLoading || fileModelDeleteLoading) && (
           <Loading
