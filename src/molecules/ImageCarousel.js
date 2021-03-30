@@ -32,7 +32,7 @@ export function Slide({data}) {
 
       <View
         style={{
-          height: 300,
+          maxHeight: 300,
           width: 300,
           justifyContent: 'center',
           alignItems: 'center',
@@ -40,7 +40,7 @@ export function Slide({data}) {
         <Image
           source={{uri: data.url}}
           resizeMode="contain"
-          style={{width: windowWidth * 0.8, height: windowHeight * 0.8}}
+          style={{width: windowWidth * 0.9, height: windowWidth * 0.9}}
         />
       </View>
     </>
@@ -52,8 +52,13 @@ export const ImageCarousel = ({data}) => {
     <FlatList
       data={data}
       keyExtractor={item => `${item.product_id}-${item.url}`}
-      style={{flex: 1}}
-      contentContainerStyle={{marginLeft: 20}}
+      // style={{}}
+      contentContainerStyle={{
+        width: 280,
+        height: 280,
+        borderColor: 'red',
+        borderWidth: 20,
+      }}
       renderItem={({item}) => {
         return <Slide data={item} />;
       }}
@@ -69,8 +74,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     height: 44,
     width: 44,
-    top: 0,
-    right: 8,
+    top: 7,
+    right: 0,
     zIndex: 1,
   },
 });

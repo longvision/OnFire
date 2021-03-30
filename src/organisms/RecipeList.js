@@ -43,13 +43,18 @@ export const RecipeList = ({
   }
 
   const renderItemFooter = info => (
-    <View
+    <Layout
+      level="4"
       style={{
-        margin: 25,
-        flexDirection: 'row',
+        width: '100%',
+        height: 100,
+        flexDirection: 'column',
       }}>
-      <Text category="s1">{info.item.description}</Text>
-    </View>
+      <Divider />
+      <Text category="p1" style={{margin: 10}}>
+        {info.item.description}
+      </Text>
+    </Layout>
   );
 
   // const renderItemFooter = footerProps => (
@@ -59,13 +64,13 @@ export const RecipeList = ({
   //   </View>
   // );
   const renderItemHeader = (headerProps, info) => (
-    <View
+    <Layout
       {...headerProps}
+      level="2"
       style={{
         display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexDirection: 'column',
+        width: '100%',
+        height: 70,
         // height: 44,
       }}>
       <View
@@ -75,11 +80,11 @@ export const RecipeList = ({
           justifyContent: 'center',
           flexDirection: 'row',
         }}>
-        <Text status="basic" category="h4" style={{margin: 15}}>
+        <Text status="basic" category="h3" style={{margin: 15}}>
           {info.item.title}
         </Text>
       </View>
-      {info.item.files.length == 0 && (
+      {(!info.item.files || info.item.files.length == 0) && (
         <Button
           status="info"
           appearance="outline"
@@ -87,17 +92,21 @@ export const RecipeList = ({
           {t('Add_Image')}
         </Button>
       )}
-    </View>
+    </Layout>
   );
   const renderItem = info => (
     <Card
-      style={{marginVertical: 10, alignItems: 'center', borderColor: 'blue'}}
+      style={{marginVertical: 10, alignItems: 'center', borderColor: 'grey'}}
       onPress={() => handlePress(info.item)}
       status="info"
       header={headerProps => renderItemHeader(headerProps, info)}
       footer={() => renderItemFooter(info)} //will enable rating
     >
-      {info.item.files.length > 0 ? <Slide data={info.item.files[0]} /> : null}
+      {info.item.files && info.item.files.length > 0 ? (
+        <Slide data={info.item.files[0]} />
+      ) : (
+        <View />
+      )}
     </Card>
   );
 
@@ -108,8 +117,8 @@ export const RecipeList = ({
         style={{marginVertical: 4, backgroundColor: 'white'}}
         contentContainerStyle={{
           paddingHorizontal: 8,
-          paddingVertical: 4,
-          paddingBottom: 120,
+          // paddingVertical: 4,
+          // paddingBottom: 120,
         }}
         data={recipes}
         renderItem={renderItem}
