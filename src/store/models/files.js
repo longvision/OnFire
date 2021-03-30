@@ -75,7 +75,7 @@ export const files = createModel()({
 
         api.defaults.headers.Authorization = `Bearer ${rootState.auth.token}`;
         api.defaults.headers['Content-Type'] = 'multipart/form-data';
-        api.defaults.headers.Accept = 'multipart/form-data';
+        api.defaults.headers.Accept = 'application/json';
 
         let formData = new FormData();
 
@@ -95,11 +95,18 @@ export const files = createModel()({
           });
         }
 
-        await api.post(
+        const res = await api.post(
           `files?folder=${folder}&product_id=${productId}`,
           formData,
         );
-        dispatch.files.success();
+        const {data} = res;
+
+        dispatch.recipes.addImage({
+          product_id: data.product_id,
+          url: data.url,
+          name: data.name,
+        });
+        return res;
       } catch (err) {
         // dispatch.files.failed();
       }
