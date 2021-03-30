@@ -34,12 +34,21 @@ export const recipes = createModel()({
     removeImage(state, payload) {
       const {product_id} = payload;
 
-      const untouched = state.recipes.filter(item => item.id !== product_id);
       const selected = state.recipes.filter(item => item.id === product_id);
       //Zera o array de imagens do objeto.
-      selected.splice(0, selected.length);
+      selected[0].files = [];
 
-      return {...state, recipes: [...untouched, ...selected]};
+      return {...state, recipes: [...state.recipes, selected]};
+    },
+
+    addImage(state, payload) {
+      const {product_id, url, name} = payload;
+
+      const selected = state.recipes.filter(item => item.id === product_id);
+      //Zera o array de imagens do objeto.
+      selected.files = [{product_id, url, name}];
+
+      return {...state, recipes: [...state.recipes, selected]};
     },
   },
   effects: dispatch => ({
@@ -66,15 +75,13 @@ export const recipes = createModel()({
         await api.patch(`/product/${product_id}`);
       } catch (err) {}
     },
-    async listAsync(payload, rootState) {
+    async listAsync(state, rootState) {
       try {
         api.defaults.headers.Authorization = `Bearer ${rootState.auth.token}`;
 
         const response = await api.get('products');
 
         const {data} = response.data;
-
-        tron.log(rootState);
 
         dispatch.recipes.list(data);
 
