@@ -119,14 +119,17 @@ export const MyKitchen = ({navigation}) => {
 
       <Layout style={{flex: 1}}>
         <ButtonGroup
-          style={{display: 'flex', width: '100%'}}
+          style={{
+            display: 'flex',
+            width: '100%',
+          }}
           appearance="outline"
-          status="success">
+          status={'primary'}>
           <Button
             style={{
               display: 'flex',
               width: '50%',
-              backgroundColor: selectedIndex === 0 ? '#BBF9B3' : 'white',
+              backgroundColor: selectedIndex === 0 ? '#CAAFFD' : 'white',
             }}
             onPress={() => setSelectedIndex(0)}>
             Recipes
@@ -135,7 +138,7 @@ export const MyKitchen = ({navigation}) => {
             style={{
               display: 'flex',
               width: '50%',
-              backgroundColor: selectedIndex === 1 ? '#BBF9B3' : 'white',
+              backgroundColor: selectedIndex === 1 ? '#CAAFFD' : 'white',
             }}
             onPress={() => setSelectedIndex(1)}>
             Ingredients
