@@ -10,9 +10,6 @@ import {useTranslation} from 'react-i18next';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Tab = createBottomTabNavigator();
-// const FeedIcon = (props) => <Icon {...props} name="home-outline" />;
-
-// const SearchIcon = (props) => <Icon {...props} name="search-outline" />;
 const MainNavigator = () => {
   const {t, i18n} = useTranslation();
   const theme = useTheme();

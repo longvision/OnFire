@@ -72,7 +72,8 @@ export const measures = createModel()({
           unit: values.unit,
         });
 
-        this.addMeasure(measure.data);
+        await this.addMeasure(measure.data);
+        dispatch.recipes.updateAsync({product_id: productId});
       } catch (err) {
         dispatch.measures.failed();
       }

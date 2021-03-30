@@ -84,8 +84,8 @@ const AddIngredientForm = () => {
         touched,
         values,
       }) => (
-        <ScrollView style={{height: '100%'}}>
-          <Layout style={styles.container}>
+        <View style={{height: '100%'}}>
+          <Layout style={styles.container} level="4">
             <Layout style={styles.controlContainer}>
               <Text
                 category="h4"
@@ -261,7 +261,7 @@ const AddIngredientForm = () => {
               </Layout>
             </Layout>
           </Layout>
-        </ScrollView>
+        </View>
       )}
     </Formik>
   );

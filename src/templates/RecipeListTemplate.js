@@ -6,8 +6,10 @@ import {PopoverOverlay} from '../organisms/PopoverOverlay';
 import {RecipeList} from '../organisms/RecipeList';
 import AddRecipeForm from '../organisms/AddRecipeForm';
 import {useTranslation} from 'react-i18next';
+import {useDispatch, useSelector} from 'react-redux';
+import Loading from '../atoms/Loading';
 
-const RecipeListTemplate = ({AddIcon, navigation, iconName, recipes}) => {
+const RecipeListTemplate = ({AddIcon, navigation, recipes, iconName}) => {
   return (
     <>
       <Layout style={{height: '100%'}}>
@@ -19,6 +21,11 @@ const RecipeListTemplate = ({AddIcon, navigation, iconName, recipes}) => {
             recipes={recipes}
             rating={false}
             navigation={navigation}
+            handleCamera={id => {
+              navigation.navigate('Camera', {
+                product_id: id,
+              });
+            }}
             cta
             assessoryLeft={iconName}
             containerStyle={{width: '100%'}}
