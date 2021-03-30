@@ -18,7 +18,6 @@ export default Loading = ({label, size, status, show}) => (
       display: 'flex',
       alignItems: 'center',
       marginTop: 50,
-      // marginBottom: 15,
       borderWidth: 2,
       borderColor: '#6937F4',
       opacity: 0.9,
