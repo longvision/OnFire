@@ -78,8 +78,8 @@ const EditIngredientForm = ({selectedItem}) => {
       }}
       validationSchema={AddIngredientSchema}
       onSubmit={values => {
-        values.size = formattedSize;
-        values.price = formattedPrice;
+        values.size = formattedSize ? formattedSize : values.size;
+        values.price = formattedPrice ? formattedPrice : values.price;
         dispatch.ingredients.updateAsync({values: values, id: selectedItem.id});
 
         navigation.navigate('MyKitchen');

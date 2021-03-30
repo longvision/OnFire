@@ -76,7 +76,7 @@ export const MyKitchen = ({navigation}) => {
   const EditIcon = props => {
     return <ThemedAwesomeIcon name="edit-2-outline" {...props} />;
   };
-  const onSelect = index => setSelectedIndex(index);
+
   const handlePress = () => {
     navigation.navigate('AddIngredient');
   };
@@ -99,21 +99,23 @@ export const MyKitchen = ({navigation}) => {
     dispatch.ingredients.listAsync();
   }, []);
 
-  // useFocusEffect(
-  //   React.useCallback(() => {
-  //     // alert('Screen was focused');
-  //     // Do something when the screen is focused
+  useFocusEffect(
+    React.useCallback(() => {
+      // alert('Screen was focused');
+      dispatch.ingredients.listAsync();
+      dispatch.recipes.listAsync();
+      // Do something when the screen is focused
 
-  //     return () => {
-  //       // alert('Screen was unfocused');
-  //       // Do something when the screen is unfocused
-  //       // Useful for cleanup functions
-  //     };
-  //   }, []),
-  // );
+      return () => {
+        // alert('Screen was unfocused');
+        // Do something when the screen is unfocused
+        // Useful for cleanup functions
+      };
+    }, []),
+  );
 
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={{flex: 1, flexDirection: 'column'}}>
       <TopNavigation title={t('Kitchen')} alignment="center" />
       <Divider />
 
