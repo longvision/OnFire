@@ -20,6 +20,7 @@ export class CameraClass extends PureComponent {
           }}
           style={styles.preview}
           type={RNCamera.Constants.Type.back}
+          captureAudio={false}
           flashMode={RNCamera.Constants.FlashMode.on}
           recordAudioPermissionStatus={'NOT_AUTHORIZED'}
           androidCameraPermissionOptions={{

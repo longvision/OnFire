@@ -86,12 +86,13 @@ export const files = createModel()({
           formData.append('image', {
             name: fileName,
             uri: uri.replace('file://', ''),
-            product_id: productId,
+            type: 'image/jpeg',
           });
         } else {
           formData.append('image', {
             name: fileName,
             uri: uri,
+            type: 'image/jpeg',
           });
         }
 
