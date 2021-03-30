@@ -16,7 +16,7 @@ import Popularity from '../atoms/Popularity';
 import ListTitle from '../atoms/ListTitle';
 import {useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-import {ImageCarousel} from '../molecules/ImageCarousel';
+import {ImageCarousel, Slide} from '../molecules/ImageCarousel';
 
 export const RecipeList = ({
   recipes,
@@ -64,15 +64,28 @@ export const RecipeList = ({
       style={{
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'space-between',
-        flexDirection: 'row',
-        height: 44,
+        justifyContent: 'center',
+        flexDirection: 'column',
+        // height: 44,
       }}>
-      <Text status="basic" category="h4" style={{marginLeft: 15}}>
-        {info.item.title}
-      </Text>
+      <View
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          flexDirection: 'row',
+
+          // height: 44,
+        }}>
+        <Text status="basic" category="h4" style={{margin: 15}}>
+          {info.item.title}
+        </Text>
+      </View>
       {info.item.files.length == 0 && (
-        <Button status="info" onPress={() => handleCamera(info.item.id)}>
+        <Button
+          status="info"
+          appearance="outline"
+          onPress={() => handleCamera(info.item.id)}>
           {t('Add_Image')}
         </Button>
       )}
@@ -80,15 +93,13 @@ export const RecipeList = ({
   );
   const renderItem = info => (
     <Card
-      style={{marginVertical: 5, borderColor: 'blue'}}
+      style={{marginVertical: 10, alignItems: 'center', borderColor: 'blue'}}
       onPress={() => handlePress(info.item)}
       status="info"
       header={headerProps => renderItemHeader(headerProps, info)}
       footer={() => renderItemFooter(info)} //will enable rating
     >
-      {info.item.files.length > 0 ? (
-        <ImageCarousel data={info.item.files} />
-      ) : null}
+      {info.item.files.length > 0 ? <Slide data={info.item.files[0]} /> : null}
     </Card>
   );
 
