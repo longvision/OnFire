@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {SafeAreaView} from 'react-native';
+import {SafeAreaView, View} from 'react-native';
 import {
   Button,
   Divider,
@@ -10,6 +10,7 @@ import {
   TabView,
   TopNavigationAction,
   useTheme,
+  ButtonGroup,
 } from '@ui-kitten/components';
 import {useTranslation} from 'react-i18next';
 import {useDispatch, useSelector} from 'react-redux';
@@ -23,6 +24,7 @@ import {PopoverOverlay} from '../organisms/PopoverOverlay';
 import AddRecipeForm from '../organisms/AddRecipeForm';
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Loading from '../atoms/Loading';
 
 // import { Container } from './styles';
 
@@ -32,11 +34,11 @@ const EditIcon = props => <Icon {...props} name="edit-2-outline" />;
 
 export const MyKitchen = ({navigation}) => {
   const theme = useTheme();
+  const dispatch = useDispatch();
   const {t, i18n} = useTranslation();
   const [visible, setVisible] = useState(false);
   const ingredients = useSelector(state => state.ingredients.ingredients);
   const recipes = useSelector(state => state.recipes.recipes);
-
   const RecipeIcon = props => (
     <MaterialCommunityIcons
       {...props}
@@ -57,12 +59,12 @@ export const MyKitchen = ({navigation}) => {
   const loadingUpdate = useSelector(
     state => state.loading.effects.ingredients.updateAsync,
   );
-  const loadingCreate = useSelector(
-    state => state.loading.effects.recipes.addAsync,
+
+  const loadingUploadImage = useSelector(
+    state => state.loading.effects.files.addAsync,
   );
 
   const [selectedIndex, setSelectedIndex] = React.useState(0);
-  const dispatch = useDispatch();
 
   const navigateBack = () => {
     navigation.goBack();
@@ -82,19 +84,33 @@ export const MyKitchen = ({navigation}) => {
   function handleAddRecipe() {
     navigation.navigate('AddRecipe');
   }
-
-  useFocusEffect(
-    React.useCallback(() => {
-      // alert('Screen was focused');
-      // Do something when the screen is focused
-
-      return () => {
-        // alert('Screen was unfocused');
-        // Do something when the screen is unfocused
-        // Useful for cleanup functions
-      };
-    }, [loadingUpdate]),
+  const fileModelUpdateLoading = useSelector(
+    state => state.loading.effects.files.addAsync,
   );
+  const fileModelDeleteLoading = useSelector(
+    state => state.loading.effects.files.deleteAsync,
+  );
+
+  React.useEffect(() => {
+    dispatch.recipes.listAsync();
+  }, [fileModelDeleteLoading, fileModelUpdateLoading]);
+
+  React.useEffect(() => {
+    dispatch.ingredients.listAsync();
+  }, []);
+
+  // useFocusEffect(
+  //   React.useCallback(() => {
+  //     // alert('Screen was focused');
+  //     // Do something when the screen is focused
+
+  //     return () => {
+  //       // alert('Screen was unfocused');
+  //       // Do something when the screen is unfocused
+  //       // Useful for cleanup functions
+  //     };
+  //   }, []),
+  // );
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -102,46 +118,54 @@ export const MyKitchen = ({navigation}) => {
       <Divider />
 
       <Layout style={{flex: 1}}>
-        <TabView
-          selectedIndex={selectedIndex}
-          onSelect={onSelect}
-          tabsArray={[t('Recipes'), t('Ingredients')]}>
-          <Tab
-            title={t('RECIPES')}
+        <ButtonGroup
+          style={{
+            display: 'flex',
+            width: '100%',
+          }}
+          appearance="outline"
+          status={'primary'}>
+          <Button
             style={{
-              backgroundColor:
-                selectedIndex === 0 ? theme['color-basic-200'] : null,
-              height: 44,
+              display: 'flex',
+              width: '50%',
+              backgroundColor: selectedIndex === 0 ? '#CAAFFD' : 'white',
             }}
-            icon={RecipeIcon}>
-            <RecipeListTemplate
-              addIcon={AddIcon}
-              iconName={EditIcon}
-              navigation={navigation}
-              recipes={recipes}
-            />
-          </Tab>
-
-          <Tab
-            title={t('INGREDIENTS')}
+            onPress={() => setSelectedIndex(0)}>
+            Recipes
+          </Button>
+          <Button
             style={{
-              backgroundColor:
-                selectedIndex === 1 ? theme['color-basic-200'] : null,
-              height: 44,
+              display: 'flex',
+              width: '50%',
+              backgroundColor: selectedIndex === 1 ? '#CAAFFD' : 'white',
             }}
-            icon={IngredientIcon}>
-            <Layout
-              style={{
-                height: '100%',
-              }}>
-              <IngredientListTemplate
-                ingredients={ingredients}
-                navigation={navigation}
-                addIcon={AddIcon}
-              />
-            </Layout>
-          </Tab>
-        </TabView>
+            onPress={() => setSelectedIndex(1)}>
+            Ingredients
+          </Button>
+        </ButtonGroup>
+        {(fileModelUpdateLoading || fileModelDeleteLoading) && (
+          <Loading
+            label="loading..."
+            show={fileModelUpdateLoading || fileModelDeleteLoading}
+            status="info"
+            size="giant"
+          />
+        )}
+        {selectedIndex === 0 ? (
+          <RecipeListTemplate
+            addIcon={AddIcon}
+            recipes={recipes}
+            iconName={EditIcon}
+            navigation={navigation}
+          />
+        ) : (
+          <IngredientListTemplate
+            ingredients={ingredients}
+            navigation={navigation}
+            addIcon={AddIcon}
+          />
+        )}
       </Layout>
       {selectedIndex === 0 ? (
         <Button
