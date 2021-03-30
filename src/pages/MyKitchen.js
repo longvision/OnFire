@@ -119,7 +119,7 @@ export const MyKitchen = ({navigation}) => {
 
       <Layout style={{flex: 1}}>
         <ButtonGroup
-          style={{margin: 2, display: 'flex', width: '100%'}}
+          style={{display: 'flex', width: '100%'}}
           appearance="outline"
           status="success">
           <Button
