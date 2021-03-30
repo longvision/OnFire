@@ -11,6 +11,7 @@ export const files = createModel()({
     selected: {},
     selectedId: null,
     failed: false,
+    success: false,
   },
   reducers: {
     list(state, payload) {
@@ -37,6 +38,12 @@ export const files = createModel()({
         selectedId: payload,
       };
     },
+    success(state, payload) {
+      return {
+        ...state,
+        success: true,
+      };
+    },
     failed(state, payload) {
       return {
         ...state,
@@ -47,6 +54,7 @@ export const files = createModel()({
       return {
         ...state,
         failed: false,
+        success: false,
       };
     },
     add(state, payload) {
@@ -91,6 +99,7 @@ export const files = createModel()({
           `files?folder=${folder}&product_id=${productId}`,
           formData,
         );
+        dispatch.files.success();
       } catch (err) {
         // dispatch.files.failed();
       }
@@ -110,51 +119,14 @@ export const files = createModel()({
         // history.push('/dashboard');
       } catch (err) {}
     },
-    async getAsync(payload, rootState) {
-      try {
-        api.defaults.headers.Authorization = `Bearer ${rootState.auth.token}`;
 
-        const {id} = payload;
-
-        const response = await api.get(`files/${id}`);
-
-        const {data} = response;
-
-        dispatch.files.list(data);
-
-        // history.push('/dashboard');
-      } catch (err) {}
-    },
-    async updateAsync(payload, rootState) {
-      try {
-        api.defaults.headers.Authorization = `Bearer ${rootState.auth.token}`;
-        const {values, id} = payload;
-
-        await api.patch(`ingredient/${id}`, {
-          id: id,
-          name: values.ingredient,
-          package_price: checkDollarSign(values.price.toString()),
-          package_size: values.size,
-          unit: values.unit,
-          seller: values.seller,
-          sold_region: values.region,
-          brand: values.brand,
-        });
-      } catch (err) {}
-    },
-    async setSelectedIdAsync(payload) {
-      dispatch.ingredients.setSelectedId(payload);
-    },
-    async setSelectedAsync(payload) {
-      dispatch.ingredients.setSelected(payload);
-    },
     async deleteAsync(payload, rootState) {
       try {
         api.defaults.headers.Authorization = `Bearer ${rootState.auth.token}`;
-        const {id} = payload;
+        const {name, product_id} = payload;
 
-        await api.delete(`measure/${id}`);
-        dispatch.files.delete(id);
+        await api.delete(`files/${name}`);
+        dispatch.recipes.removeImage({product_id: product_id});
       } catch (err) {}
     },
   }),

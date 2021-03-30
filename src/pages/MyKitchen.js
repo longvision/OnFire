@@ -32,6 +32,7 @@ const EditIcon = props => <Icon {...props} name="edit-2-outline" />;
 
 export const MyKitchen = ({navigation}) => {
   const theme = useTheme();
+  const dispatch = useDispatch();
   const {t, i18n} = useTranslation();
   const [visible, setVisible] = useState(false);
   const ingredients = useSelector(state => state.ingredients.ingredients);
@@ -57,12 +58,15 @@ export const MyKitchen = ({navigation}) => {
   const loadingUpdate = useSelector(
     state => state.loading.effects.ingredients.updateAsync,
   );
+
   const loadingCreate = useSelector(
     state => state.loading.effects.recipes.addAsync,
   );
+  const loadingUploadImage = useSelector(
+    state => state.loading.effects.files.addAsync,
+  );
 
   const [selectedIndex, setSelectedIndex] = React.useState(0);
-  const dispatch = useDispatch();
 
   const navigateBack = () => {
     navigation.goBack();

@@ -2,13 +2,15 @@ import React, {useEffect} from 'react';
 
 import AuthNavigator from './auth.navigator';
 import MainNavigator from './bottom.navigator';
-
+import {Alert} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {useSelector, useDispatch} from 'react-redux';
 
 export const AppNavigator = () => {
   const token = useSelector(state => state.auth.token);
   const dispatch = useDispatch();
+  const recipesChange = useSelector(state => state.loading.models.recipes);
+  const fileAdded = useSelector(state => state.loading.models.files);
 
   useEffect(() => {
     if (token) {
@@ -16,6 +18,8 @@ export const AppNavigator = () => {
       dispatch.recipes.listAsync();
     }
   }, [token]);
+
+  useEffect(() => {}, [recipesChange, fileAdded]);
 
   return (
     // <Stack.Navigator headerMode="none">

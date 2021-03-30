@@ -30,6 +30,7 @@ export const Picture = ({route, navigation}) => {
             productId: product_id,
             uri: uri,
           });
+          navigation.navigate('MyKitchen');
         }}>
         Use this photo
       </Button>

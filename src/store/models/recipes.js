@@ -31,6 +31,16 @@ export const recipes = createModel()({
     add(state, payload) {
       return {...state, recipes: [...state.recipes, payload]};
     },
+    removeImage(state, payload) {
+      const {product_id} = payload;
+
+      const untouched = state.recipes.filter(item => item.id !== product_id);
+      const selected = state.recipes.filter(item => item.id === product_id);
+      //Zera o array de imagens do objeto.
+      selected.splice(0, selected.length);
+
+      return {...state, recipes: [...untouched, ...selected]};
+    },
   },
   effects: dispatch => ({
     async addAsync(payload, rootState) {
