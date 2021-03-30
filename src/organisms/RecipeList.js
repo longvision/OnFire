@@ -74,8 +74,6 @@ export const RecipeList = ({
           alignItems: 'center',
           justifyContent: 'center',
           flexDirection: 'row',
-
-          // height: 44,
         }}>
         <Text status="basic" category="h4" style={{margin: 15}}>
           {info.item.title}

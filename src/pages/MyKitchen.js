@@ -24,6 +24,7 @@ import {PopoverOverlay} from '../organisms/PopoverOverlay';
 import AddRecipeForm from '../organisms/AddRecipeForm';
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Loading from '../atoms/Loading';
 
 // import { Container } from './styles';
 
@@ -37,7 +38,7 @@ export const MyKitchen = ({navigation}) => {
   const {t, i18n} = useTranslation();
   const [visible, setVisible] = useState(false);
   const ingredients = useSelector(state => state.ingredients.ingredients);
-
+  const recipes = useSelector(state => state.recipes.recipes);
   const RecipeIcon = props => (
     <MaterialCommunityIcons
       {...props}
@@ -83,6 +84,16 @@ export const MyKitchen = ({navigation}) => {
   function handleAddRecipe() {
     navigation.navigate('AddRecipe');
   }
+  const fileModelUpdateLoading = useSelector(
+    state => state.loading.effects.files.addAsync,
+  );
+  const fileModelDeleteLoading = useSelector(
+    state => state.loading.effects.files.deleteAsync,
+  );
+
+  React.useEffect(() => {
+    dispatch.recipes.listAsync();
+  }, [fileModelDeleteLoading, fileModelUpdateLoading]);
 
   React.useEffect(() => {
     dispatch.ingredients.listAsync();
@@ -111,10 +122,18 @@ export const MyKitchen = ({navigation}) => {
           <Button onPress={() => setSelectedIndex(0)}>Recipes</Button>
           <Button onPress={() => setSelectedIndex(1)}>Ingredients</Button>
         </ButtonGroup>
-
+        {(fileModelUpdateLoading || fileModelDeleteLoading) && (
+          <Loading
+            label="loading..."
+            show={fileModelUpdateLoading || fileModelDeleteLoading}
+            status="info"
+            size="giant"
+          />
+        )}
         {selectedIndex === 0 ? (
           <RecipeListTemplate
             addIcon={AddIcon}
+            recipes={recipes}
             iconName={EditIcon}
             navigation={navigation}
           />
