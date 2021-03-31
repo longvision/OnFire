@@ -90,10 +90,10 @@ const themedStyles = StyleService.create({
     top: -16,
     right: -25,
     zIndex: 1,
-    backgroundColor: 'color-primary-100',
-    borderColor: 'color-primary-100',
+    backgroundColor: 'color-basic-200',
+    borderColor: 'color-basic-200',
   },
   icon: {
-    color: 'color-primary-100',
+    color: 'color-basic-200',
   },
 });
