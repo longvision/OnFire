@@ -18,20 +18,18 @@ const MainNavigator = () => {
     <Tab.Navigator
       initialRouteName="KITCHEN"
       tabBarOptions={{
-        activeTintColor: theme['color-basic-100'],
-        inactiveTintColor: theme['color-basic-700'],
+        activeTintColor: theme['color-primary-100'],
+        inactiveTintColor: theme['color-primary-900'],
         labelStyle: { fontWeight: 'bold', fontSize: 14 },
-        activeBackgroundColor: theme['color-basic-700'],
-        inactiveBackgroundColor: theme['color-basic-100'],
+        activeBackgroundColor: theme['color-primary-900'],
+        inactiveBackgroundColor: theme['color-primary-200'],
       }}>
       <Tab.Screen
         name={t('KITCHEN')}
         component={KitchenStack}
         options={{
           unmountOnBlur: true,
-          tabBarIcon: ({
-            focused, color, size, ...props
-          }) => (
+          tabBarIcon: ({ focused, color, size, ...props }) => (
             <ThemedAwesomeIcon
               // {...props}
               color={color}
@@ -46,9 +44,7 @@ const MainNavigator = () => {
         component={SettingsStack}
         options={{
           unmountOnBlur: true,
-          tabBarIcon: ({
-            focused, color, size, ...props
-          }) => (
+          tabBarIcon: ({ focused, color, size, ...props }) => (
             <ThemedAwesomeIcon
               // {...props}
               color={color}

@@ -117,11 +117,9 @@ const RecipeList = ({
     <>
       <Text>{props.label && props.label}</Text>
       <List
-        style={{ marginVertical: 4, backgroundColor: theme['color-basic-300'] }}
+        style={{ marginVertical: 4, backgroundColor: theme['color-basic-400'] }}
         contentContainerStyle={{
           paddingHorizontal: 8,
-          // paddingVertical: 4,
-          // paddingBottom: 120,
         }}
         data={recipes}
         renderItem={renderItem}

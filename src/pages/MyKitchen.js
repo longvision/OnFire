@@ -39,7 +39,7 @@ const MyKitchen = ({ navigation }) => {
     <ThemedAwesomeIcon
       {...props}
       name="plus-thick"
-      color={theme['color-basic-800']}
+      color={theme['color-primary-900']}
     />
   );
 
@@ -110,14 +110,14 @@ const MyKitchen = ({ navigation }) => {
               width: '50%',
               height: 44,
               backgroundColor:
-                selectedIndex === 0 ? theme['color-primary-600'] : 'white',
+                selectedIndex === 0 ? theme['color-primary-900'] : 'white',
             }}
             onPress={() => setSelectedIndex(0)}>
             <Text
               style={{
                 color:
                   selectedIndex === 0
-                    ? theme['color-primary-900']
+                    ? theme['color-primary-100']
                     : theme['color-basic-900'],
               }}>
               Recipes
@@ -128,14 +128,14 @@ const MyKitchen = ({ navigation }) => {
               width: '50%',
               height: 44,
               backgroundColor:
-                selectedIndex === 1 ? theme['color-primary-600'] : 'white',
+                selectedIndex === 1 ? theme['color-primary-900'] : 'white',
             }}
             onPress={() => setSelectedIndex(1)}>
             <Text
               style={{
                 color:
                   selectedIndex === 1
-                    ? theme['color-primary-900']
+                    ? theme['color-primary-100']
                     : theme['color-basic-900'],
               }}>
               Ingredients
@@ -186,7 +186,7 @@ const MyKitchen = ({ navigation }) => {
             onPress={handleAddRecipe}
             accessoryLeft={AddIcon}
             appearance="filled">
-            <Text style={{ color: theme['color-basic-800'] }}>
+            <Text style={{ color: theme['color-primary-900'] }}>
               {t('Create_Recipes')}
             </Text>
           </Button>
@@ -208,7 +208,7 @@ const MyKitchen = ({ navigation }) => {
             accessoryLeft={AddIcon}
             onPress={handlePress}
             appearance="filled">
-            <Text style={{ color: theme['color-basic-900'] }}>
+            <Text style={{ color: theme['color-primary-900'] }}>
               {t('Add_Ingredient')}
             </Text>
           </Button>

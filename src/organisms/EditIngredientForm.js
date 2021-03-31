@@ -1,9 +1,4 @@
-import {
-  Button,
-  Icon,
-  Text,
-  Layout,
-} from '@ui-kitten/components';
+import { Button, Icon, Text, Layout } from '@ui-kitten/components';
 import React, { useRef } from 'react';
 import { StyleSheet } from 'react-native';
 import { Formik } from 'formik';
@@ -15,10 +10,10 @@ import SizeInput from '../molecules/SizeInput';
 import Selector from '../molecules/Selector';
 import AutoCompleteField from '../molecules/AutocompleteField';
 import PriceInput from '../molecules/PriceInput';
+import { ThemedAwesomeIcon } from '../atoms/ThemedAwesomeIcon';
 
 const data = [];
 
-const saveIcon = (props) => <Icon {...props} name="save-outline" />;
 const editIcon = (props) => <Icon {...props} name="edit-outline" />;
 const closeIcon = (props) => <Icon {...props} name="close-outline" />;
 
@@ -62,7 +57,9 @@ const EditIngredientForm = ({ selectedItem }) => {
   const handleEditInfo = () => {
     setDisabled(!disabled);
   };
-
+  const SaveIcon = (props) => (
+    <ThemedAwesomeIcon name="content-save" {...props} />
+  );
   return (
     <Formik
       initialValues={{
@@ -100,7 +97,7 @@ const EditIngredientForm = ({ selectedItem }) => {
                 category="h4"
                 appearance="alternative"
                 status="basic"
-                style={styles.packageTitle}>
+                style={styles.productTitle}>
                 {t('Product_info')}
               </Text>
               <Button
@@ -296,10 +293,12 @@ const EditIngredientForm = ({ selectedItem }) => {
                 size="large"
                 status="primary"
                 style={styles.button}
-                accessoryLeft={saveIcon}
+                accessoryLeft={SaveIcon}
                 onPress={handleSubmit}
                 appearance="filled">
-                {t('Save')}
+                <Text category="s2" status="basic">
+                  {t('Save')}
+                </Text>
               </Button>
             </Layout>
           </Layout>
@@ -325,13 +324,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   packageTitle: {
+    // marginLeft: 100,
     marginLeft: 100,
+    flex: 3,
+  },
+  productTitle: {
+    // marginLeft: 100,
+    marginLeft: 150,
     flex: 3,
   },
   productLayout: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'flex-end',
+
+    justifyContent: 'center',
     marginBottom: 10,
     width: '100%',
     height: 80,
