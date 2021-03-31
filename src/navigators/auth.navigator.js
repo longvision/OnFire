@@ -1,11 +1,11 @@
 import React from 'react';
 
-import {createStackNavigator} from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 
-import {Login} from '../pages/Auth/Login';
-import {ForgotPassword} from '../pages/Auth/ForgotPassword';
-import {SignUp} from '../pages/Auth/SignUp';
-import {Recovery} from '../pages/Auth/Recovery';
+import { Login } from '../pages/Auth/Login';
+import { ForgotPassword } from '../pages/Auth/ForgotPassword';
+import { SignUp } from '../pages/Auth/SignUp';
+import { Recovery } from '../pages/Auth/Recovery';
 
 const Stack = createStackNavigator();
 

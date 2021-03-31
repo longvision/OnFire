@@ -1,15 +1,15 @@
 import React from 'react';
 
-import {createStackNavigator} from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 
-import {MyKitchen} from '../pages/MyKitchen';
-import {RecipeDetail} from '../pages/Recipe/RecipeDetail';
-import {IngredientDetail} from '../pages/Ingredient/IngredientDetail';
-import {AddIngredient} from '../pages/Ingredient/AddIngredient';
-import {AddMeasure} from '../pages/Measure/AddMeasure';
-import {AddRecipe} from '../pages/Recipe/AddRecipe';
-import {Camera} from '../pages/Camera/Camera';
-import {Picture} from '../pages/Camera/Picture';
+import MyKitchen from '../pages/MyKitchen';
+import RecipeDetail from '../pages/Recipe/RecipeDetail';
+import { IngredientDetail } from '../pages/Ingredient/IngredientDetail';
+import { AddIngredient } from '../pages/Ingredient/AddIngredient';
+import { AddMeasure } from '../pages/Measure/AddMeasure';
+import { AddRecipe } from '../pages/Recipe/AddRecipe';
+import { Camera } from '../pages/Camera/Camera';
+import { Picture } from '../pages/Camera/Picture';
 
 const Stack = createStackNavigator();
 

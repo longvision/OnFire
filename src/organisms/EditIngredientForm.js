@@ -1,28 +1,21 @@
-import {
-  Button,
-  Icon,
-  Input,
-  Text,
-  Layout,
-  StyleService,
-} from '@ui-kitten/components';
-import React, {useRef, useImperativeHandle, useEffect} from 'react';
-import {View, StyleSheet, ScrollView} from 'react-native';
-import PriceInput from '../molecules/PriceInput';
-import AutoCompleteField from '../molecules/AutocompleteField';
-import {Field, Formik} from 'formik';
-import Selector from '../molecules/Selector';
-import SizeInput from '../molecules/SizeInput';
-import {useDispatch, useSelector} from 'react-redux';
-import {useNavigation} from '@react-navigation/native';
+import { Button, Icon, Text, Layout } from '@ui-kitten/components';
+import React, { useRef } from 'react';
+import { StyleSheet } from 'react-native';
+import { Formik } from 'formik';
+import { useDispatch } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 import * as Yup from 'yup';
-import {useTranslation} from 'react-i18next';
+import { useTranslation } from 'react-i18next';
+import SizeInput from '../molecules/SizeInput';
+import Selector from '../molecules/Selector';
+import AutoCompleteField from '../molecules/AutocompleteField';
+import PriceInput from '../molecules/PriceInput';
+import { ThemedAwesomeIcon } from '../atoms/ThemedAwesomeIcon';
 
 const data = [];
 
-const saveIcon = props => <Icon {...props} name="save-outline" />;
-const editIcon = props => <Icon {...props} name="edit-outline" />;
-const closeIcon = props => <Icon {...props} name="close-outline" />;
+const editIcon = (props) => <Icon {...props} name="edit-outline" />;
+const closeIcon = (props) => <Icon {...props} name="close-outline" />;
 
 const AddIngredientSchema = Yup.object().shape({
   ingredient: Yup.string()
@@ -39,8 +32,8 @@ const AddIngredientSchema = Yup.object().shape({
   unit: Yup.string().required('Package unit is required'),
   price: Yup.string().required('Package price is required'),
 });
-const EditIngredientForm = ({selectedItem}) => {
-  const {t, i18n} = useTranslation();
+const EditIngredientForm = ({ selectedItem }) => {
+  const { t, i18n } = useTranslation();
   const dispatch = useDispatch();
 
   const [selectedIndex, setSelectedIndex] = React.useState(0);
@@ -64,7 +57,9 @@ const EditIngredientForm = ({selectedItem}) => {
   const handleEditInfo = () => {
     setDisabled(!disabled);
   };
-
+  const SaveIcon = (props) => (
+    <ThemedAwesomeIcon name="content-save" {...props} />
+  );
   return (
     <Formik
       initialValues={{
@@ -77,10 +72,10 @@ const EditIngredientForm = ({selectedItem}) => {
         price: Number(selectedItem.package_price).toFixed(2),
       }}
       validationSchema={AddIngredientSchema}
-      onSubmit={values => {
-        values.size = formattedSize ? formattedSize : values.size;
-        values.price = formattedPrice ? formattedPrice : values.price;
-        dispatch.ingredients.updateAsync({values: values, id: selectedItem.id});
+      onSubmit={(values) => {
+        values.size = formattedSize || values.size;
+        values.price = formattedPrice || values.price;
+        dispatch.ingredients.updateAsync({ values, id: selectedItem.id });
 
         navigation.navigate('MyKitchen');
       }}>
@@ -94,232 +89,225 @@ const EditIngredientForm = ({selectedItem}) => {
         touched,
         values,
       }) => (
-        <ScrollView style={{height: '100%'}}>
-          <Layout style={styles.container}>
-            <Layout style={styles.controlContainer}>
-              <Layout style={styles.productLayout} level="3">
+        // <ScrollView style={{height: '100%'}}>
+        <Layout style={styles.container}>
+          <Layout style={styles.controlContainer}>
+            <Layout style={styles.productLayout} level="3">
+              <Text
+                category="h4"
+                appearance="alternative"
+                status="basic"
+                style={styles.productTitle}>
+                {t('Product_info')}
+              </Text>
+              <Button
+                style={styles.editPackage}
+                status="basic"
+                size="medium"
+                onPress={handleEditInfo}
+                accessoryLeft={disabled ? editIcon : closeIcon}
+              />
+            </Layout>
+
+            <Layout style={styles.rowContainer} level="1">
+              <AutoCompleteField
+                style={styles.input}
+                array={data}
+                name="ingredient"
+                returnKeyType="next"
+                editing={true}
+                disabled={disabled}
+                setDisabled={setDisabled}
+                value={values.ingredient}
+                setFieldValue={setFieldValue}
+                setFieldTouched={setFieldTouched}
+                onSubmitEditing={() => brandRef.current.focus()}
+                status={errors.ingredient && touched.ingredient && 'danger'}
+                placeholder={t('Ingredient_Name')}
+                autoCompleteType="off"
+                autoCorrect={false}
+              />
+              <Text category="c2" appearance="hint" status="danger">
+                {errors.ingredient && touched.ingredient && errors.ingredient}
+              </Text>
+            </Layout>
+            <Layout style={styles.rowContainer} level="1">
+              <AutoCompleteField
+                style={styles.input}
+                array={data}
+                returnKeyType="next"
+                disabled={disabled}
+                editing={true}
+                setDisabled={setDisabled}
+                name="brand"
+                value={values.brand}
+                setFieldValue={setFieldValue}
+                setFieldTouched={setFieldTouched}
+                onSubmitEditing={() => sellerRef.current.focus()}
+                status={errors.brand && touched.brand && 'danger'}
+                placeholder={t('Brand')}
+                ref={brandRef}
+                autoCompleteType="off"
+                autoCorrect={false}
+              />
+              <Text category="c2" appearance="hint" status="danger">
+                {errors.brand && touched.brand && errors.brand}
+              </Text>
+            </Layout>
+            <Layout style={styles.rowContainer} level="1">
+              <AutoCompleteField
+                style={styles.input}
+                value={values.seller}
+                setFieldValue={setFieldValue}
+                disabled={disabled}
+                editing={true}
+                setDisabled={setDisabled}
+                setFieldTouched={setFieldTouched}
+                array={data}
+                name="seller"
+                status={errors.seller && touched.seller && 'danger'}
+                placeholder={t('Seller')}
+                returnKeyType="next"
+                onSubmitEditing={() => soldRef.current.focus()}
+                ref={sellerRef}
+                autoCompleteType="off"
+                autoCorrect={false}
+              />
+              <Text category="c2" appearance="hint" status="danger">
+                {errors.seller && touched.seller && errors.seller}
+              </Text>
+            </Layout>
+            <Layout style={styles.rowContainer} level="1">
+              <AutoCompleteField
+                style={styles.input}
+                value={values.region}
+                editing={true}
+                setFieldValue={setFieldValue}
+                setFieldTouched={setFieldTouched}
+                disabled={disabled}
+                setDisabled={setDisabled}
+                array={data}
+                returnKeyType="next"
+                name="region"
+                onSubmitEditing={() => {
+                  sizeRef.current.focus();
+                }}
+                ref={soldRef}
+                status={errors.region && touched.region && 'danger'}
+                placeholder={t('Region')}
+                autoCompleteType="off"
+                autoCorrect={false}
+              />
+              <Text category="c2" appearance="hint" status="danger">
+                {errors.region && touched.region && errors.region}
+              </Text>
+            </Layout>
+            <Layout style={styles.packageContainer} level="3">
+              <Layout style={styles.packageLayout} level="3">
                 <Text
                   category="h4"
                   appearance="alternative"
                   status="basic"
                   style={styles.packageTitle}>
-                  {t('Product_info')}
+                  {t('Package_Info')}
                 </Text>
                 <Button
                   style={styles.editPackage}
                   status="basic"
                   size="medium"
-                  onPress={handleEditInfo}
-                  accessoryLeft={disabled ? editIcon : closeIcon}
+                  onPress={handleEditPackage}
+                  accessoryLeft={packDisabled ? editIcon : closeIcon}
                 />
               </Layout>
-
-              <Layout style={styles.rowContainer} level="1">
-                <AutoCompleteField
-                  style={styles.input}
-                  array={data}
-                  name="ingredient"
-                  returnKeyType="next"
-                  editing={true}
-                  disabled={disabled}
-                  setDisabled={setDisabled}
-                  value={values.ingredient}
-                  setFieldValue={setFieldValue}
-                  setFieldTouched={setFieldTouched}
-                  onSubmitEditing={() => brandRef.current.focus()}
-                  status={errors.ingredient && touched.ingredient && 'danger'}
-                  placeholder={t('Ingredient_Name')}
-                  autoCompleteType="off"
-                  autoCorrect={false}
-                />
-                <Text category="c2" appearance="hint" status="danger">
-                  {errors.ingredient && touched.ingredient && errors.ingredient}
-                </Text>
-              </Layout>
-              <Layout style={styles.rowContainer} level="1">
-                <AutoCompleteField
-                  style={styles.input}
-                  array={data}
-                  returnKeyType="next"
-                  disabled={disabled}
-                  editing={true}
-                  setDisabled={setDisabled}
-                  name="brand"
-                  value={values.brand}
-                  setFieldValue={setFieldValue}
-                  setFieldTouched={setFieldTouched}
-                  onSubmitEditing={() => sellerRef.current.focus()}
-                  status={errors.brand && touched.brand && 'danger'}
-                  placeholder={t('Brand')}
-                  ref={brandRef}
-                  autoCompleteType="off"
-                  autoCorrect={false}
-                />
-                <Text category="c2" appearance="hint" status="danger">
-                  {errors.brand && touched.brand && errors.brand}
-                </Text>
-              </Layout>
-              <Layout style={styles.rowContainer} level="1">
-                <AutoCompleteField
-                  style={styles.input}
-                  value={values.seller}
-                  setFieldValue={setFieldValue}
-                  disabled={disabled}
-                  editing={true}
-                  setDisabled={setDisabled}
-                  setFieldTouched={setFieldTouched}
-                  array={data}
-                  name="seller"
-                  status={errors.seller && touched.seller && 'danger'}
-                  placeholder={t('Seller')}
-                  returnKeyType="next"
-                  onSubmitEditing={() => soldRef.current.focus()}
-                  ref={sellerRef}
-                  autoCompleteType="off"
-                  autoCorrect={false}
-                />
-                <Text category="c2" appearance="hint" status="danger">
-                  {errors.seller && touched.seller && errors.seller}
-                </Text>
-              </Layout>
-              <Layout style={styles.rowContainer} level="1">
-                <AutoCompleteField
-                  style={styles.input}
-                  value={values.region}
-                  editing={true}
-                  setFieldValue={setFieldValue}
-                  setFieldTouched={setFieldTouched}
-                  disabled={disabled}
-                  setDisabled={setDisabled}
-                  array={data}
-                  returnKeyType="next"
-                  name="region"
-                  onSubmitEditing={() => {
-                    sizeRef.current.focus();
-                  }}
-                  ref={soldRef}
-                  status={errors.region && touched.region && 'danger'}
-                  placeholder={t('Region')}
-                  autoCompleteType="off"
-                  autoCorrect={false}
-                />
-                <Text category="c2" appearance="hint" status="danger">
-                  {errors.region && touched.region && errors.region}
-                </Text>
-              </Layout>
-              <Layout style={styles.packageContainer} level="3">
-                <Layout style={styles.packageLayout} level="3">
-                  <Text
-                    category="h4"
-                    appearance="alternative"
-                    status="basic"
-                    style={styles.packageTitle}>
-                    {t('Package_Info')}
-                  </Text>
-                  <Button
-                    style={styles.editPackage}
-                    status="basic"
-                    size="medium"
-                    onPress={handleEditPackage}
-                    accessoryLeft={packDisabled ? editIcon : closeIcon}
-                  />
-                </Layout>
-                <Layout style={styles.quantityDiv} level="3">
-                  <Layout style={styles.quantityRow2} level="3">
-                    <Selector
-                      status={errors.unit && touched.unit && 'danger'}
-                      placeholder={t('Package_Unit')}
-                      style={styles.input}
-                      value={values.unit}
-                      disabled={packDisabled}
-                      name="unit"
-                      data={unitsArray}
-                      selectedIndex={selectedIndex}
-                      onSelect={index => {
-                        setSelectedIndex(index);
-                        setFieldValue('unit', unitsArray[index.row]);
-                        setFieldValue('size', '');
-                        setFormattedSize('');
-                        setSelectedUnit(unitsArray[index.row]);
-                      }}
-                      ref={unitsRef}
-                    />
-                    <Text category="c2" appearance="hint" status="danger">
-                      {errors.unit && touched.unit && errors.unit}
-                    </Text>
-                  </Layout>
-                  <Layout style={styles.quantityRow1} level="3">
-                    <SizeInput
-                      status={errors.size && touched.size && 'danger'}
-                      placeholder={t('Package_Size')}
-                      value={values.size}
-                      setFieldValue={setFieldValue}
-                      unit={selectedUnit ? selectedUnit : values.unit}
-                      setFieldTouched={setFieldTouched}
-                      disabled={packDisabled}
-                      setDisabled={setDisabled}
-                      setFormattedSize={setFormattedSize}
-                      mantissa={2}
-                      name="size"
-                      styles={styles.input}
-                      onSubmitEditing={() => {
-                        unitsRef.current.focus();
-                      }}
-                      ref={sizeRef}
-                    />
-                    <Text category="c2" appearance="hint" status="danger">
-                      {errors.size && touched.size && errors.size}
-                    </Text>
-                  </Layout>
-                </Layout>
-
-                <Layout style={styles.rowContainer} level="3">
-                  <PriceInput
-                    status={errors.price && touched.price && 'danger'}
-                    placeholder={t('Package_Price')}
-                    disabled={packDisabled}
-                    value={values.price}
-                    setFieldValue={setFieldValue}
-                    setFieldTouched={setFieldTouched}
-                    setFormattedPrice={setFormattedPrice}
+              <Layout style={styles.quantityDiv} level="3">
+                <Layout style={styles.quantityRow2} level="3">
+                  <Selector
+                    status={errors.unit && touched.unit && 'danger'}
+                    placeholder={t('Package_Unit')}
                     style={styles.input}
-                    name="price"
-                    mantissa={2}
-                    onSubmitEditing={handleSubmit}
-                    ref={priceRef}
+                    value={values.unit}
+                    disabled={packDisabled}
+                    name="unit"
+                    data={unitsArray}
+                    selectedIndex={selectedIndex}
+                    onSelect={(index) => {
+                      setSelectedIndex(index);
+                      setFieldValue('unit', unitsArray[index.row]);
+                      setFieldValue('size', '');
+                      setFormattedSize('');
+                      setSelectedUnit(unitsArray[index.row]);
+                    }}
+                    ref={unitsRef}
                   />
                   <Text category="c2" appearance="hint" status="danger">
-                    {errors.price && touched.price && errors.price}
+                    {errors.unit && touched.unit && errors.unit}
+                  </Text>
+                </Layout>
+                <Layout style={styles.quantityRow1} level="3">
+                  <SizeInput
+                    status={errors.size && touched.size && 'danger'}
+                    placeholder={t('Package_Size')}
+                    value={values.size}
+                    setFieldValue={setFieldValue}
+                    unit={selectedUnit || values.unit}
+                    setFieldTouched={setFieldTouched}
+                    disabled={packDisabled}
+                    setDisabled={setDisabled}
+                    setFormattedSize={setFormattedSize}
+                    mantissa={2}
+                    name="size"
+                    styles={styles.input}
+                    onSubmitEditing={() => {
+                      unitsRef.current.focus();
+                    }}
+                    ref={sizeRef}
+                  />
+                  <Text category="c2" appearance="hint" status="danger">
+                    {errors.size && touched.size && errors.size}
                   </Text>
                 </Layout>
               </Layout>
-              <Layout style={styles.rowContainer} level="1">
-                <Button
-                  size="large"
-                  status="primary"
-                  style={styles.button}
-                  accessoryLeft={saveIcon}
-                  onPress={handleSubmit}
-                  appearance="filled">
-                  {t('Save')}
-                </Button>
+
+              <Layout style={styles.rowContainer} level="3">
+                <PriceInput
+                  status={errors.price && touched.price && 'danger'}
+                  placeholder={t('Package_Price')}
+                  disabled={packDisabled}
+                  value={values.price}
+                  setFieldValue={setFieldValue}
+                  setFieldTouched={setFieldTouched}
+                  setFormattedPrice={setFormattedPrice}
+                  style={styles.input}
+                  name="price"
+                  mantissa={2}
+                  onSubmitEditing={handleSubmit}
+                  ref={priceRef}
+                />
+                <Text category="c2" appearance="hint" status="danger">
+                  {errors.price && touched.price && errors.price}
+                </Text>
               </Layout>
             </Layout>
+            <Layout style={styles.rowContainer} level="1">
+              <Button
+                size="large"
+                status="primary"
+                style={styles.button}
+                accessoryLeft={SaveIcon}
+                onPress={handleSubmit}
+                appearance="filled">
+                <Text category="s2" status="basic">
+                  {t('Save')}
+                </Text>
+              </Button>
+            </Layout>
           </Layout>
-        </ScrollView>
+        </Layout>
+        // </ScrollView>
       )}
     </Formik>
   );
 };
-// {
-// 	"name": "Coca-Cola",
-// 	"brand": "Coca-Cola",
-// 	"seller": "Pao de Acucar",
-// 	"sold_region": "Campo Belo",
-// 	"package_price": 6.5,
-// 	"unit": "mL",
-// 	"package_size": 1000
-// }
 
 const styles = StyleSheet.create({
   input: {
@@ -336,13 +324,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   packageTitle: {
+    // marginLeft: 100,
     marginLeft: 100,
+    flex: 3,
+  },
+  productTitle: {
+    // marginLeft: 100,
+    marginLeft: 150,
     flex: 3,
   },
   productLayout: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'flex-end',
+
+    justifyContent: 'center',
     marginBottom: 10,
     width: '100%',
     height: 80,

@@ -1,10 +1,9 @@
 import React from 'react';
-import {SafeAreaView} from 'react-native';
+import { SafeAreaView } from 'react-native';
 import {
   Divider,
   Icon,
   Layout,
-  Text,
   TopNavigation,
   TopNavigationAction,
 } from '@ui-kitten/components';
@@ -13,7 +12,7 @@ import AddTemplate from '../templates/AddTemplate';
 
 const BackIcon = (props) => <Icon {...props} name="arrow-back" />;
 
-export const AddScreen = ({navigation}) => {
+export const AddScreen = ({ navigation }) => {
   const navigateBack = () => {
     navigation.goBack();
   };
@@ -23,14 +22,14 @@ export const AddScreen = ({navigation}) => {
   );
 
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={{ flex: 1 }}>
       <TopNavigation
         title="Add"
         alignment="center"
         accessoryLeft={BackAction}
       />
       <Divider />
-      <Layout style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <AddTemplate />
       </Layout>
     </SafeAreaView>

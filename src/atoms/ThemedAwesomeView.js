@@ -1,9 +1,9 @@
 import React from 'react';
-import {View} from 'react-native';
-import {withStyles} from '@ui-kitten/components';
+import { View } from 'react-native';
+import { withStyles } from '@ui-kitten/components';
 
 const AwesomeView = (props) => {
-  const {eva, style, ...restProps} = props;
+  const { eva, style, ...restProps } = props;
 
   return <View {...restProps} style={[eva.style.awesome, style]} />;
 };
