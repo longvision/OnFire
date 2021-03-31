@@ -1,55 +1,45 @@
-import React, {useState} from 'react';
-import {SafeAreaView, Text, View} from 'react-native';
+import React, { useState } from 'react';
+import { SafeAreaView, Text } from 'react-native';
 import {
   Button,
   Divider,
   Icon,
   Layout,
   TopNavigation,
-  Tab,
-  TabView,
   TopNavigationAction,
   useTheme,
   ButtonGroup,
 } from '@ui-kitten/components';
-import {useTranslation} from 'react-i18next';
-import {useDispatch, useSelector} from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
+import { useFocusEffect } from '@react-navigation/native';
 import IngredientListTemplate from '../templates/IngredientListTemplate';
 import RecipeListTemplate from '../templates/RecipeListTemplate';
 
-import {RecipeList} from '../organisms/RecipeList';
-import {ThemedAwesomeIcon} from '../atoms/ThemedAwesomeIcon';
-import {useFocusEffect} from '@react-navigation/native';
-import {PopoverOverlay} from '../organisms/PopoverOverlay';
-import AddRecipeForm from '../organisms/AddRecipeForm';
+import { ThemedAwesomeIcon } from '../atoms/ThemedAwesomeIcon';
 
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Loading from '../atoms/Loading';
 
 // import { Container } from './styles';
 
-const BackIcon = props => <Icon {...props} name="arrow-back" />;
+const BackIcon = (props) => <Icon {...props} name="arrow-back" />;
 
-export const MyKitchen = ({navigation}) => {
+export const MyKitchen = ({ navigation }) => {
   const theme = useTheme();
   const dispatch = useDispatch();
-  const {t, i18n} = useTranslation();
+  const { t, i18n } = useTranslation();
   const [visible, setVisible] = useState(false);
-  const ingredients = useSelector(state => state.ingredients.ingredients);
-  const recipes = useSelector(state => state.recipes.recipes);
+  const ingredients = useSelector((state) => state.ingredients.ingredients);
+  const recipes = useSelector((state) => state.recipes.recipes);
 
-  const EditIcon = props => {
-    return <ThemedAwesomeIcon name="edit-2-outline" {...props} />;
-  };
-  const AddIcon = props => {
-    return (
+  const EditIcon = (props) => <ThemedAwesomeIcon name="edit-2-outline" {...props} />;
+  const AddIcon = (props) => (
       <ThemedAwesomeIcon
         {...props}
         name="plus-thick"
         color={theme['color-basic-800']}
       />
-    );
-  };
+  );
   // const loadingUpdate = useSelector(
   //   state => state.loading.effects.ingredients.updateAsync,
   // );
@@ -76,10 +66,10 @@ export const MyKitchen = ({navigation}) => {
     navigation.navigate('AddRecipe');
   }
   const fileModelUpdateLoading = useSelector(
-    state => state.loading.effects.files.addAsync,
+    (state) => state.loading.effects.files.addAsync,
   );
   const fileModelDeleteLoading = useSelector(
-    state => state.loading.effects.files.deleteAsync,
+    (state) => state.loading.effects.files.deleteAsync,
   );
 
   React.useEffect(() => {
@@ -106,11 +96,11 @@ export const MyKitchen = ({navigation}) => {
   );
 
   return (
-    <SafeAreaView style={{flex: 1, flexDirection: 'column'}}>
+    <SafeAreaView style={{ flex: 1, flexDirection: 'column' }}>
       <TopNavigation title={t('Kitchen')} alignment="center" />
       <Divider />
 
-      <Layout style={{flex: 1}}>
+      <Layout style={{ flex: 1 }}>
         <ButtonGroup
           style={{
             display: 'flex',
@@ -182,12 +172,12 @@ export const MyKitchen = ({navigation}) => {
       {selectedIndex === 0 ? (
         <Button
           size="large"
-          style={{borderRadius: 0}}
+          style={{ borderRadius: 0 }}
           status="primary"
           onPress={handleAddRecipe}
           accessoryLeft={AddIcon}
           appearance="filled">
-          <Text style={{color: theme['color-basic-800']}}>
+          <Text style={{ color: theme['color-basic-800'] }}>
             {t('Create_Recipes')}
           </Text>
         </Button>
@@ -195,11 +185,11 @@ export const MyKitchen = ({navigation}) => {
         <Button
           size="large"
           status="primary"
-          style={{borderRadius: 0}}
+          style={{ borderRadius: 0 }}
           accessoryLeft={AddIcon}
           onPress={handlePress}
           appearance="filled">
-          <Text style={{color: theme['color-basic-900']}}>
+          <Text style={{ color: theme['color-basic-900'] }}>
             {t('Add_Ingredient')}
           </Text>
         </Button>

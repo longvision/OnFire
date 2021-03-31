@@ -1,18 +1,17 @@
 import React from 'react';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 // import FeedStack from './FeedStack';
 // import SearchStack from './SearchStack';
-import KitchenStack from './kitchen.navigator';
+import { useTheme } from '@ui-kitten/components';
+import { useTranslation } from 'react-i18next';
+import { ThemedAwesomeIcon } from '../atoms/ThemedAwesomeIcon';
 import SettingsStack from './settings.navigator';
-import {Icon, useTheme} from '@ui-kitten/components';
-import {useTranslation} from 'react-i18next';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {ThemedAwesomeIcon} from '../atoms/ThemedAwesomeIcon';
+import KitchenStack from './kitchen.navigator';
 
 const Tab = createBottomTabNavigator();
 const MainNavigator = () => {
-  const {t, i18n} = useTranslation();
+  const { t, i18n } = useTranslation();
   const theme = useTheme();
 
   return (
@@ -21,7 +20,7 @@ const MainNavigator = () => {
       tabBarOptions={{
         activeTintColor: theme['color-primary-400'],
         inactiveTintColor: theme['color-primary-900'],
-        labelStyle: {fontWeight: 'bold', fontSize: 14},
+        labelStyle: { fontWeight: 'bold', fontSize: 14 },
         activeBackgroundColor: theme['color-basic-700'],
         inactiveBackgroundColor: theme['color-basic-100'],
       }}>
@@ -30,7 +29,9 @@ const MainNavigator = () => {
         component={KitchenStack}
         options={{
           unmountOnBlur: true,
-          tabBarIcon: ({focused, color, size, ...props}) => (
+          tabBarIcon: ({
+            focused, color, size, ...props
+          }) => (
             <ThemedAwesomeIcon
               // {...props}
               color={color}
@@ -45,7 +46,9 @@ const MainNavigator = () => {
         component={SettingsStack}
         options={{
           unmountOnBlur: true,
-          tabBarIcon: ({focused, color, size, ...props}) => (
+          tabBarIcon: ({
+            focused, color, size, ...props
+          }) => (
             <ThemedAwesomeIcon
               // {...props}
               color={color}

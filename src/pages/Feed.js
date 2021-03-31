@@ -1,8 +1,9 @@
 import React from 'react';
-import {SafeAreaView} from 'react-native';
-import {Button, Divider, Layout, TopNavigation} from '@ui-kitten/components';
-import {ThemeContext} from '../../theme-context';
-import {useDispatch, useSelector} from 'react-redux';
+import { SafeAreaView } from 'react-native';
+import {
+  Button, Divider, Layout, TopNavigation,
+} from '@ui-kitten/components';
+import { useDispatch, useSelector } from 'react-redux';
 import Loading from '../atoms/Loading';
 
 const styles = {
@@ -23,23 +24,23 @@ const styles = {
   },
 };
 
-export const FeedScreen = ({navigation}) => {
+export const FeedScreen = ({ navigation }) => {
   const dispatch = useDispatch();
 
-  //Loading examples
-  //loading.global
-  //loading.models.auth
-  //loading.effects.auth.loginAsync
+  // Loading examples
+  // loading.global
+  // loading.models.auth
+  // loading.effects.auth.loginAsync
   const loading = useSelector((state) => state.loading);
 
   const handlePress = () => {
     dispatch.auth.signOutAsync();
   };
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={{ flex: 1 }}>
       <TopNavigation title="Feed" alignment="center" />
       <Divider />
-      <Layout style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         {/* <Button onPress={navigateDetails}>OPEN DETAILS</Button> */}
         <Layout style={styles.container}>
           <Loading
@@ -61,7 +62,7 @@ export const FeedScreen = ({navigation}) => {
             size="medium"
           />
         </Layout>
-        <Button style={{marginVertical: 4}} onPress={handlePress}>
+        <Button style={{ marginVertical: 4 }} onPress={handlePress}>
           Log out
         </Button>
       </Layout>

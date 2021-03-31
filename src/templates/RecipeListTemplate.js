@@ -1,22 +1,17 @@
-import React, {useState} from 'react';
+import React from 'react';
 
-import {Button, Card, Layout} from '@ui-kitten/components';
-import {StyleSheet, Text, View} from 'react-native';
-import {PopoverOverlay} from '../organisms/PopoverOverlay';
-import {RecipeList} from '../organisms/RecipeList';
-import AddRecipeForm from '../organisms/AddRecipeForm';
-import {useTranslation} from 'react-i18next';
-import {useDispatch, useSelector} from 'react-redux';
-import Loading from '../atoms/Loading';
+import { Layout } from '@ui-kitten/components';
+import { RecipeList } from '../organisms/RecipeList';
 
-const RecipeListTemplate = ({AddIcon, navigation, recipes, iconName}) => {
-  return (
-    <Layout style={{height: '100%'}}>
+const RecipeListTemplate = ({
+  AddIcon, navigation, recipes, iconName,
+}) => (
+    <Layout style={{ height: '100%' }}>
       <RecipeList
         recipes={recipes}
         rating={false}
         navigation={navigation}
-        handleCamera={id => {
+        handleCamera={(id) => {
           navigation.navigate('Camera', {
             product_id: id,
           });
@@ -25,7 +20,6 @@ const RecipeListTemplate = ({AddIcon, navigation, recipes, iconName}) => {
         assessoryLeft={iconName}
       />
     </Layout>
-  );
-};
+);
 
 export default RecipeListTemplate;
