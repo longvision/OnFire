@@ -1,10 +1,8 @@
 import React from 'react';
-import {View} from 'react-native';
+import { View } from 'react-native';
 
 // import { Container } from './styles';
 
-const ListRow = () => {
-  return <View />;
-};
+const ListRow = () => <View />;
 
 export default ListRow;

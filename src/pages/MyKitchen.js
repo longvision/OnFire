@@ -1,67 +1,46 @@
-import React, {useState} from 'react';
-import {SafeAreaView, View} from 'react-native';
+import React, { useState } from 'react';
+import { SafeAreaView, Text, View } from 'react-native';
 import {
   Button,
   Divider,
   Icon,
   Layout,
   TopNavigation,
-  Tab,
-  TabView,
   TopNavigationAction,
   useTheme,
   ButtonGroup,
 } from '@ui-kitten/components';
-import {useTranslation} from 'react-i18next';
-import {useDispatch, useSelector} from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
+import { useFocusEffect } from '@react-navigation/native';
 import IngredientListTemplate from '../templates/IngredientListTemplate';
 import RecipeListTemplate from '../templates/RecipeListTemplate';
 
-import {RecipeList} from '../organisms/RecipeList';
-import {ThemedAwesomeIcon} from '../atoms/ThemedAwesomeIcon';
-import {useFocusEffect} from '@react-navigation/native';
-import {PopoverOverlay} from '../organisms/PopoverOverlay';
-import AddRecipeForm from '../organisms/AddRecipeForm';
+import { ThemedAwesomeIcon } from '../atoms/ThemedAwesomeIcon';
 
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Loading from '../atoms/Loading';
 
 // import { Container } from './styles';
 
-const BackIcon = props => <Icon {...props} name="arrow-back" />;
-const AddIcon = props => <Icon {...props} name="plus-outline" />;
-const EditIcon = props => <Icon {...props} name="edit-2-outline" />;
+const BackIcon = (props) => <Icon {...props} name="arrow-back" />;
 
-export const MyKitchen = ({navigation}) => {
+const MyKitchen = ({ navigation }) => {
   const theme = useTheme();
   const dispatch = useDispatch();
-  const {t, i18n} = useTranslation();
+  const { t, i18n } = useTranslation();
   const [visible, setVisible] = useState(false);
-  const ingredients = useSelector(state => state.ingredients.ingredients);
-  const recipes = useSelector(state => state.recipes.recipes);
-  const RecipeIcon = props => (
-    <MaterialCommunityIcons
-      {...props}
-      style={{color: theme['color-primary-300']}}
-      size={24}
-      name="pasta"
-    />
-  );
-  const IngredientIcon = props => (
-    <MaterialCommunityIcons
-      {...props}
-      style={{color: theme['color-primary-300']}}
-      size={24}
-      name="shaker-outline"
-    />
-  );
+  const ingredients = useSelector((state) => state.ingredients.ingredients);
+  const recipes = useSelector((state) => state.recipes.recipes);
 
-  const loadingUpdate = useSelector(
-    state => state.loading.effects.ingredients.updateAsync,
+  const EditIcon = (props) => (
+    <ThemedAwesomeIcon name="edit-2-outline" {...props} />
   );
-
-  const loadingUploadImage = useSelector(
-    state => state.loading.effects.files.addAsync,
+  const AddIcon = (props) => (
+    <ThemedAwesomeIcon
+      {...props}
+      name="plus-thick"
+      color={theme['color-primary-900']}
+    />
   );
 
   const [selectedIndex, setSelectedIndex] = React.useState(0);
@@ -73,9 +52,6 @@ export const MyKitchen = ({navigation}) => {
   const BackAction = () => (
     <TopNavigationAction icon={BackIcon} onPress={navigateBack} />
   );
-  const EditIcon = props => {
-    return <ThemedAwesomeIcon name="edit-2-outline" {...props} />;
-  };
 
   const handlePress = () => {
     navigation.navigate('AddIngredient');
@@ -85,10 +61,10 @@ export const MyKitchen = ({navigation}) => {
     navigation.navigate('AddRecipe');
   }
   const fileModelUpdateLoading = useSelector(
-    state => state.loading.effects.files.addAsync,
+    (state) => state.loading.effects.files.addAsync,
   );
   const fileModelDeleteLoading = useSelector(
-    state => state.loading.effects.files.deleteAsync,
+    (state) => state.loading.effects.files.deleteAsync,
   );
 
   React.useEffect(() => {
@@ -115,35 +91,55 @@ export const MyKitchen = ({navigation}) => {
   );
 
   return (
-    <SafeAreaView style={{flex: 1, flexDirection: 'column'}}>
-      <TopNavigation title={t('Kitchen')} alignment="center" />
-      <Divider />
-
-      <Layout style={{flex: 1}}>
+    <SafeAreaView
+      style={{
+        flex: 1,
+        flexDirection: 'column',
+      }}>
+      <Layout style={{ flex: 1 }}>
+        <TopNavigation title={t('Kitchen')} alignment="center" />
+        <Divider />
         <ButtonGroup
           style={{
-            display: 'flex',
             width: '100%',
           }}
           appearance="outline"
-          status={'primary'}>
+          status="control">
           <Button
             style={{
-              display: 'flex',
               width: '50%',
-              backgroundColor: selectedIndex === 0 ? '#CAAFFD' : 'white',
+              height: 44,
+              backgroundColor:
+                selectedIndex === 0 ? theme['color-primary-900'] : 'white',
             }}
             onPress={() => setSelectedIndex(0)}>
-            Recipes
+            <Text
+              style={{
+                color:
+                  selectedIndex === 0
+                    ? theme['color-primary-100']
+                    : theme['color-basic-900'],
+              }}>
+              Recipes
+            </Text>
           </Button>
           <Button
             style={{
-              display: 'flex',
               width: '50%',
-              backgroundColor: selectedIndex === 1 ? '#CAAFFD' : 'white',
+              height: 44,
+              backgroundColor:
+                selectedIndex === 1 ? theme['color-primary-900'] : 'white',
             }}
             onPress={() => setSelectedIndex(1)}>
-            Ingredients
+            <Text
+              style={{
+                color:
+                  selectedIndex === 1
+                    ? theme['color-primary-100']
+                    : theme['color-basic-900'],
+              }}>
+              Ingredients
+            </Text>
           </Button>
         </ButtonGroup>
         {(fileModelUpdateLoading || fileModelDeleteLoading) && (
@@ -169,27 +165,56 @@ export const MyKitchen = ({navigation}) => {
           />
         )}
       </Layout>
+
       {selectedIndex === 0 ? (
-        <Button
-          size="large"
-          style={{borderRadius: 0}}
-          status="primary"
-          onPress={handleAddRecipe}
-          accessoryLeft={AddIcon}
-          appearance="filled">
-          {t('Create_Recipes')}
-        </Button>
+        <View
+          style={{
+            backgroundColor: theme['color-basic-100'],
+            alignItems: 'center',
+            justifyContent: 'center',
+            display: 'flex',
+            width: '100%',
+            height: 80,
+          }}>
+          <Button
+            size="large"
+            style={{
+              borderRadius: 5,
+              width: '95%',
+            }}
+            status="primary"
+            onPress={handleAddRecipe}
+            accessoryLeft={AddIcon}
+            appearance="filled">
+            <Text style={{ color: theme['color-primary-900'] }}>
+              {t('Create_Recipes')}
+            </Text>
+          </Button>
+        </View>
       ) : (
-        <Button
-          size="large"
-          status="primary"
-          style={{borderRadius: 0}}
-          accessoryLeft={AddIcon}
-          onPress={handlePress}
-          appearance="filled">
-          {t('Add_Ingredient')}
-        </Button>
+        <View
+          style={{
+            backgroundColor: theme['color-basic-100'],
+            alignItems: 'center',
+            justifyContent: 'center',
+            display: 'flex',
+            width: '100%',
+            height: 80,
+          }}>
+          <Button
+            size="large"
+            status="primary"
+            style={{ borderRadius: 5, width: '95%' }}
+            accessoryLeft={AddIcon}
+            onPress={handlePress}
+            appearance="filled">
+            <Text style={{ color: theme['color-primary-900'] }}>
+              {t('Add_Ingredient')}
+            </Text>
+          </Button>
+        </View>
       )}
     </SafeAreaView>
   );
 };
+export default MyKitchen;

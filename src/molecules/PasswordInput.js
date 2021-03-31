@@ -1,11 +1,11 @@
-import React, {useImperativeHandle, useRef, forwardRef} from 'react';
-import {View, StyleSheet, TouchableOpacity} from 'react-native';
+import React, { useImperativeHandle, useRef, forwardRef } from 'react';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
 
-import {Input, Icon, Layout} from '@ui-kitten/components';
+import { Input } from '@ui-kitten/components';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 // import { Container } from './styles';
-const Visibility = props => (
+const Visibility = (props) => (
   <MaterialCommunityIcons
     {...props}
     style={styles.icon}

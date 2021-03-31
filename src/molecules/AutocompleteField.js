@@ -1,9 +1,8 @@
-import React, {useImperativeHandle, useRef, forwardRef} from 'react';
-import {TouchableWithoutFeedback} from 'react-native';
-import {Autocomplete, AutocompleteItem, Icon} from '@ui-kitten/components';
+import React, { useImperativeHandle, useRef, forwardRef } from 'react';
+import { TouchableWithoutFeedback } from 'react-native';
+import { Autocomplete, AutocompleteItem, Icon } from '@ui-kitten/components';
 
-const filter = (item, query) =>
-  item.title.toLowerCase().includes(query.toLowerCase());
+const filter = (item, query) => item.title.toLowerCase().includes(query.toLowerCase());
 
 const StarIcon = (props) => <Icon {...props} name="star" />;
 

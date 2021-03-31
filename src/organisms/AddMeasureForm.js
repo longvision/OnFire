@@ -1,39 +1,25 @@
-import {
-  Button,
-  Icon,
-  Input,
-  Text,
-  Layout,
-  StyleService,
-  Card,
-} from '@ui-kitten/components';
+import {Button, Icon, Text, Layout} from '@ui-kitten/components';
 import React, {useRef, useEffect} from 'react';
-import {View, StyleSheet, ScrollView} from 'react-native';
+import {StyleSheet} from 'react-native';
 
-import {Field, Formik} from 'formik';
+import {Formik} from 'formik';
 import {useTranslation} from 'react-i18next';
 
 import {useDispatch, useSelector} from 'react-redux';
-import {
-  NavigationHelpersContext,
-  useFocusEffect,
-  useNavigation,
-} from '@react-navigation/native';
-import SizeInput from '../molecules/SizeInput';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import * as Yup from 'yup';
+import SizeInput from '../molecules/SizeInput';
 import SelectorAction from '../molecules/SelectorAction';
-import AutocompleteField from '../molecules/AutocompleteField';
-import {current} from 'immer';
 
 const unitsArray = ['mL', 'g', 'L', 'KG'];
-const saveIcon = props => <Icon {...props} name="save-outline" />;
+const saveIcon = (props) => <Icon {...props} name="save-outline" />;
 
-const AddIcon = props => <Icon {...props} name="plus-outline" />;
+const AddIcon = (props) => <Icon {...props} name="plus-outline" />;
 const AddMeasureForm = () => {
   const {t, i18n} = useTranslation();
   const dispatch = useDispatch();
-  const ingredients = useSelector(state => state.ingredients.ingredients);
-  const productId = useSelector(state => state.recipes.selected.id);
+  const ingredients = useSelector((state) => state.ingredients.ingredients);
+  const productId = useSelector((state) => state.recipes.selected.id);
   const navigation = useNavigation();
   const unitAvailableRef = useRef();
 
@@ -52,7 +38,7 @@ const AddMeasureForm = () => {
   const [selectedId, setSelectedId] = React.useState();
 
   const loadingAddList = useSelector(
-    state => state.loading.effects.ingredients.addAsync,
+    (state) => state.loading.effects.ingredients.addAsync,
   );
   const AddMeasureSchema = Yup.object().shape({
     ingredient: Yup.string().required(t('Ingredient_name_is_required')),
@@ -75,7 +61,7 @@ const AddMeasureForm = () => {
   );
 
   useEffect(() => {
-    const listItems = ingredients.map(item => item.name);
+    const listItems = ingredients.map((item) => item.name);
     setOptionsArray(listItems);
   }, [ingredients]);
 
@@ -87,11 +73,11 @@ const AddMeasureForm = () => {
         quantity: '',
       }}
       validationSchema={AddMeasureSchema}
-      onSubmit={values => {
+      onSubmit={(values) => {
         values.quantity = formattedQuantity;
         dispatch.measures.addAsync({
-          values: values,
-          productId: productId,
+          values,
+          productId,
           ingredientId: selectedId,
         });
 
@@ -132,14 +118,14 @@ const AddMeasureForm = () => {
                   onBlur={() => listRef.current.blur()}
                   data={optionsArray}
                   selectedIndex={selectedIngredientIndex}
-                  handlePressItem={item => {
+                  handlePressItem={(item) => {
                     const indexOfItem = ingredients.filter(
-                      i => i.name === item,
+                      (i) => i.name === item,
                     );
                     setSelectedId(indexOfItem[0].id);
                     setFieldValue('ingredient', item);
                   }}
-                  onSelect={index => setSelectedIngredientIndex(index)}
+                  onSelect={(index) => setSelectedIngredientIndex(index)}
                 />
                 <Text category="c2" appearance="hint" status="danger">
                   {errors.ingredient && touched.ingredient && errors.ingredient}
@@ -161,7 +147,7 @@ const AddMeasureForm = () => {
                   name="unit"
                   data={unitsArray}
                   selectedIndex={selectedUnitIndex}
-                  onSelect={index => {
+                  onSelect={(index) => {
                     setSelectedUnitIndex(index);
                     setFieldValue('unit', unitsArray[index.row]);
                     setFieldValue('quantity', '');
@@ -192,7 +178,7 @@ const AddMeasureForm = () => {
                     setFieldValue={setFieldValue}
                     setFieldTouched={setFieldTouched}
                     setFormattedSize={setFormattedQuantity}
-                    unit={selectedUnit ? selectedUnit : ''}
+                    unit={selectedUnit || ''}
                     name="quantity"
                     mantissa={4}
                     styles={styles.input}
@@ -207,7 +193,9 @@ const AddMeasureForm = () => {
             </Layout>
             <Layout style={styles.submit} level="1">
               <Button type="button" onPress={handleSubmit}>
-                {t('ADD_TO_RECIPE')}
+                <Text category="s2" status="basic">
+                  {t('ADD_TO_RECIPE')}
+                </Text>
               </Button>
             </Layout>
           </Layout>
