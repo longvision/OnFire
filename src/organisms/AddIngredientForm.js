@@ -1,9 +1,4 @@
-import {
-  Button,
-  Icon,
-  Text,
-  Layout,
-} from '@ui-kitten/components';
+import { Button, Text, Layout } from '@ui-kitten/components';
 import React, { useRef } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Formik } from 'formik';
@@ -15,10 +10,9 @@ import SizeInput from '../molecules/SizeInput';
 import Selector from '../molecules/Selector';
 import AutoCompleteField from '../molecules/AutocompleteField';
 import PriceInput from '../molecules/PriceInput';
+import { ThemedAwesomeIcon } from '../atoms/ThemedAwesomeIcon';
 
 const data = [];
-
-const saveIcon = (props) => <Icon {...props} name="save-outline" />;
 
 const AddIngredientForm = () => {
   const { t, i18n } = useTranslation();
@@ -52,7 +46,9 @@ const AddIngredientForm = () => {
     unit: Yup.string().required(t('Package_unit_is_required')),
     price: Yup.string().required(t('Package_price_is_required')),
   });
-
+  const SaveIcon = (props) => (
+    <ThemedAwesomeIcon name="content-save" {...props} />
+  );
   return (
     <Formik
       initialValues={{
@@ -250,10 +246,12 @@ const AddIngredientForm = () => {
                   size="large"
                   status="primary"
                   style={styles.button}
-                  accessoryLeft={saveIcon}
+                  accessoryLeft={SaveIcon}
                   onPress={handleSubmit}
                   appearance="filled">
-                  {t('Save')}
+                  <Text category="s2" status="basic">
+                    {t('Save')}
+                  </Text>
                 </Button>
               </Layout>
             </Layout>

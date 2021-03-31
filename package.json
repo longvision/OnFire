@@ -7,7 +7,7 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint src/**/*.js --fix --ignore-pattern node_modules/",
+    "lint": "eslint src/**/*.js --fix --ignore-pattern node_modules/"
   },
   "dependencies": {
     "@eva-design/eva": "^2.0.0",

@@ -59,7 +59,7 @@ export const RecipeSummary = ({
               status="info"
               accessoryLeft={AddIcon}
               onPress={handleAddMeasure}>
-              {t('Ingredient')}
+              {t('Item')}
             </Button>
           </Layout>
         </Layout>

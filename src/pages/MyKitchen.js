@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { SafeAreaView, Text } from 'react-native';
+import { SafeAreaView, Text, View } from 'react-native';
 import {
   Button,
   Divider,
@@ -24,7 +24,7 @@ import Loading from '../atoms/Loading';
 
 const BackIcon = (props) => <Icon {...props} name="arrow-back" />;
 
-export const MyKitchen = ({ navigation }) => {
+const MyKitchen = ({ navigation }) => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const { t, i18n } = useTranslation();
@@ -32,21 +32,16 @@ export const MyKitchen = ({ navigation }) => {
   const ingredients = useSelector((state) => state.ingredients.ingredients);
   const recipes = useSelector((state) => state.recipes.recipes);
 
-  const EditIcon = (props) => <ThemedAwesomeIcon name="edit-2-outline" {...props} />;
-  const AddIcon = (props) => (
-      <ThemedAwesomeIcon
-        {...props}
-        name="plus-thick"
-        color={theme['color-basic-800']}
-      />
+  const EditIcon = (props) => (
+    <ThemedAwesomeIcon name="edit-2-outline" {...props} />
   );
-  // const loadingUpdate = useSelector(
-  //   state => state.loading.effects.ingredients.updateAsync,
-  // );
-
-  // const loadingUploadImage = useSelector(
-  //   state => state.loading.effects.files.addAsync,
-  // );
+  const AddIcon = (props) => (
+    <ThemedAwesomeIcon
+      {...props}
+      name="plus-thick"
+      color={theme['color-basic-800']}
+    />
+  );
 
   const [selectedIndex, setSelectedIndex] = React.useState(0);
 
@@ -96,32 +91,33 @@ export const MyKitchen = ({ navigation }) => {
   );
 
   return (
-    <SafeAreaView style={{ flex: 1, flexDirection: 'column' }}>
-      <TopNavigation title={t('Kitchen')} alignment="center" />
-      <Divider />
-
+    <SafeAreaView
+      style={{
+        flex: 1,
+        flexDirection: 'column',
+      }}>
       <Layout style={{ flex: 1 }}>
+        <TopNavigation title={t('Kitchen')} alignment="center" />
+        <Divider />
         <ButtonGroup
           style={{
-            display: 'flex',
             width: '100%',
-            borderColor: theme['color-basic-100'],
           }}
           appearance="outline"
-          status={'basic'}>
+          status="control">
           <Button
             style={{
-              display: 'flex',
               width: '50%',
+              height: 44,
               backgroundColor:
-                selectedIndex === 0 ? theme['color-basic-300'] : 'white',
+                selectedIndex === 0 ? theme['color-primary-600'] : 'white',
             }}
             onPress={() => setSelectedIndex(0)}>
             <Text
               style={{
                 color:
                   selectedIndex === 0
-                    ? theme['color-basic-900']
+                    ? theme['color-primary-900']
                     : theme['color-basic-900'],
               }}>
               Recipes
@@ -129,17 +125,17 @@ export const MyKitchen = ({ navigation }) => {
           </Button>
           <Button
             style={{
-              display: 'flex',
               width: '50%',
+              height: 44,
               backgroundColor:
-                selectedIndex === 1 ? theme['color-basic-300'] : 'white',
+                selectedIndex === 1 ? theme['color-primary-600'] : 'white',
             }}
             onPress={() => setSelectedIndex(1)}>
             <Text
               style={{
                 color:
                   selectedIndex === 1
-                    ? theme['color-basic-900']
+                    ? theme['color-primary-900']
                     : theme['color-basic-900'],
               }}>
               Ingredients
@@ -169,31 +165,56 @@ export const MyKitchen = ({ navigation }) => {
           />
         )}
       </Layout>
+
       {selectedIndex === 0 ? (
-        <Button
-          size="large"
-          style={{ borderRadius: 0 }}
-          status="primary"
-          onPress={handleAddRecipe}
-          accessoryLeft={AddIcon}
-          appearance="filled">
-          <Text style={{ color: theme['color-basic-800'] }}>
-            {t('Create_Recipes')}
-          </Text>
-        </Button>
+        <View
+          style={{
+            backgroundColor: theme['color-basic-100'],
+            alignItems: 'center',
+            justifyContent: 'center',
+            display: 'flex',
+            width: '100%',
+            height: 80,
+          }}>
+          <Button
+            size="large"
+            style={{
+              borderRadius: 5,
+              width: '95%',
+            }}
+            status="primary"
+            onPress={handleAddRecipe}
+            accessoryLeft={AddIcon}
+            appearance="filled">
+            <Text style={{ color: theme['color-basic-800'] }}>
+              {t('Create_Recipes')}
+            </Text>
+          </Button>
+        </View>
       ) : (
-        <Button
-          size="large"
-          status="primary"
-          style={{ borderRadius: 0 }}
-          accessoryLeft={AddIcon}
-          onPress={handlePress}
-          appearance="filled">
-          <Text style={{ color: theme['color-basic-900'] }}>
-            {t('Add_Ingredient')}
-          </Text>
-        </Button>
+        <View
+          style={{
+            backgroundColor: theme['color-basic-100'],
+            alignItems: 'center',
+            justifyContent: 'center',
+            display: 'flex',
+            width: '100%',
+            height: 80,
+          }}>
+          <Button
+            size="large"
+            status="primary"
+            style={{ borderRadius: 5, width: '95%' }}
+            accessoryLeft={AddIcon}
+            onPress={handlePress}
+            appearance="filled">
+            <Text style={{ color: theme['color-basic-900'] }}>
+              {t('Add_Ingredient')}
+            </Text>
+          </Button>
+        </View>
       )}
     </SafeAreaView>
   );
 };
+export default MyKitchen;
