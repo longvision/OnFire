@@ -18,11 +18,11 @@ export const RecipeSummary = ({
   ...props
 }) => {
   const {t, i18n} = useTranslation();
-  const AddIcon = (props) => {
-    return <ThemedAwesomeIcon name="plus-outline" {...props} />;
+  const AddIcon = props => {
+    return <ThemedAwesomeIcon name="plus-thick" {...props} color="white" />;
   };
-  const DeleteIcon = (props) => {
-    return <ThemedAwesomeIcon name="trash-outline" {...props} />;
+  const DeleteIcon = props => {
+    return <ThemedAwesomeIcon name="delete" {...props} color="white" />;
   };
 
   return (

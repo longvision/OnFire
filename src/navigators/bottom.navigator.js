@@ -8,20 +8,22 @@ import SettingsStack from './settings.navigator';
 import {Icon, useTheme} from '@ui-kitten/components';
 import {useTranslation} from 'react-i18next';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {ThemedAwesomeIcon} from '../atoms/ThemedAwesomeIcon';
 
 const Tab = createBottomTabNavigator();
 const MainNavigator = () => {
   const {t, i18n} = useTranslation();
   const theme = useTheme();
+
   return (
     <Tab.Navigator
       initialRouteName="KITCHEN"
       tabBarOptions={{
-        // inactiveTintColor: Colors.inactive,
         activeTintColor: theme['color-primary-400'],
+        inactiveTintColor: theme['color-primary-900'],
         labelStyle: {fontWeight: 'bold', fontSize: 14},
-        // inactiveBackgroundColor: '#FF3351',
-        // activeBackgroundColor: Colors.activebk,
+        activeBackgroundColor: theme['color-basic-700'],
+        inactiveBackgroundColor: theme['color-basic-100'],
       }}>
       <Tab.Screen
         name={t('KITCHEN')}
@@ -29,7 +31,12 @@ const MainNavigator = () => {
         options={{
           unmountOnBlur: true,
           tabBarIcon: ({focused, color, size, ...props}) => (
-            <MaterialCommunityIcons name="shaker" color={focused} size={size} />
+            <ThemedAwesomeIcon
+              // {...props}
+              color={color}
+              size={24}
+              name="shaker-outline"
+            />
           ),
         }}
       />
@@ -39,7 +46,12 @@ const MainNavigator = () => {
         options={{
           unmountOnBlur: true,
           tabBarIcon: ({focused, color, size, ...props}) => (
-            <MaterialCommunityIcons name="cog" color={color} size={size} />
+            <ThemedAwesomeIcon
+              // {...props}
+              color={color}
+              size={24}
+              name="cog"
+            />
           ),
         }}
       />
