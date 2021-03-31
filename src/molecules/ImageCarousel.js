@@ -48,8 +48,12 @@ export function Slide({data}) {
           }}>
           <Image
             source={{uri: data.url}}
-            resizeMode="cover"
-            style={{width: windowWidth * 0.9, height: windowWidth * 0.7}}
+            // resizeMode="cover"
+            style={{
+              width: windowWidth * 0.9,
+              height: windowWidth * 0.7,
+              resizeMode: 'cover',
+            }}
           />
         </View>
       </Layout>
