@@ -53,6 +53,7 @@ export function Slide({data}) {
               width: windowWidth * 0.9,
               height: windowWidth * 0.7,
               resizeMode: 'cover',
+              borderRadius: 7,
             }}
           />
         </View>
