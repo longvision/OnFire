@@ -1,27 +1,23 @@
 import React from 'react';
 import {
   Button,
-  Icon,
   List,
   Layout,
   Text,
   Divider,
-  ListItem,
   Card,
   StyleService,
   useStyleSheet,
+  useTheme,
 } from '@ui-kitten/components';
 
-import {StyleSheet, View} from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
-import Popularity from '../atoms/Popularity';
-import ListTitle from '../atoms/ListTitle';
-import {useDispatch} from 'react-redux';
-import {useTranslation} from 'react-i18next';
-import {ImageCarousel, Slide} from '../molecules/ImageCarousel';
-import {ThemedAwesomeIcon} from '../atoms/ThemedAwesomeIcon';
+import { useTranslation } from 'react-i18next';
+import { View } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { ThemedAwesomeIcon } from '../atoms/ThemedAwesomeIcon';
+import { Slide } from '../molecules/ImageCarousel';
 
-export const RecipeList = ({
+const RecipeList = ({
   recipes,
   cta,
   rating = true,
@@ -37,27 +33,28 @@ export const RecipeList = ({
   ...props
 }) => {
   const dispatch = useDispatch();
+  const theme = useTheme();
   const styles = useStyleSheet(themedStyles);
-  const {t, i18n} = useTranslation();
+  const { t, i18n } = useTranslation();
   function handlePress(item) {
     dispatch.recipes.setSelectedAsync(item);
-    dispatch.measures.getAsync({id: item.id});
+    dispatch.measures.getAsync({ id: item.id });
 
     navigation.navigate('RecipeDetail');
   }
-  const AddIcon = props => (
+  const AddIcon = (props) => (
     <ThemedAwesomeIcon name="camera" {...props} color={styles.icon} />
   );
-  const renderItemFooter = info => (
+  const renderItemFooter = (info) => (
     <Layout
-      level="3"
+      level="1"
       style={{
         width: '100%',
         height: 100,
         flexDirection: 'column',
       }}>
       <Divider />
-      <Text category="p1" style={{margin: 10}}>
+      <Text category="p1" style={{ margin: 10 }}>
         {info.item.description}
       </Text>
     </Layout>
@@ -72,11 +69,11 @@ export const RecipeList = ({
   const renderItemHeader = (headerProps, info) => (
     <Layout
       {...headerProps}
-      level="3"
+      level="2"
       style={{
         display: 'flex',
         width: '100%',
-        height: 100,
+        height: 75,
         justifyContent: 'center',
         alignItems: 'center',
         // height: 44,
@@ -88,19 +85,19 @@ export const RecipeList = ({
           justifyContent: 'center',
           flexDirection: 'row',
         }}>
-        <Text status="basic" category="h3" style={{margin: 15}}>
+        <Text status="basic" category="h3" style={{ margin: 15 }}>
           {info.item.title}
         </Text>
       </View>
     </Layout>
   );
-  const renderItem = info => (
+  const renderItem = (info) => (
     <>
       <Card
         style={styles.card}
         onPress={() => handlePress(info.item)}
-        header={headerProps => renderItemHeader(headerProps, info)}
-        footer={() => renderItemFooter(info)} //will enable rating
+        header={(headerProps) => renderItemHeader(headerProps, info)}
+        footer={() => renderItemFooter(info)} // will enable rating
       >
         {info.item.files && info.item.files.length > 0 && (
           <Slide data={info.item.files[0]} />
@@ -120,11 +117,9 @@ export const RecipeList = ({
     <>
       <Text>{props.label && props.label}</Text>
       <List
-        style={{marginVertical: 4, backgroundColor: 'white'}}
+        style={{ marginVertical: 4, backgroundColor: theme['color-basic-400'] }}
         contentContainerStyle={{
           paddingHorizontal: 8,
-          // paddingVertical: 4,
-          // paddingBottom: 120,
         }}
         data={recipes}
         renderItem={renderItem}
@@ -133,16 +128,19 @@ export const RecipeList = ({
   );
 };
 
+export default RecipeList;
+
 const themedStyles = StyleService.create({
   card: {
-    marginVertical: 10,
+    marginVertical: 3,
+    // marginHorizontal: 15,
     alignItems: 'center',
-    backgroundColor: 'color-primary-100',
-    borderColor: 'color-primary-500',
+    backgroundColor: 'color-basic-200',
+    borderColor: 'color-basic-100',
     borderWidth: 2,
   },
   delete: {
-    backgroundColor: 'color-primary-100',
+    backgroundColor: 'color-basic-200',
   },
   buttonImageIconStyle: {
     position: 'absolute',
@@ -151,7 +149,7 @@ const themedStyles = StyleService.create({
     top: 12,
     right: 2,
     zIndex: 2,
-    backgroundColor: 'color-primary-100',
-    borderColor: 'color-primary-100',
+    backgroundColor: 'color-basic-200',
+    borderColor: 'color-basic-200',
   },
 });

@@ -1,7 +1,7 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
-import {Avatar, Button, Layout, Popover, Text} from '@ui-kitten/components';
-import {useTranslation} from 'react-i18next';
+import { StyleSheet } from 'react-native';
+import { Layout, Popover, Text } from '@ui-kitten/components';
+import { useTranslation } from 'react-i18next';
 
 export const PopoverOverlay = ({
   handleClose,
@@ -10,7 +10,7 @@ export const PopoverOverlay = ({
   anchor,
   placement,
 }) => {
-  const {t, i18n} = useTranslation();
+  const { t, i18n } = useTranslation();
   return (
     <Popover
       backdropStyle={styles.backdrop}

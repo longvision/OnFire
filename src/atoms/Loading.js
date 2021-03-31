@@ -1,6 +1,6 @@
 import React from 'react';
-import {Spinner, Layout, Text} from '@ui-kitten/components';
-import {View} from 'react-native';
+import { Spinner, Text } from '@ui-kitten/components';
+import { View } from 'react-native';
 
 const styles = {
   loading: {
@@ -11,7 +11,9 @@ const styles = {
   },
 };
 
-export default Loading = ({label, size, status, show}) => (
+export default Loading = ({
+  label, size, status, show,
+}) => (
   <View
     style={{
       justifyContent: 'center',
@@ -29,7 +31,7 @@ export default Loading = ({label, size, status, show}) => (
       borderRadius: 15,
     }}>
     <View style={styles.loading}>
-      <Text status="info" category="s1" style={{marginBottom: 15}}>
+      <Text status="info" category="s1" style={{ marginBottom: 15 }}>
         {label}
       </Text>
       {show && <Spinner status={status} size={size} />}
