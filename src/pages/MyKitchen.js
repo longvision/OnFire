@@ -118,14 +118,13 @@ export const MyKitchen = ({navigation}) => {
             borderColor: theme['color-basic-100'],
           }}
           appearance="outline"
-          // status={'basic'}
-        >
+          status={'basic'}>
           <Button
             style={{
               display: 'flex',
               width: '50%',
               backgroundColor:
-                selectedIndex === 0 ? theme['color-primary-200'] : 'white',
+                selectedIndex === 0 ? theme['color-basic-300'] : 'white',
             }}
             onPress={() => setSelectedIndex(0)}>
             <Text
@@ -133,7 +132,7 @@ export const MyKitchen = ({navigation}) => {
                 color:
                   selectedIndex === 0
                     ? theme['color-basic-900']
-                    : theme['color-primary-900'],
+                    : theme['color-basic-900'],
               }}>
               Recipes
             </Text>
@@ -143,7 +142,7 @@ export const MyKitchen = ({navigation}) => {
               display: 'flex',
               width: '50%',
               backgroundColor:
-                selectedIndex === 1 ? theme['color-primary-200'] : 'white',
+                selectedIndex === 1 ? theme['color-basic-300'] : 'white',
             }}
             onPress={() => setSelectedIndex(1)}>
             <Text
@@ -151,7 +150,7 @@ export const MyKitchen = ({navigation}) => {
                 color:
                   selectedIndex === 1
                     ? theme['color-basic-900']
-                    : theme['color-primary-900'],
+                    : theme['color-basic-900'],
               }}>
               Ingredients
             </Text>
