@@ -1,20 +1,12 @@
-import {
-  Button,
-  Icon,
-  Text,
-  Layout,
-} from '@ui-kitten/components';
-import React, { useRef, useEffect } from 'react';
-import { StyleSheet } from 'react-native';
+import {Button, Icon, Text, Layout} from '@ui-kitten/components';
+import React, {useRef, useEffect} from 'react';
+import {StyleSheet} from 'react-native';
 
-import { Formik } from 'formik';
-import { useTranslation } from 'react-i18next';
+import {Formik} from 'formik';
+import {useTranslation} from 'react-i18next';
 
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  useFocusEffect,
-  useNavigation,
-} from '@react-navigation/native';
+import {useDispatch, useSelector} from 'react-redux';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import * as Yup from 'yup';
 import SizeInput from '../molecules/SizeInput';
 import SelectorAction from '../molecules/SelectorAction';
@@ -24,7 +16,7 @@ const saveIcon = (props) => <Icon {...props} name="save-outline" />;
 
 const AddIcon = (props) => <Icon {...props} name="plus-outline" />;
 const AddMeasureForm = () => {
-  const { t, i18n } = useTranslation();
+  const {t, i18n} = useTranslation();
   const dispatch = useDispatch();
   const ingredients = useSelector((state) => state.ingredients.ingredients);
   const productId = useSelector((state) => state.recipes.selected.id);
@@ -57,7 +49,7 @@ const AddMeasureForm = () => {
     React.useCallback(() => {
       // alert('Screen was focused');
       // Do something when the screen is focused
-      dispatch.measures.getAsync({ id: productId });
+      dispatch.measures.getAsync({id: productId});
       // quantityRef.current.focus();
       return () => {
         // alert('Screen was unfocused');
@@ -101,7 +93,7 @@ const AddMeasureForm = () => {
         touched,
         values,
       }) => (
-        <Layout style={{ height: '70%' }}>
+        <Layout style={{height: '70%'}}>
           <Layout style={styles.container} level="1">
             <Layout style={styles.controlContainer} level="1">
               <Text
@@ -201,7 +193,9 @@ const AddMeasureForm = () => {
             </Layout>
             <Layout style={styles.submit} level="1">
               <Button type="button" onPress={handleSubmit}>
-                {t('ADD_TO_RECIPE')}
+                <Text category="s2" status="basic">
+                  {t('ADD_TO_RECIPE')}
+                </Text>
               </Button>
             </Layout>
           </Layout>

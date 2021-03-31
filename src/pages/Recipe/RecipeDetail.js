@@ -1,6 +1,11 @@
+import {
+  Divider, Icon, TopNavigation, TopNavigationAction,
+} from '@ui-kitten/components';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { SafeAreaView } from 'react-native';
 import { useSelector } from 'react-redux';
+import RecipeDetailTemplate from '../../templates/RecipeDetailTemplate';
 
 const BackIcon = (props) => <Icon {...props} name="arrow-back" />;
 

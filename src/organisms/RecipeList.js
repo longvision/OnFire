@@ -11,13 +11,13 @@ import {
   useTheme,
 } from '@ui-kitten/components';
 
+import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { useTranslation } from 'react-i18next';
-import { Slide } from '../molecules/ImageCarousel';
 import { ThemedAwesomeIcon } from '../atoms/ThemedAwesomeIcon';
+import { Slide } from '../molecules/ImageCarousel';
 
-export const RecipeList = ({
+const RecipeList = ({
   recipes,
   cta,
   rating = true,
@@ -117,7 +117,7 @@ export const RecipeList = ({
     <>
       <Text>{props.label && props.label}</Text>
       <List
-        style={{ marginVertical: 4, backgroundColor: theme['color-basic-700'] }}
+        style={{ marginVertical: 4, backgroundColor: theme['color-basic-300'] }}
         contentContainerStyle={{
           paddingHorizontal: 8,
           // paddingVertical: 4,
@@ -129,6 +129,8 @@ export const RecipeList = ({
     </>
   );
 };
+
+export default RecipeList;
 
 const themedStyles = StyleService.create({
   card: {

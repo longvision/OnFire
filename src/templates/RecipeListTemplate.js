@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Layout } from '@ui-kitten/components';
-import { RecipeList } from '../organisms/RecipeList';
+import RecipeList from '../organisms/RecipeList';
 
 const RecipeListTemplate = ({
   AddIcon, navigation, recipes, iconName,

@@ -1,21 +1,19 @@
-import {
-  Button, Icon, Text, Layout,
-} from '@ui-kitten/components';
-import React, { useRef, useEffect } from 'react';
-import { StyleSheet } from 'react-native';
+import {Button, Icon, Text, Layout} from '@ui-kitten/components';
+import React, {useRef, useEffect} from 'react';
+import {StyleSheet} from 'react-native';
 
-import { Formik } from 'formik';
+import {Formik} from 'formik';
 
-import { useDispatch } from 'react-redux';
-import { useNavigation } from '@react-navigation/native';
+import {useDispatch} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
 import * as Yup from 'yup';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 import AutoCompleteField from '../molecules/AutocompleteField';
 
 const saveIcon = (props) => <Icon {...props} name="save-outline" />;
 
 const AddRecipeForm = () => {
-  const { t, i18n } = useTranslation();
+  const {t, i18n} = useTranslation();
   const navigation = useNavigation();
   const AddRecipeSchema = Yup.object().shape({
     name: Yup.string().required(t('Recipe_name_is_required')),
@@ -96,7 +94,11 @@ const AddRecipeForm = () => {
             </Text>
           </Layout>
           <Layout style={styles.submit} level="1">
-            <Button onPress={handleSubmit}>{t('CREATE_RECIPE')}</Button>
+            <Button onPress={handleSubmit}>
+              <Text category="s2" status="basic">
+                {t('CREATE_RECIPE')}
+              </Text>
+            </Button>
           </Layout>
         </Layout>
       )}

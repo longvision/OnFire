@@ -1,7 +1,5 @@
 import React from 'react';
-import {
-  Button, List, Layout, Text, Divider,
-} from '@ui-kitten/components';
+import { Button, List, Layout, Text, Divider } from '@ui-kitten/components';
 
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
@@ -65,11 +63,15 @@ export const IngredientList = ({
         )}
         {cta && (
           <Layout
-            style={{ justifyContent: 'center', alignItems: 'flex-end', flex: 2 }}>
+            style={{
+              justifyContent: 'center',
+              alignItems: 'flex-end',
+              flex: 2,
+            }}>
             <Button
               size={btnSize}
               onPress={() => handlePressIngredientsDetails(item)}
-              status="info"
+              status="basic"
               appearance="outline"
               accessoryLeft={assessoryLeft}>
               {cta}

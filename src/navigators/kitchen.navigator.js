@@ -2,7 +2,7 @@ import React from 'react';
 
 import { createStackNavigator } from '@react-navigation/stack';
 
-import { MyKitchen } from '../pages/MyKitchen';
+import MyKitchen from '../pages/MyKitchen';
 import RecipeDetail from '../pages/Recipe/RecipeDetail';
 import { IngredientDetail } from '../pages/Ingredient/IngredientDetail';
 import { AddIngredient } from '../pages/Ingredient/AddIngredient';
