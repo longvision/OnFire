@@ -70,7 +70,9 @@ export const RecipeList = ({
       style={{
         display: 'flex',
         width: '100%',
-        height: 70,
+        height: 100,
+        justifyContent: 'center',
+        alignItems: 'center',
         // height: 44,
       }}>
       <View
@@ -84,14 +86,6 @@ export const RecipeList = ({
           {info.item.title}
         </Text>
       </View>
-      {(!info.item.files || info.item.files.length == 0) && (
-        <Button
-          status="info"
-          appearance="outline"
-          onPress={() => handleCamera(info.item.id)}>
-          {t('Add_Image')}
-        </Button>
-      )}
     </Layout>
   );
   const renderItem = info => (
@@ -105,7 +99,14 @@ export const RecipeList = ({
       {info.item.files && info.item.files.length > 0 ? (
         <Slide data={info.item.files[0]} />
       ) : (
-        <View />
+        <Layout style={{marginVertical: 5}}>
+          <Button
+            status="info"
+            appearance="outline"
+            onPress={() => handleCamera(info.item.id)}>
+            {t('Add_Image')}
+          </Button>
+        </Layout>
       )}
     </Card>
   );
