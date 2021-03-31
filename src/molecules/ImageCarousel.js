@@ -1,33 +1,29 @@
 import {
-  Text,
   Layout,
   Button,
   StyleService,
   useStyleSheet,
-  Icon,
 } from '@ui-kitten/components';
-import React, {useRef} from 'react';
-import Carousel from 'react-native-snap-carousel';
+import React from 'react';
 import {
   Dimensions,
   Image,
   View,
-  StyleSheet,
-  TouchableOpacity,
 } from 'react-native';
-import {FlatList} from 'react-native-gesture-handler';
+import { FlatList } from 'react-native-gesture-handler';
 
-import {ThemedAwesomeIcon} from '../atoms/ThemedAwesomeIcon';
-import {useDispatch} from 'react-redux';
-const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
+import { useDispatch } from 'react-redux';
+import { ThemedAwesomeIcon } from '../atoms/ThemedAwesomeIcon';
 
-export function Slide({data}) {
+const { width: windowWidth, height: windowHeight } = Dimensions.get('window');
+
+export function Slide({ data }) {
   const styles = useStyleSheet(themedStyles);
   const dispatch = useDispatch();
   function handleDelete() {
-    dispatch.files.deleteAsync({name: data.name, product_id: data.product_id});
+    dispatch.files.deleteAsync({ name: data.name, product_id: data.product_id });
   }
-  const DeleteIcon = props => (
+  const DeleteIcon = (props) => (
     <ThemedAwesomeIcon name="delete-forever" {...props} color={styles.icon} />
   );
   return (
@@ -47,7 +43,7 @@ export function Slide({data}) {
             alignItems: 'center',
           }}>
           <Image
-            source={{uri: data.url}}
+            source={{ uri: data.url }}
             // resizeMode="cover"
             style={{
               width: windowWidth * 0.9,
@@ -62,25 +58,21 @@ export function Slide({data}) {
   );
 }
 
-export const ImageCarousel = ({data}) => {
-  return (
+export const ImageCarousel = ({ data }) => (
     <FlatList
       data={data}
-      keyExtractor={item => `${item.product_id}-${item.url}`}
+      keyExtractor={(item) => `${item.product_id}-${item.url}`}
       // style={{}}
       contentContainerStyle={{
         width: 280,
         height: 280,
       }}
-      renderItem={({item}) => {
-        return <Slide data={item} />;
-      }}
+      renderItem={({ item }) => <Slide data={item} />}
       pagingEnabled
       // horizontal
       // showsHorizontalScrollIndicator={true}
     />
-  );
-};
+);
 
 const themedStyles = StyleService.create({
   buttonImageIconStyle: {

@@ -1,12 +1,12 @@
-import React, {useEffect} from 'react';
-import {Button, Icon, List, Layout, Text, Divider} from '@ui-kitten/components';
+import React from 'react';
+import {
+  Button, List, Layout, Text, Divider,
+} from '@ui-kitten/components';
 
-import {StyleSheet, View, ScrollView} from 'react-native';
-import {NavigationContainer, useNavigation} from '@react-navigation/native';
-import Popularity from '../atoms/Popularity';
+import { useNavigation } from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import ListTitle from '../atoms/ListTitle';
-import {useDispatch} from 'react-redux';
-import {useTranslation} from 'react-i18next';
 
 export const IngredientList = ({
   data,
@@ -22,15 +22,15 @@ export const IngredientList = ({
   width,
   ...props
 }) => {
-  const {t, i18n} = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
   function handlePressIngredientsDetails(item) {
-    navigation.navigate('IngredientDetail', {item});
+    navigation.navigate('IngredientDetail', { item });
   }
 
-  const renderItem = ({item, index}) => (
+  const renderItem = ({ item, index }) => (
     <>
       <Layout
         style={{
@@ -42,7 +42,7 @@ export const IngredientList = ({
           marginHorizontal: 5,
           padding: 5,
         }}>
-        <Layout style={{flex: 4}}>
+        <Layout style={{ flex: 4 }}>
           <Text category="s1">{item.name}</Text>
           <Text category="p1">{item.brand}</Text>
         </Layout>
@@ -65,7 +65,7 @@ export const IngredientList = ({
         )}
         {cta && (
           <Layout
-            style={{justifyContent: 'center', alignItems: 'flex-end', flex: 2}}>
+            style={{ justifyContent: 'center', alignItems: 'flex-end', flex: 2 }}>
             <Button
               size={btnSize}
               onPress={() => handlePressIngredientsDetails(item)}
@@ -88,7 +88,7 @@ export const IngredientList = ({
       <ListTitle titles={titles} />
 
       <List
-        style={{backgroundColor: 'white'}}
+        style={{ backgroundColor: 'white' }}
         data={data}
         contentContainerStyle={{
           paddingHorizontal: 8,

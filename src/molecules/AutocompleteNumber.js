@@ -1,13 +1,12 @@
 import React from 'react';
-import {TouchableWithoutFeedback} from 'react-native';
-import {Autocomplete, AutocompleteItem, Icon} from '@ui-kitten/components';
+import { TouchableWithoutFeedback } from 'react-native';
+import { Autocomplete, AutocompleteItem, Icon } from '@ui-kitten/components';
 
-const filter = (item, query) =>
-  item.title.toLowerCase().includes(query.toLowerCase());
+const filter = (item, query) => item.title.toLowerCase().includes(query.toLowerCase());
 
 const StarIcon = (props) => <Icon {...props} name="star" />;
 
-export const AutocompleteNumber = ({placeholder, array}) => {
+export const AutocompleteNumber = ({ placeholder, array }) => {
   const [value, setValue] = React.useState(null);
   const [data, setData] = React.useState(array);
 
@@ -41,7 +40,7 @@ export const AutocompleteNumber = ({placeholder, array}) => {
       value={value}
       accessoryRight={renderCloseIcon}
       onChangeText={onChangeText}
-      style={{width: '90%'}}
+      style={{ width: '90%' }}
       onSelect={onSelect}>
       {data.map(renderOption)}
     </Autocomplete>

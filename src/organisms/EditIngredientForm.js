@@ -1,28 +1,26 @@
 import {
   Button,
   Icon,
-  Input,
   Text,
   Layout,
-  StyleService,
 } from '@ui-kitten/components';
-import React, {useRef, useImperativeHandle, useEffect} from 'react';
-import {View, StyleSheet, ScrollView} from 'react-native';
-import PriceInput from '../molecules/PriceInput';
-import AutoCompleteField from '../molecules/AutocompleteField';
-import {Field, Formik} from 'formik';
-import Selector from '../molecules/Selector';
-import SizeInput from '../molecules/SizeInput';
-import {useDispatch, useSelector} from 'react-redux';
-import {useNavigation} from '@react-navigation/native';
+import React, { useRef } from 'react';
+import { StyleSheet } from 'react-native';
+import { Formik } from 'formik';
+import { useDispatch } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 import * as Yup from 'yup';
-import {useTranslation} from 'react-i18next';
+import { useTranslation } from 'react-i18next';
+import SizeInput from '../molecules/SizeInput';
+import Selector from '../molecules/Selector';
+import AutoCompleteField from '../molecules/AutocompleteField';
+import PriceInput from '../molecules/PriceInput';
 
 const data = [];
 
-const saveIcon = props => <Icon {...props} name="save-outline" />;
-const editIcon = props => <Icon {...props} name="edit-outline" />;
-const closeIcon = props => <Icon {...props} name="close-outline" />;
+const saveIcon = (props) => <Icon {...props} name="save-outline" />;
+const editIcon = (props) => <Icon {...props} name="edit-outline" />;
+const closeIcon = (props) => <Icon {...props} name="close-outline" />;
 
 const AddIngredientSchema = Yup.object().shape({
   ingredient: Yup.string()
@@ -39,8 +37,8 @@ const AddIngredientSchema = Yup.object().shape({
   unit: Yup.string().required('Package unit is required'),
   price: Yup.string().required('Package price is required'),
 });
-const EditIngredientForm = ({selectedItem}) => {
-  const {t, i18n} = useTranslation();
+const EditIngredientForm = ({ selectedItem }) => {
+  const { t, i18n } = useTranslation();
   const dispatch = useDispatch();
 
   const [selectedIndex, setSelectedIndex] = React.useState(0);
@@ -77,10 +75,10 @@ const EditIngredientForm = ({selectedItem}) => {
         price: Number(selectedItem.package_price).toFixed(2),
       }}
       validationSchema={AddIngredientSchema}
-      onSubmit={values => {
-        values.size = formattedSize ? formattedSize : values.size;
-        values.price = formattedPrice ? formattedPrice : values.price;
-        dispatch.ingredients.updateAsync({values: values, id: selectedItem.id});
+      onSubmit={(values) => {
+        values.size = formattedSize || values.size;
+        values.price = formattedPrice || values.price;
+        dispatch.ingredients.updateAsync({ values, id: selectedItem.id });
 
         navigation.navigate('MyKitchen');
       }}>
@@ -235,7 +233,7 @@ const EditIngredientForm = ({selectedItem}) => {
                     name="unit"
                     data={unitsArray}
                     selectedIndex={selectedIndex}
-                    onSelect={index => {
+                    onSelect={(index) => {
                       setSelectedIndex(index);
                       setFieldValue('unit', unitsArray[index.row]);
                       setFieldValue('size', '');
@@ -254,7 +252,7 @@ const EditIngredientForm = ({selectedItem}) => {
                     placeholder={t('Package_Size')}
                     value={values.size}
                     setFieldValue={setFieldValue}
-                    unit={selectedUnit ? selectedUnit : values.unit}
+                    unit={selectedUnit || values.unit}
                     setFieldTouched={setFieldTouched}
                     disabled={packDisabled}
                     setDisabled={setDisabled}

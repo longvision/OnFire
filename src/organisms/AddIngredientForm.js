@@ -1,30 +1,27 @@
 import {
   Button,
   Icon,
-  Input,
   Text,
   Layout,
-  StyleService,
 } from '@ui-kitten/components';
-import React, {useRef, useImperativeHandle, useEffect} from 'react';
-import {View, StyleSheet, ScrollView} from 'react-native';
-import PriceInput from '../molecules/PriceInput';
-import AutoCompleteField from '../molecules/AutocompleteField';
-import {Field, Formik} from 'formik';
-import Selector from '../molecules/Selector';
-import SizeInput from '../molecules/SizeInput';
-import {useDispatch} from 'react-redux';
-import {useNavigation} from '@react-navigation/native';
+import React, { useRef } from 'react';
+import { View, StyleSheet } from 'react-native';
+import { Formik } from 'formik';
+import { useDispatch } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 import * as Yup from 'yup';
-import {useTranslation} from 'react-i18next';
-import {checkBRMeasureUnit, checkUSMeasureUnit} from '../utils/functions';
+import { useTranslation } from 'react-i18next';
+import SizeInput from '../molecules/SizeInput';
+import Selector from '../molecules/Selector';
+import AutoCompleteField from '../molecules/AutocompleteField';
+import PriceInput from '../molecules/PriceInput';
 
 const data = [];
 
-const saveIcon = props => <Icon {...props} name="save-outline" />;
+const saveIcon = (props) => <Icon {...props} name="save-outline" />;
 
 const AddIngredientForm = () => {
-  const {t, i18n} = useTranslation();
+  const { t, i18n } = useTranslation();
   const brandRef = useRef();
   const sellerRef = useRef();
   const soldRef = useRef();
@@ -68,7 +65,7 @@ const AddIngredientForm = () => {
         price: '',
       }}
       validationSchema={AddIngredientSchema}
-      onSubmit={values => {
+      onSubmit={(values) => {
         values.size = formattedSize;
         values.price = formattedPrice;
         dispatch.ingredients.addAsync(values);
@@ -84,7 +81,7 @@ const AddIngredientForm = () => {
         touched,
         values,
       }) => (
-        <View style={{height: '100%'}}>
+        <View style={{ height: '100%' }}>
           <Layout style={styles.container} level="4">
             <Layout style={styles.controlContainer}>
               <Text
@@ -194,7 +191,7 @@ const AddIngredientForm = () => {
                     name="unit"
                     data={unitsArray}
                     selectedIndex={selectedIndex}
-                    onSelect={index => {
+                    onSelect={(index) => {
                       setSelectedIndex(index);
                       setFieldValue('unit', unitsArray[index.row]);
                       setFieldValue('size', '');
@@ -216,7 +213,7 @@ const AddIngredientForm = () => {
                     setFieldValue={setFieldValue}
                     setFieldTouched={setFieldTouched}
                     name="size"
-                    unit={selectedUnit ? selectedUnit : ''}
+                    unit={selectedUnit || ''}
                     styles={styles.input}
                     mantissa={4}
                     setFormattedSize={setFormattedSize}

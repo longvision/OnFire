@@ -1,10 +1,11 @@
 import React from 'react';
 
-import {Layout, Text} from '@ui-kitten/components';
-import {Rating} from 'react-native-ratings';
+import { Layout, Text } from '@ui-kitten/components';
+import { Rating } from 'react-native-ratings';
 
-const Popularity = ({title, start, show, titleCategory, count, imageSize}) => {
-  return (
+const Popularity = ({
+  title, start, show, titleCategory, count, imageSize,
+}) => (
     <Layout
       style={{
         display: 'flex',
@@ -27,10 +28,9 @@ const Popularity = ({title, start, show, titleCategory, count, imageSize}) => {
         readonly={true}
         imageSize={imageSize}
         // onFinishRating={ratingCompleted}
-        style={{paddingVertical: 0, backgroundColor: 'transparent'}}
+        style={{ paddingVertical: 0, backgroundColor: 'transparent' }}
       />
     </Layout>
-  );
-};
+);
 
 export default Popularity;

@@ -1,11 +1,7 @@
-import {Layout, Text} from '@ui-kitten/components';
+import { Layout, Text } from '@ui-kitten/components';
 import React from 'react';
-import {View} from 'react-native';
 
-// import { Container } from './styles';
-
-const ListTitle = ({titles}) => {
-  return (
+const ListTitle = ({ titles }) => (
     <Layout
       style={{
         flexDirection: 'row',
@@ -21,7 +17,6 @@ const ListTitle = ({titles}) => {
         </Layout>
       ))}
     </Layout>
-  );
-};
+);
 
 export default ListTitle;

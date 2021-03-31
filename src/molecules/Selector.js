@@ -1,10 +1,8 @@
-import React, {useImperativeHandle, forwardRef, useRef} from 'react';
-import {StyleSheet} from 'react-native';
+import React, { useImperativeHandle, forwardRef, useRef } from 'react';
+import { StyleSheet } from 'react-native';
 import {
-  IndexPath,
   Layout,
   Select,
-  SelectGroup,
   SelectItem,
 } from '@ui-kitten/components';
 
@@ -14,7 +12,9 @@ import {
 // };
 
 const SelectorRaw = (
-  {data, onSelect, value, selectedIndex, disabled, style, placeholder},
+  {
+    data, onSelect, value, selectedIndex, disabled, style, placeholder,
+  },
   ref,
 ) => {
   const inputRef = useRef();
@@ -22,8 +22,7 @@ const SelectorRaw = (
   // const displayValue = data && data[selectedIndex.row];
   const displayValue = value;
 
-  const renderOption = (title) =>
-    data && <SelectItem key={title} title={title} />;
+  const renderOption = (title) => data && <SelectItem key={title} title={title} />;
 
   useImperativeHandle(ref, () => ({
     focus: () => {
