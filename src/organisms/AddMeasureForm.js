@@ -44,7 +44,9 @@ const AddMeasureForm = () => {
     0,
   );
   const [selectedUnitIndex, setSelectedUnitIndex] = React.useState(0);
+  const [formattedQuantity, setFormattedQuantity] = React.useState('');
 
+  const [selectedUnit, setSelectedUnit] = React.useState('');
   const [optionsArray, setOptionsArray] = React.useState([]);
 
   const [selectedId, setSelectedId] = React.useState();
@@ -86,6 +88,7 @@ const AddMeasureForm = () => {
       }}
       validationSchema={AddMeasureSchema}
       onSubmit={values => {
+        values.quantity = formattedQuantity;
         dispatch.measures.addAsync({
           values: values,
           productId: productId,
@@ -104,9 +107,9 @@ const AddMeasureForm = () => {
         touched,
         values,
       }) => (
-        <ScrollView style={{height: '100%'}}>
+        <Layout style={{height: '70%'}}>
           <Layout style={styles.container} level="1">
-            <Layout style={styles.controlContainer} level="3">
+            <Layout style={styles.controlContainer} level="1">
               <Text
                 category="h4"
                 appearance="alternative"
@@ -115,7 +118,7 @@ const AddMeasureForm = () => {
                 {t('Select_the_ingredient')}
               </Text>
 
-              <Layout style={styles.rowContainer} level="3">
+              <Layout style={styles.rowContainer} level="1">
                 <SelectorAction
                   status={errors.ingredient && touched.ingredient && 'danger'}
                   placeholder={t('Ingredient')}
@@ -142,7 +145,7 @@ const AddMeasureForm = () => {
                   {errors.ingredient && touched.ingredient && errors.ingredient}
                 </Text>
               </Layout>
-              <Layout style={styles.rowContainer} level="3">
+              <Layout style={styles.rowContainer} level="1">
                 <Text
                   category="h4"
                   appearance="alternative"
@@ -161,7 +164,11 @@ const AddMeasureForm = () => {
                   onSelect={index => {
                     setSelectedUnitIndex(index);
                     setFieldValue('unit', unitsArray[index.row]);
-                    quantityRef.current.focus();
+                    setFieldValue('quantity', '');
+                    setFormattedQuantity('');
+                    setSelectedUnit(unitsArray[index.row]);
+
+                    // quantityRef.current.focus();
                   }}
                   ref={unitAvailableRef}
                 />
@@ -169,8 +176,8 @@ const AddMeasureForm = () => {
                   {errors.unit && touched.unit && errors.unit}
                 </Text>
               </Layout>
-              <Layout style={styles.packageContainer} level="3">
-                <Layout style={styles.rowContainer} level="3">
+              <Layout style={styles.packageContainer} level="1">
+                <Layout style={styles.rowContainer} level="1">
                   <Text
                     category="h4"
                     appearance="alternative"
@@ -184,6 +191,8 @@ const AddMeasureForm = () => {
                     value={values.quantity}
                     setFieldValue={setFieldValue}
                     setFieldTouched={setFieldTouched}
+                    setFormattedSize={setFormattedQuantity}
+                    unit={selectedUnit ? selectedUnit : ''}
                     name="quantity"
                     mantissa={4}
                     styles={styles.input}
@@ -196,13 +205,13 @@ const AddMeasureForm = () => {
                 </Layout>
               </Layout>
             </Layout>
-            <Layout style={styles.submit} level="3">
+            <Layout style={styles.submit} level="1">
               <Button type="button" onPress={handleSubmit}>
                 {t('ADD_TO_RECIPE')}
               </Button>
             </Layout>
           </Layout>
-        </ScrollView>
+        </Layout>
       )}
     </Formik>
   );

@@ -16,7 +16,6 @@ import {Provider} from 'react-redux';
 import {getPersistor} from '@rematch/persist';
 import store from './src/store';
 import {PersistGate} from 'redux-persist/lib/integration/react';
-
 import {NavigationContainer} from '@react-navigation/native';
 
 export default () => {

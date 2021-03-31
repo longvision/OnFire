@@ -1,6 +1,8 @@
 /**
  * @format
  */
+import 'react-native-gesture-handler';
+
 import {ENV} from '@env';
 import './src/config/ReactotronConfig';
 if (ENV === 'development') {

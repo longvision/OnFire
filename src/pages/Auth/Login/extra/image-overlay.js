@@ -9,9 +9,9 @@ import {
   Image,
 } from 'react-native';
 
-const DEFAULT_OVERLAY_COLOR = 'rgba(0, 128, 51, 0.900)';
+const DEFAULT_OVERLAY_COLOR = 'rgba(0, 0, 0, 0.450)';
 
-export const ImageOverlay = (props) => {
+export const ImageOverlay = props => {
   const {style, children, source, ...imageBackgroundProps} = props;
   const {overlayColor, ...imageBackgroundStyle} = StyleSheet.flatten(style);
 

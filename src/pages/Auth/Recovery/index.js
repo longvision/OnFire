@@ -14,8 +14,9 @@ import {KeyboardAvoidingView} from './extra/3rd-party';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
+import PasswordInput from '../../../molecules/PasswordInput';
 
-const BackIcon = (props) => <Icon {...props} name="arrow-back" />;
+const BackIcon = props => <Icon {...props} name="arrow-back" />;
 export const Recovery = () => {
   const {t, i18n} = useTranslation();
   const Tref = useRef(null);
@@ -25,15 +26,23 @@ export const Recovery = () => {
   const Nref = useRef(null);
   const passRef = useRef();
   const confirmRef = useRef();
-  const fail = useSelector((state) => state.auth.failed);
-  const success = useSelector((state) => state.auth.success);
+  const fail = useSelector(state => state.auth.failed);
+  const success = useSelector(state => state.auth.success);
 
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const [token, setToken] = useState([]);
   const [pass, setPass] = useState('');
   const [confirm, setConfirm] = useState('');
+  const [passwordVisible1, setPasswordVisible1] = React.useState(false);
+  const [passwordVisible2, setPasswordVisible2] = React.useState(false);
 
+  const onPasswordIconPress1 = () => {
+    setPasswordVisible1(!passwordVisible1);
+  };
+  const onPasswordIconPress2 = () => {
+    setPasswordVisible2(!passwordVisible2);
+  };
   const navigateBack = () => {
     navigation.goBack();
   };
@@ -46,11 +55,15 @@ export const Recovery = () => {
     />
   );
   const handleSubmit = () => {
-    dispatch.auth.resetAsync({
-      password: pass,
-      confirmation: confirm,
-      token: token,
-    });
+    if (confirm !== pass) {
+      Alert.alert(t('passError'));
+    } else {
+      dispatch.auth.resetAsync({
+        password: pass,
+        confirmation: confirm,
+        token: token,
+      });
+    }
   };
 
   React.useEffect(() => {
@@ -77,7 +90,7 @@ export const Recovery = () => {
     success &&
       Alert.alert(
         t('Reset_success'),
-        t('Login_again'),
+
         [
           {
             text: 'Ok',
@@ -128,7 +141,7 @@ export const Recovery = () => {
               style={styles.token}
               value={token[0]}
               returnKeyType="next"
-              onChangeText={(text) => {
+              onChangeText={text => {
                 const data = [...token];
                 data[0] = text.substring(0, 1);
                 setToken(data);
@@ -155,7 +168,7 @@ export const Recovery = () => {
               keyboardType="ascii-capable"
               autoCapitalize="characters"
               value={token[1]}
-              onChangeText={(text) => {
+              onChangeText={text => {
                 const data = [...token];
                 data[1] = text.substring(0, 1);
                 setToken(data);
@@ -179,7 +192,7 @@ export const Recovery = () => {
               keyboardType="ascii-capable"
               autoCapitalize="characters"
               value={token[2]}
-              onChangeText={(text) => {
+              onChangeText={text => {
                 const data = [...token];
                 data[2] = text.substring(0, 1);
                 setToken(data);
@@ -203,7 +216,7 @@ export const Recovery = () => {
               keyboardType="ascii-capable"
               autoCapitalize="characters"
               value={token[3]}
-              onChangeText={(text) => {
+              onChangeText={text => {
                 const data = [...token];
                 data[3] = text.substring(0, 1);
                 setToken(data);
@@ -227,7 +240,7 @@ export const Recovery = () => {
               keyboardType="ascii-capable"
               autoCapitalize="characters"
               value={token[4]}
-              onChangeText={(text) => {
+              onChangeText={text => {
                 const data = [...token];
                 data[4] = text.substring(0, 1);
                 setToken(data);
@@ -237,40 +250,37 @@ export const Recovery = () => {
           </View>
         </View>
         <View style={styles.formContainer}>
-          <Input
+          <PasswordInput
             returnKeyType="next"
-            status="control"
+            value={pass}
+            returnKeyType="send"
             onSubmitEditing={() => {
               confirmRef.current.focus();
             }}
+            ref={passRef}
             onFocus={() => setPass('')}
             placeholder={t('Password')}
-            ref={passRef}
-            keyboardType="default"
-            secureTextEntry={true}
-            autoCapitalize="none"
-            autoCorrect={false}
-            value={pass}
+            passwordVisible={!passwordVisible1}
+            onSubmitEditing={handleSubmit}
             onChangeText={setPass}
+            handlePress={onPasswordIconPress1}
           />
         </View>
 
         <View style={styles.formContainer}>
-          <Input
+          <PasswordInput
+            value={confirm}
             returnKeyType="send"
-            status="control"
+            ref={confirmRef}
             onFocus={() => setConfirm('')}
             placeholder={t('Password_confirmation')}
-            ref={confirmRef}
-            keyboardType="default"
-            autoCapitalize="none"
-            secureTextEntry={true}
-            autoCorrect={false}
+            passwordVisible={!passwordVisible2}
             onSubmitEditing={handleSubmit}
-            value={confirm}
             onChangeText={setConfirm}
+            handlePress={onPasswordIconPress2}
           />
         </View>
+
         <View style={styles.buttonContainer}>
           <Button size="giant" onPress={handleSubmit}>
             {t('RESET_PASSWORD')}

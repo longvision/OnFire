@@ -11,7 +11,6 @@ import {
 } from '@ui-kitten/components';
 
 import {StyleSheet, View} from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
 import Popularity from '../atoms/Popularity';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
@@ -20,7 +19,6 @@ export const MeasureList = ({
   data,
   cta,
   rating,
-
   img,
   height,
   width,
@@ -40,6 +38,7 @@ export const MeasureList = ({
           justifyContent: 'center',
           alignItems: 'center',
           width: '100%',
+          paddingVertical: 5,
         }}>
         <Layout style={{width: '80%'}}>
           <Text
@@ -71,13 +70,18 @@ export const MeasureList = ({
   return (
     <>
       <Text>{props.label && props.label}</Text>
-      <Layout style={{width: width, paddingBottom: 55}} level="1">
-        <List
-          style={{height: height, backgroundColor: 'white'}}
-          data={measures}
-          renderItem={renderItem}
-        />
-      </Layout>
+      {/* <Layout style={{width: width, paddingBottom: 55}} level="1"> */}
+      <List
+        style={{height: height, backgroundColor: 'white'}}
+        data={measures}
+        renderItem={renderItem}
+        contentContainerStyle={{
+          paddingHorizontal: 8,
+          paddingVertical: 4,
+          paddingBottom: 120,
+        }}
+      />
+      {/* </Layout> */}
     </>
   );
 };

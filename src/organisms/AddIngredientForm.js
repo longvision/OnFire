@@ -17,10 +17,11 @@ import {useDispatch} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import * as Yup from 'yup';
 import {useTranslation} from 'react-i18next';
+import {checkBRMeasureUnit, checkUSMeasureUnit} from '../utils/functions';
 
 const data = [];
 
-const saveIcon = (props) => <Icon {...props} name="save-outline" />;
+const saveIcon = props => <Icon {...props} name="save-outline" />;
 
 const AddIngredientForm = () => {
   const {t, i18n} = useTranslation();
@@ -33,6 +34,9 @@ const AddIngredientForm = () => {
   const dispatch = useDispatch();
   const [selectedIndex, setSelectedIndex] = React.useState(0);
   const [disabled, setDisabled] = React.useState(false);
+  const [selectedUnit, setSelectedUnit] = React.useState('');
+  const [formattedSize, setFormattedSize] = React.useState('');
+  const [formattedPrice, setFormattedPrice] = React.useState('');
   const navigation = useNavigation();
   const unitsArray = ['mL', 'g', 'L', 'KG'];
 
@@ -47,7 +51,7 @@ const AddIngredientForm = () => {
       .required(t('Brand_is_required')),
     seller: Yup.string().required(t('Seller_is_required')),
     region: Yup.string(),
-    size: Yup.number().moreThan(0).required(t('Package_size_is_required')),
+    size: Yup.string().required(t('Package_size_is_required')),
     unit: Yup.string().required(t('Package_unit_is_required')),
     price: Yup.string().required(t('Package_price_is_required')),
   });
@@ -64,7 +68,9 @@ const AddIngredientForm = () => {
         price: '',
       }}
       validationSchema={AddIngredientSchema}
-      onSubmit={(values) => {
+      onSubmit={values => {
+        values.size = formattedSize;
+        values.price = formattedPrice;
         dispatch.ingredients.addAsync(values);
         navigation.goBack();
       }}>
@@ -78,8 +84,8 @@ const AddIngredientForm = () => {
         touched,
         values,
       }) => (
-        <ScrollView style={{height: '100%'}}>
-          <Layout style={styles.container}>
+        <View style={{height: '100%'}}>
+          <Layout style={styles.container} level="4">
             <Layout style={styles.controlContainer}>
               <Text
                 category="h4"
@@ -157,7 +163,7 @@ const AddIngredientForm = () => {
                   returnKeyType="next"
                   name="region"
                   onSubmitEditing={() => {
-                    sizeRef.current.focus();
+                    unitsRef.current.focus();
                   }}
                   ref={soldRef}
                   status={errors.region && touched.region && 'danger'}
@@ -178,6 +184,30 @@ const AddIngredientForm = () => {
                   style={styles.title}>
                   {t('Package_Info')}
                 </Text>
+
+                <Layout style={styles.rowContainer} level="3">
+                  <Selector
+                    status={errors.unit && touched.unit && 'danger'}
+                    placeholder={t('Package_Unit')}
+                    style={styles.input}
+                    value={values.unit}
+                    name="unit"
+                    data={unitsArray}
+                    selectedIndex={selectedIndex}
+                    onSelect={index => {
+                      setSelectedIndex(index);
+                      setFieldValue('unit', unitsArray[index.row]);
+                      setFieldValue('size', '');
+                      setSelectedUnit(unitsArray[index.row]);
+                      setFormattedSize('');
+                      sizeRef.current.focus();
+                    }}
+                    ref={unitsRef}
+                  />
+                  <Text category="c2" appearance="hint" status="danger">
+                    {errors.unit && touched.unit && errors.unit}
+                  </Text>
+                </Layout>
                 <Layout style={styles.rowContainer} level="3">
                   <SizeInput
                     status={errors.size && touched.size && 'danger'}
@@ -186,8 +216,10 @@ const AddIngredientForm = () => {
                     setFieldValue={setFieldValue}
                     setFieldTouched={setFieldTouched}
                     name="size"
+                    unit={selectedUnit ? selectedUnit : ''}
                     styles={styles.input}
                     mantissa={4}
+                    setFormattedSize={setFormattedSize}
                     onSubmitEditing={() => {
                       unitsRef.current.focus();
                     }}
@@ -198,25 +230,6 @@ const AddIngredientForm = () => {
                   </Text>
                 </Layout>
                 <Layout style={styles.rowContainer} level="3">
-                  <Selector
-                    status={errors.unit && touched.unit && 'danger'}
-                    placeholder={t('Package_Unit')}
-                    style={styles.input}
-                    value={values.unit}
-                    name="unit"
-                    data={unitsArray}
-                    selectedIndex={selectedIndex}
-                    onSelect={(index) => {
-                      setSelectedIndex(index);
-                      setFieldValue('unit', unitsArray[index.row]);
-                    }}
-                    ref={unitsRef}
-                  />
-                  <Text category="c2" appearance="hint" status="danger">
-                    {errors.unit && touched.unit && errors.unit}
-                  </Text>
-                </Layout>
-                <Layout style={styles.rowContainer} level="3">
                   <PriceInput
                     status={errors.price && touched.price && 'danger'}
                     placeholder={t('Package_Price')}
@@ -224,6 +237,7 @@ const AddIngredientForm = () => {
                     setFieldValue={setFieldValue}
                     setFieldTouched={setFieldTouched}
                     mantissa={4}
+                    setFormattedPrice={setFormattedPrice}
                     style={styles.input}
                     name="price"
                     onSubmitEditing={handleSubmit}
@@ -247,7 +261,7 @@ const AddIngredientForm = () => {
               </Layout>
             </Layout>
           </Layout>
-        </ScrollView>
+        </View>
       )}
     </Formik>
   );

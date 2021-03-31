@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useRef, useEffect} from 'react';
 import {View, Alert} from 'react-native';
 import {
   Button,
@@ -16,6 +16,7 @@ import {
   EyeOffIcon,
   PersonIcon,
   PlusIcon,
+  PassIcon,
 } from './extra/icons.js';
 import {KeyboardAvoidingView} from './extra/3rd-party';
 import {useNavigation} from '@react-navigation/native';
@@ -32,14 +33,20 @@ export const SignUp = () => {
   const [userName, setUserName] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const [userError, setUserError] = React.useState(false);
+  const [emailError, setEmailError] = React.useState(false);
   const [termsAccepted, setTermsAccepted] = React.useState(false);
-  const [passwordVisible, setPasswordVisible] = React.useState(false);
+  // const [passwordVisible, setPasswordVisible] = React.useState(false);
   const firstRef = useRef(null);
   const secondRef = useRef(null);
   const thirdRef = useRef(null);
   const forthRef = useRef(null);
 
   const styles = useStyleSheet(themedStyles);
+
+  const usernameRegex = /^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){3,18}[a-zA-Z0-9]$/;
+
+  const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
   const onSignUpButtonPress = () => {
     if (termsAccepted && email && userName && password) {
@@ -71,13 +78,13 @@ export const SignUp = () => {
     navigation.navigate('Login');
   };
 
-  const onPasswordIconPress = () => {
-    setPasswordVisible(!passwordVisible);
-  };
+  // const onPasswordIconPress = () => {
+  //   setPasswordVisible(!passwordVisible);
+  // };
 
-  const renderEditAvatarButton = () => (
-    <Button style={styles.editAvatarButton} status="basic" icon={PlusIcon} />
-  );
+  // const renderEditAvatarButton = () => (
+  //   <Button style={styles.editAvatarButton} status="basic" icon={PlusIcon} />
+  // );
 
   React.useEffect(() => {
     signUpfail &&
@@ -129,67 +136,97 @@ export const SignUp = () => {
       {/* <View style={styles.headerContainer}> */}
       <ImageOverlay
         style={styles.headerContainer}
-        source={require('./assets/ramen.jpeg')}
-      />
-      <Layout style={styles.formContainer} level="1">
-        <Input
-          autoCapitalize="none"
-          placeholder="User Name"
-          ref={firstRef}
-          onSubmitEditing={() => {
-            secondRef.current.focus();
-          }}
-          accessoryRight={PersonIcon}
-          value={userName}
-          onChangeText={text => setUserName(text.toLowerCase().trim())}
-        />
-        <Input
-          style={styles.emailInput}
-          autoCapitalize="none"
-          onSubmitEditing={() => {
-            thirdRef.current.focus();
-          }}
-          placeholder="Email"
-          ref={secondRef}
-          accessoryRight={EmailIcon}
-          value={email}
-          onChangeText={text => setEmail(text.trim())}
-        />
-        <Input
-          style={styles.passwordInput}
-          ref={thirdRef}
-          autoCapitalize="none"
-          secureTextEntry={!passwordVisible}
-          placeholder="Password"
-          accessoryRight={passwordVisible ? EyeIcon : EyeOffIcon}
-          value={password}
-          onChangeText={text => setPassword(text)}
-          onIconPress={onPasswordIconPress}
-        />
-        <CheckBox
-          style={styles.termsCheckBox}
-          textStyle={styles.termsCheckBoxText}
-          text={`I read and agreed to the Terms & Conditions`}
-          checked={termsAccepted}
-          onChange={checked => setTermsAccepted(checked)}>
-          <Text>{'I read and accepted the Terms & Conditions'}</Text>
-        </CheckBox>
-      </Layout>
-      <View style={styles.buttonContainer}>
-        <Button
-          style={styles.signUpButton}
-          size="giant"
-          onPress={onSignUpButtonPress}>
-          SIGN UP
-        </Button>
-        <Button
-          style={styles.signInButton}
-          appearance="ghost"
-          status="basic"
-          onPress={onSignInButtonPress}>
-          Already have an account? Sign In
-        </Button>
-      </View>
+        source={require('./assets/background.jpeg')}>
+        <View style={styles.inputContainer}>
+          <Layout style={styles.formContainer}>
+            <Input
+              autoCapitalize="none"
+              placeholder="User Name"
+              status="control"
+              ref={firstRef}
+              onSubmitEditing={() => {
+                if (!usernameRegex.test(userName)) {
+                  setUserName('');
+                  setUserError(true);
+                } else {
+                  secondRef.current.focus();
+                  setUserError(false);
+                }
+              }}
+              autoCorrect={false}
+              accessoryRight={PersonIcon}
+              value={userName}
+              onChangeText={text => setUserName(text.toLowerCase().trim())}
+            />
+            {userError && (
+              <Text category="s2" status="warning">
+                {t('userError')}
+              </Text>
+            )}
+            <Input
+              style={styles.emailInput}
+              autoCapitalize="none"
+              status="control"
+              onSubmitEditing={() => {
+                if (!emailRegex.test(email)) {
+                  setEmail('');
+                  setEmailError(true);
+                } else {
+                  thirdRef.current.focus();
+                  setEmailError(false);
+                }
+              }}
+              placeholder="Email"
+              ref={secondRef}
+              accessoryRight={EmailIcon}
+              value={email}
+              onChangeText={text => setEmail(text.trim())}
+            />
+            {emailError && (
+              <Text category="s2" status="warning">
+                {t('emailError')}
+              </Text>
+            )}
+            <Input
+              style={styles.passwordInput}
+              ref={thirdRef}
+              autoCapitalize="none"
+              status="control"
+              secureTextEntry={true}
+              placeholder="Password"
+              accessoryRight={PassIcon}
+              value={password}
+              onChangeText={text => setPassword(text)}
+            />
+            <CheckBox
+              style={styles.termsCheckBox}
+              status="control"
+              textStyle={styles.termsCheckBoxText}
+              text={`I read and agreed to the Terms & Conditions`}
+              checked={termsAccepted}
+              onChange={checked => setTermsAccepted(checked)}>
+              <Text status="control">
+                {'I read and accepted the Terms & Conditions'}
+              </Text>
+            </CheckBox>
+          </Layout>
+        </View>
+        <View style={styles.buttonContainer}>
+          <Button
+            style={styles.signUpButton}
+            size="giant"
+            onPress={onSignUpButtonPress}>
+            SIGN UP
+          </Button>
+          <Button
+            style={styles.signInButton}
+            appearance="ghost"
+            status="control"
+            onPress={onSignInButtonPress}>
+            Already have an account? Sign In
+          </Button>
+        </View>
+      </ImageOverlay>
     </KeyboardAvoidingView>
   );
 };
@@ -201,7 +238,7 @@ const themedStyles = StyleService.create({
   headerContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    minHeight: 216,
+    flex: 1,
     backgroundColor: 'color-primary-default',
   },
   profileAvatar: {
@@ -215,7 +252,16 @@ const themedStyles = StyleService.create({
   buttonContainer: {
     justifyContent: 'flex-end',
     marginBottom: 24,
+
     flex: 1,
+  },
+  inputContainer: {
+    width: '100%',
+    justifyContent: 'center',
+    flex: 1,
+    paddingHorizontal: 20,
+    backgroundColor: 'rgba(0, 0, 0, 0.750)',
+    // paddingTop: 40,
   },
   editAvatarButton: {
     width: 40,
@@ -223,8 +269,12 @@ const themedStyles = StyleService.create({
     borderRadius: 20,
   },
   formContainer: {
+    backgroundColor: 'transparent',
+    // paddingTop: 32,
+    // marginTop: 40,
     flex: 1,
-    paddingTop: 32,
+    justifyContent: 'center',
+    alignItems: 'center',
     paddingHorizontal: 16,
   },
   emailInput: {

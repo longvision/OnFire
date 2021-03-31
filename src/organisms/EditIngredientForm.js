@@ -7,7 +7,7 @@ import {
   StyleService,
 } from '@ui-kitten/components';
 import React, {useRef, useImperativeHandle, useEffect} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, ScrollView} from 'react-native';
 import PriceInput from '../molecules/PriceInput';
 import AutoCompleteField from '../molecules/AutocompleteField';
 import {Field, Formik} from 'formik';
@@ -17,13 +17,12 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import * as Yup from 'yup';
 import {useTranslation} from 'react-i18next';
-import {ScrollView} from 'react-native-gesture-handler';
 
 const data = [];
 
-const saveIcon = (props) => <Icon {...props} name="save-outline" />;
-const editIcon = (props) => <Icon {...props} name="edit-outline" />;
-const closeIcon = (props) => <Icon {...props} name="close-outline" />;
+const saveIcon = props => <Icon {...props} name="save-outline" />;
+const editIcon = props => <Icon {...props} name="edit-outline" />;
+const closeIcon = props => <Icon {...props} name="close-outline" />;
 
 const AddIngredientSchema = Yup.object().shape({
   ingredient: Yup.string()
@@ -36,7 +35,7 @@ const AddIngredientSchema = Yup.object().shape({
     .required('Brand is required'),
   seller: Yup.string().required('Seller name is required'),
   region: Yup.string(),
-  size: Yup.number().moreThan(0).required('Package size is required'),
+  size: Yup.string().required('Package size is required'),
   unit: Yup.string().required('Package unit is required'),
   price: Yup.string().required('Package price is required'),
 });
@@ -45,8 +44,11 @@ const EditIngredientForm = ({selectedItem}) => {
   const dispatch = useDispatch();
 
   const [selectedIndex, setSelectedIndex] = React.useState(0);
+  const [formattedSize, setFormattedSize] = React.useState('');
   const [disabled, setDisabled] = React.useState(true);
+  const [selectedUnit, setSelectedUnit] = React.useState('');
   const [packDisabled, setPackDisabled] = React.useState(true);
+  const [formattedPrice, setFormattedPrice] = React.useState('');
   const navigation = useNavigation();
   const brandRef = useRef();
   const sellerRef = useRef();
@@ -75,7 +77,9 @@ const EditIngredientForm = ({selectedItem}) => {
         price: Number(selectedItem.package_price).toFixed(2),
       }}
       validationSchema={AddIngredientSchema}
-      onSubmit={(values) => {
+      onSubmit={values => {
+        values.size = formattedSize ? formattedSize : values.size;
+        values.price = formattedPrice ? formattedPrice : values.price;
         dispatch.ingredients.updateAsync({values: values, id: selectedItem.id});
 
         navigation.navigate('MyKitchen');
@@ -221,15 +225,40 @@ const EditIngredientForm = ({selectedItem}) => {
                   />
                 </Layout>
                 <Layout style={styles.quantityDiv} level="3">
+                  <Layout style={styles.quantityRow2} level="3">
+                    <Selector
+                      status={errors.unit && touched.unit && 'danger'}
+                      placeholder={t('Package_Unit')}
+                      style={styles.input}
+                      value={values.unit}
+                      disabled={packDisabled}
+                      name="unit"
+                      data={unitsArray}
+                      selectedIndex={selectedIndex}
+                      onSelect={index => {
+                        setSelectedIndex(index);
+                        setFieldValue('unit', unitsArray[index.row]);
+                        setFieldValue('size', '');
+                        setFormattedSize('');
+                        setSelectedUnit(unitsArray[index.row]);
+                      }}
+                      ref={unitsRef}
+                    />
+                    <Text category="c2" appearance="hint" status="danger">
+                      {errors.unit && touched.unit && errors.unit}
+                    </Text>
+                  </Layout>
                   <Layout style={styles.quantityRow1} level="3">
                     <SizeInput
                       status={errors.size && touched.size && 'danger'}
                       placeholder={t('Package_Size')}
                       value={values.size}
                       setFieldValue={setFieldValue}
+                      unit={selectedUnit ? selectedUnit : values.unit}
                       setFieldTouched={setFieldTouched}
                       disabled={packDisabled}
                       setDisabled={setDisabled}
+                      setFormattedSize={setFormattedSize}
                       mantissa={2}
                       name="size"
                       styles={styles.input}
@@ -242,26 +271,6 @@ const EditIngredientForm = ({selectedItem}) => {
                       {errors.size && touched.size && errors.size}
                     </Text>
                   </Layout>
-                  <Layout style={styles.quantityRow2} level="3">
-                    <Selector
-                      status={errors.unit && touched.unit && 'danger'}
-                      placeholder={t('Package_Unit')}
-                      style={styles.input}
-                      value={values.unit}
-                      disabled={packDisabled}
-                      name="unit"
-                      data={unitsArray}
-                      selectedIndex={selectedIndex}
-                      onSelect={(index) => {
-                        setSelectedIndex(index);
-                        setFieldValue('unit', unitsArray[index.row]);
-                      }}
-                      ref={unitsRef}
-                    />
-                    <Text category="c2" appearance="hint" status="danger">
-                      {errors.unit && touched.unit && errors.unit}
-                    </Text>
-                  </Layout>
                 </Layout>
 
                 <Layout style={styles.rowContainer} level="3">
@@ -272,6 +281,7 @@ const EditIngredientForm = ({selectedItem}) => {
                     value={values.price}
                     setFieldValue={setFieldValue}
                     setFieldTouched={setFieldTouched}
+                    setFormattedPrice={setFormattedPrice}
                     style={styles.input}
                     name="price"
                     mantissa={2}

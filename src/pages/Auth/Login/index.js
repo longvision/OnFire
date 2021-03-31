@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import {Button, Input, Text, Layout} from '@ui-kitten/components';
 import {ImageOverlay} from './extra/image-overlay.js';
-import {EyeIcon, EyeOffIcon, PersonIcon} from './extra/icons';
+import {EyeIcon, EyeOffIcon, Pass, PersonIcon} from './extra/icons';
 import {KeyboardAvoidingView} from './extra/3rd-party';
 import {useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
@@ -42,24 +42,27 @@ export const Login = () => {
   };
 
   return (
-    <KeyboardAvoidingView
-      enabled
-      behavior={Platform.OS === 'ios' ? 'padding' : null}>
-      <ImageOverlay
-        style={styles.container}
-        source={require('./images/Sesame-Steak-Salad.jpeg')}>
+    <ImageOverlay
+      source={require('./images/image-background.jpeg')}
+      style={styles.container}>
+      <KeyboardAvoidingView
+        enabled
+        behavior={Platform.OS === 'ios' ? 'padding' : null}>
         <View style={styles.formContainer} level="4">
-          <Layout
+          <View
             style={{
               // Transparent background because mask is based off alpha channel.
               backgroundColor: 'transparent',
               // justifyContent: 'flex-start',
+
               alignItems: 'center',
             }}>
-            <Text category="h1" status="control" style={styles.title}>
-              {t('Hello')}
-            </Text>
-          </Layout>
+            <Image
+              style={{width: 350, height: 200}}
+              resizeMode="contain"
+              source={require('../../../assets/logo.png')}
+            />
+          </View>
 
           <ImageOverlay style={styles.inputContainer}>
             <Text style={styles.signInLabel} category="s1" status="control">
@@ -83,10 +86,10 @@ export const Login = () => {
               status="control"
               placeholder="Password"
               returnKeyType="done"
-              accessoryRight={passwordVisible ? EyeIcon : EyeOffIcon}
+              accessoryRight={Pass}
               value={password}
               ref={passwordLoginRef}
-              secureTextEntry={!passwordVisible}
+              secureTextEntry={true}
               onSubmitEditing={onSignInButtonPress}
               onChangeText={text => setPassword(text.trim())}
               onIconPress={onPasswordIconPress}
@@ -120,20 +123,19 @@ export const Login = () => {
             </Button>
           </ImageOverlay>
         </ImageOverlay>
-      </ImageOverlay>
-    </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
+    </ImageOverlay>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    height: '100%',
     overlayColor: 'rgba(0, 0, 0, 0.250)',
   },
   headerContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    // minHeight: 216,
     flex: 1,
   },
   noAccount: {
@@ -160,7 +162,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     backgroundColor: 'transparent',
-    overlayColor: 'rgba(0, 128, 51, 0.550)',
+
     // flex: 1,
     paddingTop: 20,
   },

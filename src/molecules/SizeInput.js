@@ -1,5 +1,8 @@
-import React, {useImperativeHandle, useRef, forwardRef} from 'react';
+import React, {useImperativeHandle, useRef, forwardRef, useEffect} from 'react';
 import {Input, Icon, Text} from '@ui-kitten/components';
+import {useTranslation} from 'react-i18next';
+import {MaskService} from 'react-native-masked-text';
+import {PrivateValueStore} from '@react-navigation/core';
 const SizeInputField = (
   {
     placeholder,
@@ -12,28 +15,51 @@ const SizeInputField = (
     onSubmitEditing,
     setFieldTouched,
     iconProps,
+    setFormattedSize,
     mantissa,
+    unit,
   },
   ref,
 ) => {
   const inputRef = useRef();
-
+  const {t, i18n} = useTranslation();
   const Icon = iconProps => <Icon {...iconProps} name={iconName} />;
 
-  function sizeFormat(num) {
-    return `${Number(num)
-      .toFixed(mantissa)
-      .replace(/(\d)(?=(\d{3})+(?!\d)(\.\d{1,4}))/g, '$1,')}`;
-  }
-
   const handleChangeText = text => {
-    // const val = Number(text);
-
     setFieldValue(name, text);
   };
 
   const handleBlur = () => {
-    setFieldValue(name, sizeFormat(value).toString());
+    const usNotation = /^\d+(\.\d)?\d*$/;
+
+    if (usNotation.test(value)) {
+      const usFinal = Number(value).toLocaleString('en-US', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2,
+      });
+      setFieldValue(name, `${usFinal} ${unit}`);
+      setFormattedSize(usFinal);
+    } else {
+      if (value > 1) {
+        const cleaned = value.replaceAll('.', '').replaceAll(',', '.');
+        const brFinal = Number(cleaned).toLocaleString('en-US', {
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 2,
+        });
+
+        setFormattedSize(brFinal);
+        setFieldValue(name, `${brFinal} ${unit}`);
+      } else {
+        const cleaned = value.replaceAll(',', '.');
+        const final = Number(cleaned).toLocaleString('en-US', {
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 2,
+        });
+
+        setFormattedSize(final);
+        setFieldValue(name, `${final} ${unit}`);
+      }
+    }
   };
 
   useImperativeHandle(ref, () => ({

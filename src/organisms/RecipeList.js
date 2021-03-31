@@ -1,21 +1,32 @@
 import React from 'react';
-import {Button, Icon, List, Layout, Text, Divider} from '@ui-kitten/components';
+import {
+  Button,
+  Icon,
+  List,
+  Layout,
+  Text,
+  Divider,
+  ListItem,
+  Card,
+} from '@ui-kitten/components';
 
 import {StyleSheet, View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import Popularity from '../atoms/Popularity';
 import ListTitle from '../atoms/ListTitle';
 import {useDispatch} from 'react-redux';
+import {useTranslation} from 'react-i18next';
+import {ImageCarousel, Slide} from '../molecules/ImageCarousel';
 
 export const RecipeList = ({
   recipes,
   cta,
-  rating,
+  rating = true,
   ratingTitle,
   navigation,
   img,
   containerStyle,
-  titles,
+  handleCamera,
   assessoryLeft,
   btnSize,
   height,
@@ -23,7 +34,7 @@ export const RecipeList = ({
   ...props
 }) => {
   const dispatch = useDispatch();
-
+  const {t, i18n} = useTranslation();
   function handlePress(item) {
     dispatch.recipes.setSelectedAsync(item);
     dispatch.measures.getAsync({id: item.id});
@@ -31,67 +42,88 @@ export const RecipeList = ({
     navigation.navigate('RecipeDetail');
   }
 
-  const renderItem = ({item, index}) => (
-    <>
-      <Layout
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          width: '100%',
-          paddingHorizontal: 15,
-          marginTop: 2,
-          padding: 7,
-        }}>
-        <Layout style={{width: 150}}>
-          <Text style={{marginBottom: 10}} category="s1">
-            {item.title}
-          </Text>
-          <Text style={{marginBottom: 10}} category="p2">
-            {item.description}
-          </Text>
-        </Layout>
-        <Layout>
-          {rating && (
-            <Popularity
-              // title={ratingTitle}
-              // start={2.556}
-              // count={5}
-              imageSize={15}
-            />
-          )}
-        </Layout>
-        <Layout>
-          {cta && (
-            <Button
-              size={btnSize}
-              onPress={() => handlePress(item)}
-              // status="basic"
-              appearance="outline"
-              accessoryLeft={assessoryLeft}>
-              {cta}
-            </Button>
-          )}
-        </Layout>
-      </Layout>
+  const renderItemFooter = info => (
+    <Layout
+      level="4"
+      style={{
+        width: '100%',
+        height: 100,
+        flexDirection: 'column',
+      }}>
       <Divider />
-    </>
+      <Text category="p1" style={{margin: 10}}>
+        {info.item.description}
+      </Text>
+    </Layout>
+  );
+
+  // const renderItemFooter = footerProps => (
+  //   <View style={{height: 60, flexDirection: 'row', backgroundColor: 'white'}}>
+  //     <Text {...footerProps}>Rating</Text>
+  //     <Popularity title={ratingTitle} start={2.556} count={5} imageSize={15} />
+  //   </View>
+  // );
+  const renderItemHeader = (headerProps, info) => (
+    <Layout
+      {...headerProps}
+      level="2"
+      style={{
+        display: 'flex',
+        width: '100%',
+        height: 100,
+        justifyContent: 'center',
+        alignItems: 'center',
+        // height: 44,
+      }}>
+      <View
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          flexDirection: 'row',
+        }}>
+        <Text status="basic" category="h3" style={{margin: 15}}>
+          {info.item.title}
+        </Text>
+      </View>
+    </Layout>
+  );
+  const renderItem = info => (
+    <Card
+      style={{marginVertical: 10, alignItems: 'center', borderColor: 'grey'}}
+      onPress={() => handlePress(info.item)}
+      status="info"
+      header={headerProps => renderItemHeader(headerProps, info)}
+      footer={() => renderItemFooter(info)} //will enable rating
+    >
+      {info.item.files && info.item.files.length > 0 ? (
+        <Slide data={info.item.files[0]} />
+      ) : (
+        <Layout style={{marginVertical: 5}}>
+          <Button
+            status="info"
+            appearance="outline"
+            onPress={() => handleCamera(info.item.id)}>
+            {t('Add_Image')}
+          </Button>
+        </Layout>
+      )}
+    </Card>
   );
 
   return (
     <>
       <Text>{props.label && props.label}</Text>
-      <Layout style={containerStyle}>
-        <ListTitle
-          titles={titles}
-          style={{paddingHorizontal: 15, marginTop: 2, padding: 7}}
-        />
-        <List
-          style={{height: height, backgroundColor: 'white'}}
-          data={recipes}
-          renderItem={renderItem}
-        />
-      </Layout>
+      <List
+        style={{marginVertical: 4, backgroundColor: 'white'}}
+        contentContainerStyle={{
+          paddingHorizontal: 8,
+          // paddingVertical: 4,
+          // paddingBottom: 120,
+        }}
+        data={recipes}
+        renderItem={renderItem}
+      />
     </>
   );
 };

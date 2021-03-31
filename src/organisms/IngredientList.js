@@ -13,13 +13,12 @@ export const IngredientList = ({
   cta,
   price,
   ratingTitle,
-
   img,
   containerStyle,
   titles,
   assessoryLeft,
   btnSize,
-  height,
+
   width,
   ...props
 }) => {
@@ -45,7 +44,7 @@ export const IngredientList = ({
         }}>
         <Layout style={{flex: 4}}>
           <Text category="s1">{item.name}</Text>
-          <Text category="p2">{item.brand}</Text>
+          <Text category="p1">{item.brand}</Text>
         </Layout>
         {price && (
           <Layout
@@ -70,7 +69,7 @@ export const IngredientList = ({
             <Button
               size={btnSize}
               onPress={() => handlePressIngredientsDetails(item)}
-              // status="basic"
+              status="info"
               appearance="outline"
               accessoryLeft={assessoryLeft}>
               {cta}
@@ -85,15 +84,20 @@ export const IngredientList = ({
   return (
     <>
       <Text>{props.label && props.label}</Text>
-      <Layout style={containerStyle}>
-        <ListTitle titles={titles} />
+      {/* <Layout style={containerStyle}> */}
+      <ListTitle titles={titles} />
 
-        <List
-          style={{height: height, backgroundColor: 'white'}}
-          data={data}
-          renderItem={renderItem}
-        />
-      </Layout>
+      <List
+        style={{backgroundColor: 'white'}}
+        data={data}
+        contentContainerStyle={{
+          paddingHorizontal: 8,
+          paddingVertical: 4,
+          paddingBottom: 120,
+        }}
+        renderItem={renderItem}
+      />
+      {/* </Layout> */}
     </>
   );
 };

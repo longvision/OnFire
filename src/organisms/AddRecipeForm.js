@@ -6,18 +6,15 @@ import AutoCompleteField from '../molecules/AutocompleteField';
 import {Field, Formik} from 'formik';
 
 import {useDispatch, useSelector} from 'react-redux';
-import {
-  NavigationHelpersContext,
-  useNavigation,
-} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import * as Yup from 'yup';
 import {useTranslation} from 'react-i18next';
 
 const saveIcon = props => <Icon {...props} name="save-outline" />;
 
-const AddRecipeForm = ({handleClose}) => {
+const AddRecipeForm = () => {
   const {t, i18n} = useTranslation();
-  // const navigation = useNavigation();
+  const navigation = useNavigation();
   const AddRecipeSchema = Yup.object().shape({
     name: Yup.string().required(t('Recipe_name_is_required')),
     description: Yup.string().required(t('Description_is_required')),
@@ -43,7 +40,7 @@ const AddRecipeForm = ({handleClose}) => {
           name: values.name,
           description: values.description,
         });
-        handleClose();
+        navigation.goBack();
       }}>
       {({
         handleChange,
@@ -56,13 +53,6 @@ const AddRecipeForm = ({handleClose}) => {
         values,
       }) => (
         <Layout level="1">
-          {/* <Text
-            category="h4"
-            appearance="alternative"
-            status="basic"
-            style={styles.title}>
-            {t('Recipes_name')}
-          </Text> */}
           <Layout style={styles.rowContainer} level="1">
             <AutoCompleteField
               style={styles.input}

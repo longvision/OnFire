@@ -1,15 +1,16 @@
-import React, {useEffect, useState, useCallback} from 'react';
-import {KeyboardAvoidingView, Platform, SafeAreaView} from 'react-native';
+import React, {useState} from 'react';
+import {SafeAreaView, View} from 'react-native';
 import {
   Button,
   Divider,
   Icon,
-  Text,
   Layout,
   TopNavigation,
   Tab,
   TabView,
   TopNavigationAction,
+  useTheme,
+  ButtonGroup,
 } from '@ui-kitten/components';
 import {useTranslation} from 'react-i18next';
 import {useDispatch, useSelector} from 'react-redux';
@@ -21,27 +22,49 @@ import {ThemedAwesomeIcon} from '../atoms/ThemedAwesomeIcon';
 import {useFocusEffect} from '@react-navigation/native';
 import {PopoverOverlay} from '../organisms/PopoverOverlay';
 import AddRecipeForm from '../organisms/AddRecipeForm';
-import {ModalOverlay} from '../organisms/ModalOverlay';
+
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Loading from '../atoms/Loading';
+
+// import { Container } from './styles';
 
 const BackIcon = props => <Icon {...props} name="arrow-back" />;
 const AddIcon = props => <Icon {...props} name="plus-outline" />;
 const EditIcon = props => <Icon {...props} name="edit-2-outline" />;
 
 export const MyKitchen = ({navigation}) => {
+  const theme = useTheme();
+  const dispatch = useDispatch();
   const {t, i18n} = useTranslation();
   const [visible, setVisible] = useState(false);
   const ingredients = useSelector(state => state.ingredients.ingredients);
   const recipes = useSelector(state => state.recipes.recipes);
+  const RecipeIcon = props => (
+    <MaterialCommunityIcons
+      {...props}
+      style={{color: theme['color-primary-300']}}
+      size={24}
+      name="pasta"
+    />
+  );
+  const IngredientIcon = props => (
+    <MaterialCommunityIcons
+      {...props}
+      style={{color: theme['color-primary-300']}}
+      size={24}
+      name="shaker-outline"
+    />
+  );
 
   const loadingUpdate = useSelector(
     state => state.loading.effects.ingredients.updateAsync,
   );
-  const loadingCreate = useSelector(
-    state => state.loading.effects.recipes.addAsync,
+
+  const loadingUploadImage = useSelector(
+    state => state.loading.effects.files.addAsync,
   );
 
   const [selectedIndex, setSelectedIndex] = React.useState(0);
-  const dispatch = useDispatch();
 
   const navigateBack = () => {
     navigation.goBack();
@@ -53,76 +76,105 @@ export const MyKitchen = ({navigation}) => {
   const EditIcon = props => {
     return <ThemedAwesomeIcon name="edit-2-outline" {...props} />;
   };
-  const onSelect = index => setSelectedIndex(index);
+
   const handlePress = () => {
     navigation.navigate('AddIngredient');
   };
 
-  function handleAddMeasure() {
-    setVisible(true);
+  function handleAddRecipe() {
+    navigation.navigate('AddRecipe');
   }
-  function handleHideModal() {
-    setVisible(false);
-  }
+  const fileModelUpdateLoading = useSelector(
+    state => state.loading.effects.files.addAsync,
+  );
+  const fileModelDeleteLoading = useSelector(
+    state => state.loading.effects.files.deleteAsync,
+  );
+
+  React.useEffect(() => {
+    dispatch.recipes.listAsync();
+  }, [fileModelDeleteLoading, fileModelUpdateLoading]);
+
+  React.useEffect(() => {
+    dispatch.ingredients.listAsync();
+  }, []);
 
   useFocusEffect(
     React.useCallback(() => {
       // alert('Screen was focused');
-      // Do something when the screen is focused
       dispatch.ingredients.listAsync();
       dispatch.recipes.listAsync();
+      // Do something when the screen is focused
+
       return () => {
         // alert('Screen was unfocused');
         // Do something when the screen is unfocused
         // Useful for cleanup functions
       };
-    }, [loadingUpdate, loadingCreate]),
+    }, []),
   );
 
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={{flex: 1, flexDirection: 'column'}}>
       <TopNavigation title={t('Kitchen')} alignment="center" />
       <Divider />
-      <ModalOverlay
-        // style={{top: -100}}
-        text={t('Create_Recipes')}
-        visible={visible}
-        onBackdropPress={handleHideModal}>
-        <AddRecipeForm handleClose={() => setVisible(false)} />
-      </ModalOverlay>
-      <Layout style={{flex: 1}}>
-        <TabView
-          selectedIndex={selectedIndex}
-          onSelect={onSelect}
-          tabsArray={[t('Recipes'), t('Ingredients')]}>
-          <Tab title={t('RECIPES')} style={{height: 44}}>
-            <RecipeListTemplate
-              addIcon={AddIcon}
-              iconName={EditIcon}
-              navigation={navigation}
-              recipes={recipes}
-            />
-          </Tab>
 
-          <Tab title={t('INGREDIENTS')} style={{height: 44}}>
-            <Layout
-              style={{
-                height: '100%',
-              }}>
-              <IngredientListTemplate
-                ingredients={ingredients}
-                navigation={navigation}
-                addIcon={AddIcon}
-              />
-            </Layout>
-          </Tab>
-        </TabView>
+      <Layout style={{flex: 1}}>
+        <ButtonGroup
+          style={{
+            display: 'flex',
+            width: '100%',
+          }}
+          appearance="outline"
+          status={'primary'}>
+          <Button
+            style={{
+              display: 'flex',
+              width: '50%',
+              backgroundColor: selectedIndex === 0 ? '#CAAFFD' : 'white',
+            }}
+            onPress={() => setSelectedIndex(0)}>
+            Recipes
+          </Button>
+          <Button
+            style={{
+              display: 'flex',
+              width: '50%',
+              backgroundColor: selectedIndex === 1 ? '#CAAFFD' : 'white',
+            }}
+            onPress={() => setSelectedIndex(1)}>
+            Ingredients
+          </Button>
+        </ButtonGroup>
+        {(fileModelUpdateLoading || fileModelDeleteLoading) && (
+          <Loading
+            label="loading..."
+            show={fileModelUpdateLoading || fileModelDeleteLoading}
+            status="info"
+            size="giant"
+          />
+        )}
+        {selectedIndex === 0 ? (
+          <RecipeListTemplate
+            addIcon={AddIcon}
+            recipes={recipes}
+            iconName={EditIcon}
+            navigation={navigation}
+          />
+        ) : (
+          <IngredientListTemplate
+            ingredients={ingredients}
+            navigation={navigation}
+            addIcon={AddIcon}
+          />
+        )}
       </Layout>
       {selectedIndex === 0 ? (
         <Button
           size="large"
+          style={{borderRadius: 0}}
           status="primary"
-          onPress={handleAddMeasure}
+          onPress={handleAddRecipe}
           accessoryLeft={AddIcon}
           appearance="filled">
           {t('Create_Recipes')}
@@ -131,6 +183,7 @@ export const MyKitchen = ({navigation}) => {
         <Button
           size="large"
           status="primary"
+          style={{borderRadius: 0}}
           accessoryLeft={AddIcon}
           onPress={handlePress}
           appearance="filled">
