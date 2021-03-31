@@ -141,7 +141,7 @@ const themedStyles = StyleService.create({
     // marginHorizontal: 15,
     alignItems: 'center',
     backgroundColor: 'color-basic-200',
-    borderColor: 'color-basic-500',
+    borderColor: 'color-basic-100',
     borderWidth: 2,
   },
   delete: {
