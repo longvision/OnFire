@@ -1,5 +1,5 @@
 {
-  "name": "Grammage",
+  "name": "grammage",
   "version": "0.0.2",
   "private": true,
   "scripts": {
@@ -63,8 +63,13 @@
     "@react-native-community/eslint-config": "^1.1.0",
     "@ui-kitten/metro-config": "^5.0.0",
     "babel-jest": "^25.1.0",
-    "eslint": "^6.5.1",
-    "eslint-plugin-react-native": "^3.8.1",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-autofix": "^1.0.4",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-react": "^7.19.0",
+    "eslint-plugin-react-native": "^3.10.0",
+    "eslint-plugin-unused-imports": "^1.1.1",
     "jest": "^25.1.0",
     "metro-react-native-babel-preset": "^0.59.0",
     "prettier": "^2.0.2",

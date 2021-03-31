@@ -1,26 +1,21 @@
 import React from 'react';
 import {
   Button,
-  Icon,
   List,
   Layout,
   Text,
   Divider,
-  ListItem,
   Card,
   StyleService,
   useStyleSheet,
   useTheme,
 } from '@ui-kitten/components';
 
-import {StyleSheet, View} from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
-import Popularity from '../atoms/Popularity';
-import ListTitle from '../atoms/ListTitle';
-import {useDispatch} from 'react-redux';
-import {useTranslation} from 'react-i18next';
-import {ImageCarousel, Slide} from '../molecules/ImageCarousel';
-import {ThemedAwesomeIcon} from '../atoms/ThemedAwesomeIcon';
+import { View } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import { Slide } from '../molecules/ImageCarousel';
+import { ThemedAwesomeIcon } from '../atoms/ThemedAwesomeIcon';
 
 export const RecipeList = ({
   recipes,
@@ -40,17 +35,17 @@ export const RecipeList = ({
   const dispatch = useDispatch();
   const theme = useTheme();
   const styles = useStyleSheet(themedStyles);
-  const {t, i18n} = useTranslation();
+  const { t, i18n } = useTranslation();
   function handlePress(item) {
     dispatch.recipes.setSelectedAsync(item);
-    dispatch.measures.getAsync({id: item.id});
+    dispatch.measures.getAsync({ id: item.id });
 
     navigation.navigate('RecipeDetail');
   }
-  const AddIcon = props => (
+  const AddIcon = (props) => (
     <ThemedAwesomeIcon name="camera" {...props} color={styles.icon} />
   );
-  const renderItemFooter = info => (
+  const renderItemFooter = (info) => (
     <Layout
       level="1"
       style={{
@@ -59,7 +54,7 @@ export const RecipeList = ({
         flexDirection: 'column',
       }}>
       <Divider />
-      <Text category="p1" style={{margin: 10}}>
+      <Text category="p1" style={{ margin: 10 }}>
         {info.item.description}
       </Text>
     </Layout>
@@ -90,19 +85,19 @@ export const RecipeList = ({
           justifyContent: 'center',
           flexDirection: 'row',
         }}>
-        <Text status="basic" category="h3" style={{margin: 15}}>
+        <Text status="basic" category="h3" style={{ margin: 15 }}>
           {info.item.title}
         </Text>
       </View>
     </Layout>
   );
-  const renderItem = info => (
+  const renderItem = (info) => (
     <>
       <Card
         style={styles.card}
         onPress={() => handlePress(info.item)}
-        header={headerProps => renderItemHeader(headerProps, info)}
-        footer={() => renderItemFooter(info)} //will enable rating
+        header={(headerProps) => renderItemHeader(headerProps, info)}
+        footer={() => renderItemFooter(info)} // will enable rating
       >
         {info.item.files && info.item.files.length > 0 && (
           <Slide data={info.item.files[0]} />
@@ -122,7 +117,7 @@ export const RecipeList = ({
     <>
       <Text>{props.label && props.label}</Text>
       <List
-        style={{marginVertical: 4, backgroundColor: theme['color-basic-700']}}
+        style={{ marginVertical: 4, backgroundColor: theme['color-basic-700'] }}
         contentContainerStyle={{
           paddingHorizontal: 8,
           // paddingVertical: 4,

@@ -1,18 +1,14 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 
-import {Button, Icon, Layout} from '@ui-kitten/components';
-import {RecipeList} from '../organisms/RecipeList';
-import {useNavigation} from '@react-navigation/native';
-import {PopoverOverlay} from '../organisms/PopoverOverlay';
-import {IngredientList} from '../organisms/IngredientList';
-import {useDispatch} from 'react-redux';
-import {useTranslation} from 'react-i18next';
+import { Layout } from '@ui-kitten/components';
+import { useTranslation } from 'react-i18next';
+import { IngredientList } from '../organisms/IngredientList';
 
-const IngredientListTemplate = ({navigation, ingredients, addIcon}) => {
-  const {t, i18n} = useTranslation();
+const IngredientListTemplate = ({ navigation, ingredients, addIcon }) => {
+  const { t, i18n } = useTranslation();
 
   return (
-    <Layout style={{height: '100%'}}>
+    <Layout style={{ height: '100%' }}>
       <Layout
         style={{
           flex: 2,
@@ -22,7 +18,7 @@ const IngredientListTemplate = ({navigation, ingredients, addIcon}) => {
           price
           cta={t('Details')}
           btnSize="small"
-          containerStyle={{width: '100%', paddingBottom: 55}}
+          containerStyle={{ width: '100%', paddingBottom: 55 }}
           titles={[t('Ingredient'), t('Price per Package'), '']}
         />
       </Layout>

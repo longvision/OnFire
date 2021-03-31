@@ -311,15 +311,6 @@ const EditIngredientForm = ({selectedItem}) => {
     </Formik>
   );
 };
-// {
-// 	"name": "Coca-Cola",
-// 	"brand": "Coca-Cola",
-// 	"seller": "Pao de Acucar",
-// 	"sold_region": "Campo Belo",
-// 	"package_price": 6.5,
-// 	"unit": "mL",
-// 	"package_size": 1000
-// }
 
 const styles = StyleSheet.create({
   input: {

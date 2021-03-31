@@ -4,10 +4,5 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 // import { Container } from './styles';
 export const ThemedAwesomeIcon = props => (
-  <MaterialCommunityIcons
-    {...props}
-    color={props.color}
-    size={24}
-    name={props.name}
-  />
+  <MaterialCommunityIcons color={props.color} size={24} name={props.name} />
 );
