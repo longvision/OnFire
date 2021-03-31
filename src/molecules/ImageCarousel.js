@@ -1,4 +1,11 @@
-import {Text, Layout, Button, Icon} from '@ui-kitten/components';
+import {
+  Text,
+  Layout,
+  Button,
+  StyleService,
+  useStyleSheet,
+  Icon,
+} from '@ui-kitten/components';
 import React, {useRef} from 'react';
 import Carousel from 'react-native-snap-carousel';
 import {
@@ -13,36 +20,44 @@ import {FlatList} from 'react-native-gesture-handler';
 import {ThemedAwesomeIcon} from '../atoms/ThemedAwesomeIcon';
 import {useDispatch} from 'react-redux';
 const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
-const DeleteIcon = props => {
-  return <ThemedAwesomeIcon name="trash-outline" {...props} />;
-};
+
 export function Slide({data}) {
+  const styles = useStyleSheet(themedStyles);
   const dispatch = useDispatch();
   function handleDelete() {
     dispatch.files.deleteAsync({name: data.name, product_id: data.product_id});
   }
+  const DeleteIcon = props => (
+    <ThemedAwesomeIcon name="delete-forever" {...props} color={styles.icon} />
+  );
   return (
     <>
-      <Button
-        onPress={handleDelete}
-        style={styles.buttonImageIconStyle}
-        accessoryRight={DeleteIcon}
-        status="control"
-      />
-
-      <View
-        style={{
-          maxHeight: 300,
-          width: 300,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-        <Image
-          source={{uri: data.url}}
-          resizeMode="contain"
-          style={{width: windowWidth * 0.9, height: windowWidth * 0.9}}
+      <Layout level="1">
+        <Button
+          onPress={handleDelete}
+          style={styles.buttonImageIconStyle}
+          accessoryRight={DeleteIcon}
         />
-      </View>
+
+        <View
+          style={{
+            maxHeight: 300,
+            width: 300,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <Image
+            source={{uri: data.url}}
+            // resizeMode="cover"
+            style={{
+              width: windowWidth * 0.9,
+              height: windowWidth * 0.7,
+              resizeMode: 'cover',
+              borderRadius: 7,
+            }}
+          />
+        </View>
+      </Layout>
     </>
   );
 }
@@ -56,8 +71,6 @@ export const ImageCarousel = ({data}) => {
       contentContainerStyle={{
         width: 280,
         height: 280,
-        borderColor: 'red',
-        borderWidth: 20,
       }}
       renderItem={({item}) => {
         return <Slide data={item} />;
@@ -69,13 +82,18 @@ export const ImageCarousel = ({data}) => {
   );
 };
 
-const styles = StyleSheet.create({
+const themedStyles = StyleService.create({
   buttonImageIconStyle: {
     position: 'absolute',
-    height: 44,
+    height: 54,
     width: 44,
-    top: 7,
-    right: 0,
+    top: -16,
+    right: -25,
     zIndex: 1,
+    backgroundColor: 'color-primary-100',
+    borderColor: 'color-primary-100',
+  },
+  icon: {
+    color: 'color-primary-100',
   },
 });
