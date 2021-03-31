@@ -1,18 +1,16 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
   Alert,
-  KeyboardAvoidingView,
-  SafeAreaView,
   StyleSheet,
 } from 'react-native';
-import {Card, Layout, Button, Icon, Text} from '@ui-kitten/components';
-import {MeasureList} from '../organisms/MeasureList';
+import {
+  Layout,
+} from '@ui-kitten/components';
+import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import { MeasureList } from '../organisms/MeasureList';
 
-import {RecipeSummary} from '../organisms/RecipeSummary';
-import AddMeasureForm from '../organisms/AddMeasureForm';
-import {useFocusEffect} from '@react-navigation/core';
-import {useDispatch, useSelector} from 'react-redux';
-import {useTranslation} from 'react-i18next';
+import { RecipeSummary } from '../organisms/RecipeSummary';
 
 const RecipeDetailTemplate = ({
   measures,
@@ -23,7 +21,7 @@ const RecipeDetailTemplate = ({
   totalCount,
 }) => {
   const dispatch = useDispatch();
-  const {t, i18n} = useTranslation();
+  const { t, i18n } = useTranslation();
   const handleAddMeasure = () => {
     navigation.navigate('AddMeasure');
   };
@@ -40,7 +38,7 @@ const RecipeDetailTemplate = ({
         {
           text: 'Delete',
           onPress: () => {
-            dispatch.recipes.deleteAsync({id: selectedRecipeId});
+            dispatch.recipes.deleteAsync({ id: selectedRecipeId });
             navigation.navigate('MyKitchen');
           },
           style: 'destructive',
@@ -90,7 +88,7 @@ const styles = StyleSheet.create({
     minHeight: 692,
   },
 
-  icon: {color: 'white'},
+  icon: { color: 'white' },
   button: {
     margin: 2,
     width: 54,
