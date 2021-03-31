@@ -8,6 +8,8 @@ import {
   Divider,
   ListItem,
   Card,
+  StyleService,
+  useStyleSheet,
 } from '@ui-kitten/components';
 
 import {StyleSheet, View} from 'react-native';
@@ -17,6 +19,7 @@ import ListTitle from '../atoms/ListTitle';
 import {useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {ImageCarousel, Slide} from '../molecules/ImageCarousel';
+import {ThemedAwesomeIcon} from '../atoms/ThemedAwesomeIcon';
 
 export const RecipeList = ({
   recipes,
@@ -34,6 +37,7 @@ export const RecipeList = ({
   ...props
 }) => {
   const dispatch = useDispatch();
+  const styles = useStyleSheet(themedStyles);
   const {t, i18n} = useTranslation();
   function handlePress(item) {
     dispatch.recipes.setSelectedAsync(item);
@@ -41,10 +45,12 @@ export const RecipeList = ({
 
     navigation.navigate('RecipeDetail');
   }
-
+  const AddIcon = props => (
+    <ThemedAwesomeIcon name="camera" {...props} color={styles.icon} />
+  );
   const renderItemFooter = info => (
     <Layout
-      level="4"
+      level="3"
       style={{
         width: '100%',
         height: 100,
@@ -66,7 +72,7 @@ export const RecipeList = ({
   const renderItemHeader = (headerProps, info) => (
     <Layout
       {...headerProps}
-      level="2"
+      level="3"
       style={{
         display: 'flex',
         width: '100%',
@@ -89,26 +95,25 @@ export const RecipeList = ({
     </Layout>
   );
   const renderItem = info => (
-    <Card
-      style={{marginVertical: 10, alignItems: 'center', borderColor: 'grey'}}
-      onPress={() => handlePress(info.item)}
-      status="info"
-      header={headerProps => renderItemHeader(headerProps, info)}
-      footer={() => renderItemFooter(info)} //will enable rating
-    >
-      {info.item.files && info.item.files.length > 0 ? (
-        <Slide data={info.item.files[0]} />
-      ) : (
-        <Layout style={{marginVertical: 5}}>
-          <Button
-            status="info"
-            appearance="outline"
-            onPress={() => handleCamera(info.item.id)}>
-            {t('Add_Image')}
-          </Button>
-        </Layout>
+    <>
+      <Card
+        style={styles.card}
+        onPress={() => handlePress(info.item)}
+        header={headerProps => renderItemHeader(headerProps, info)}
+        footer={() => renderItemFooter(info)} //will enable rating
+      >
+        {info.item.files && info.item.files.length > 0 && (
+          <Slide data={info.item.files[0]} />
+        )}
+      </Card>
+      {!info.item.files.length && (
+        <Button
+          onPress={() => handleCamera(info.item.id)}
+          style={styles.buttonImageIconStyle}
+          accessoryRight={AddIcon}
+        />
       )}
-    </Card>
+    </>
   );
 
   return (
@@ -127,3 +132,26 @@ export const RecipeList = ({
     </>
   );
 };
+
+const themedStyles = StyleService.create({
+  card: {
+    marginVertical: 10,
+    alignItems: 'center',
+    backgroundColor: 'color-primary-100',
+    borderColor: 'color-primary-500',
+    borderWidth: 2,
+  },
+  delete: {
+    backgroundColor: 'color-primary-100',
+  },
+  buttonImageIconStyle: {
+    position: 'absolute',
+    height: 54,
+    width: 54,
+    top: 12,
+    right: 2,
+    zIndex: 2,
+    backgroundColor: 'color-primary-100',
+    borderColor: 'color-primary-100',
+  },
+});
