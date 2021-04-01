@@ -92,7 +92,7 @@ const PriceInputField = (
       clearButtonMode="always"
       ref={inputRef}
       onChangeText={handleChangeText}
-      onBlur={handleBlur}
+      onBlur={value && handleBlur}
       placeholder={t('price_placeholder')}
     />
   );
