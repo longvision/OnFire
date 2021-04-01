@@ -1,17 +1,20 @@
 import {
-  Divider, Icon, TopNavigation, TopNavigationAction,
+  Divider,
+  Icon,
+  TopNavigation,
+  TopNavigationAction,
 } from '@ui-kitten/components';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { SafeAreaView } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import RecipeDetailTemplate from '../../templates/RecipeDetailTemplate';
 
 const BackIcon = (props) => <Icon {...props} name="arrow-back" />;
 
 const RecipeDetail = ({ navigation }) => {
   const { t, i18n } = useTranslation();
-
+  const dispatch = useDispatch();
   const [totalCost, setTotalCost] = useState(0);
   const [totalCount, setTotalCount] = useState(0);
   const ingredients = useSelector((state) => state.ingredients.ingredients);
@@ -45,11 +48,11 @@ const RecipeDetail = ({ navigation }) => {
   // Recalcula a formula acima toda vez que há uma mudanca na lista de ingredientes do prato.
   React.useEffect(() => {
     updateTotals();
-  }, []);
+  }, [measures]);
 
   // Atualiza a lista toda vez que se cria ou se deleta um item novo.
   React.useEffect(() => {
-    //   dispatch.measures.getAsync({id: selectedRecipeId});
+    dispatch.measures.getAsync({ id: selectedRecipeId });
   }, [loadingCreate, loadingDelete]);
 
   return (
