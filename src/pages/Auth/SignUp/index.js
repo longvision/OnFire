@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef } from 'react';
 import { View, Alert } from 'react-native';
 import {
   Button,
@@ -9,20 +9,12 @@ import {
   Text,
   useStyleSheet,
 } from '@ui-kitten/components';
-import { ProfileAvatar } from './extra/profile-avatar';
-import {
-  EmailIcon,
-  EyeIcon,
-  EyeOffIcon,
-  PersonIcon,
-  PlusIcon,
-  PassIcon,
-} from './extra/icons.js';
-import { KeyboardAvoidingView } from './extra/3rd-party';
 import { useNavigation } from '@react-navigation/native';
-import { ImageOverlay } from '../Login/extra/image-overlay';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { ImageOverlay } from '../Login/extra/image-overlay';
+import { KeyboardAvoidingView } from './extra/3rd-party';
+import { EmailIcon, PersonIcon, PassIcon } from './extra/icons.js';
 
 export const SignUp = () => {
   const { t, i18n } = useTranslation();
@@ -51,9 +43,9 @@ export const SignUp = () => {
   const onSignUpButtonPress = () => {
     if (termsAccepted && email && userName && password) {
       dispatch.auth.signUpAsync({
-        email: email,
+        email,
         username: userName,
-        password: password,
+        password,
       });
     } else {
       Alert.alert(
@@ -176,7 +168,7 @@ export const SignUp = () => {
                   setEmailError(false);
                 }
               }}
-              keyboardType="email"
+              keyboardType="email-address"
               placeholder="Email"
               ref={secondRef}
               accessoryRight={EmailIcon}
@@ -203,7 +195,7 @@ export const SignUp = () => {
               style={styles.termsCheckBox}
               status="control"
               textStyle={styles.termsCheckBoxText}
-              text={`I read and agreed to the Terms & Conditions`}
+              text={'I read and agreed to the Terms & Conditions'}
               checked={termsAccepted}
               onChange={(checked) => setTermsAccepted(checked)}>
               <Text status="control">
