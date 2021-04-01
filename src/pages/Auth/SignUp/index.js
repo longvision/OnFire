@@ -1,5 +1,5 @@
-import React, {useRef, useEffect} from 'react';
-import {View, Alert} from 'react-native';
+import React, { useRef, useEffect } from 'react';
+import { View, Alert } from 'react-native';
 import {
   Button,
   CheckBox,
@@ -9,7 +9,7 @@ import {
   Text,
   useStyleSheet,
 } from '@ui-kitten/components';
-import {ProfileAvatar} from './extra/profile-avatar';
+import { ProfileAvatar } from './extra/profile-avatar';
 import {
   EmailIcon,
   EyeIcon,
@@ -18,16 +18,16 @@ import {
   PlusIcon,
   PassIcon,
 } from './extra/icons.js';
-import {KeyboardAvoidingView} from './extra/3rd-party';
-import {useNavigation} from '@react-navigation/native';
-import {ImageOverlay} from '../Login/extra/image-overlay';
-import {useSelector, useDispatch} from 'react-redux';
-import {useTranslation} from 'react-i18next';
+import { KeyboardAvoidingView } from './extra/3rd-party';
+import { useNavigation } from '@react-navigation/native';
+import { ImageOverlay } from '../Login/extra/image-overlay';
+import { useSelector, useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 export const SignUp = () => {
-  const {t, i18n} = useTranslation();
-  const signUpfail = useSelector(state => state.auth.failed);
-  const signUpSuccess = useSelector(state => state.auth.success);
+  const { t, i18n } = useTranslation();
+  const signUpfail = useSelector((state) => state.auth.failed);
+  const signUpSuccess = useSelector((state) => state.auth.success);
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [userName, setUserName] = React.useState('');
@@ -156,7 +156,7 @@ export const SignUp = () => {
               autoCorrect={false}
               accessoryRight={PersonIcon}
               value={userName}
-              onChangeText={text => setUserName(text.toLowerCase().trim())}
+              onChangeText={(text) => setUserName(text.toLowerCase().trim())}
             />
             {userError && (
               <Text category="s2" status="warning">
@@ -176,11 +176,12 @@ export const SignUp = () => {
                   setEmailError(false);
                 }
               }}
+              keyboardType="email"
               placeholder="Email"
               ref={secondRef}
               accessoryRight={EmailIcon}
               value={email}
-              onChangeText={text => setEmail(text.trim())}
+              onChangeText={(text) => setEmail(text.trim())}
             />
             {emailError && (
               <Text category="s2" status="warning">
@@ -196,7 +197,7 @@ export const SignUp = () => {
               placeholder="Password"
               accessoryRight={PassIcon}
               value={password}
-              onChangeText={text => setPassword(text)}
+              onChangeText={(text) => setPassword(text)}
             />
             <CheckBox
               style={styles.termsCheckBox}
@@ -204,7 +205,7 @@ export const SignUp = () => {
               textStyle={styles.termsCheckBoxText}
               text={`I read and agreed to the Terms & Conditions`}
               checked={termsAccepted}
-              onChange={checked => setTermsAccepted(checked)}>
+              onChange={(checked) => setTermsAccepted(checked)}>
               <Text status="control">
                 {'I read and accepted the Terms & Conditions'}
               </Text>
