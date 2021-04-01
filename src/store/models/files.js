@@ -1,9 +1,7 @@
-import {createModel} from '@rematch/core';
-import {Platform} from 'react-native';
+import { createModel } from '@rematch/core';
+import { Platform } from 'react-native';
 import api from '../../services/api';
 import tron from '../../config/ReactotronConfig';
-import {checkDollarSign} from '../../utils/functions';
-import {initReactI18next} from 'react-i18next';
 
 export const files = createModel()({
   state: {
@@ -58,26 +56,26 @@ export const files = createModel()({
       };
     },
     add(state, payload) {
-      return {...state, ingredients: [...state.ingredients, payload]};
+      return { ...state, ingredients: [...state.ingredients, payload] };
     },
     delete(state, payload) {
-      const newArray = state.files.filter(item => item.id !== payload);
-      return {...state, files: newArray};
+      const newArray = state.files.filter((item) => item.id !== payload);
+      return { ...state, files: newArray };
     },
   },
-  effects: dispatch => ({
+  effects: (dispatch) => ({
     async alertOff() {
       dispatch.files.understood();
     },
     async addAsync(payload, rootState) {
       try {
-        const {folder, productId, uri} = payload;
+        const { folder, productId, uri } = payload;
 
         api.defaults.headers.Authorization = `Bearer ${rootState.auth.token}`;
-        api.defaults.headers['Content-Type'] = 'multipart/form-data';
+        api.defaults.headers['content-type'] = 'multipart/form-data';
         api.defaults.headers.Accept = 'application/json';
 
-        let formData = new FormData();
+        const formData = new FormData();
 
         const array = uri.split('/');
         const fileName = array.slice(-1)[0];
@@ -91,7 +89,7 @@ export const files = createModel()({
         } else {
           formData.append('image', {
             name: fileName,
-            uri: uri,
+            uri,
             type: 'image/jpeg',
           });
         }
@@ -100,7 +98,7 @@ export const files = createModel()({
           `files?folder=${folder}&product_id=${productId}`,
           formData,
         );
-        const {data} = res;
+        const { data } = res;
 
         dispatch.recipes.addImage({
           product_id: data.product_id,
@@ -118,7 +116,7 @@ export const files = createModel()({
 
         const response = await api.get('files');
 
-        const {data} = response.data;
+        const { data } = response.data;
 
         tron.log(rootState);
 
@@ -131,10 +129,10 @@ export const files = createModel()({
     async deleteAsync(payload, rootState) {
       try {
         api.defaults.headers.Authorization = `Bearer ${rootState.auth.token}`;
-        const {name, product_id} = payload;
+        const { name, product_id } = payload;
 
         await api.delete(`files/${name}`);
-        dispatch.recipes.removeImage({product_id: product_id});
+        dispatch.recipes.removeImage({ product_id });
       } catch (err) {}
     },
   }),

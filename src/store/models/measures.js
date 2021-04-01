@@ -1,10 +1,10 @@
-import {createModel} from '@rematch/core';
+import { createModel } from '@rematch/core';
 import api from '../../services/api';
 import tron from '../../config/ReactotronConfig';
 
-import {checkDollarSign} from '../../utils/functions';
+import { checkDollarSign } from '../../utils/functions';
 
-export const measures = createModel()({
+const measures = createModel()({
   state: {
     measures: [],
     selected: {},
@@ -49,22 +49,22 @@ export const measures = createModel()({
       };
     },
     add(state, payload) {
-      return {...state, ingredients: [...state.ingredients, payload]};
+      return { ...state, ingredients: [...state.ingredients, payload] };
     },
     delete(state, payload) {
-      const newArray = state.measures.filter(item => item.id !== payload);
-      return {...state, measures: newArray};
+      const newArray = state.measures.filter((item) => item.id !== payload);
+      return { ...state, measures: newArray };
     },
   },
-  effects: dispatch => ({
+  effects: (dispatch) => ({
     async alertOff() {
       dispatch.measures.understood();
     },
     async addAsync(payload, rootState) {
       try {
-        const {values, productId, ingredientId} = payload;
+        const { values, productId, ingredientId } = payload;
         api.defaults.headers.Authorization = `Bearer ${rootState.auth.token}`;
-
+        api.defaults.headers['content-type'] = 'application/json';
         const measure = await api.post('measure', {
           product_id: productId,
           quantity: checkDollarSign(values.quantity),
@@ -73,7 +73,7 @@ export const measures = createModel()({
         });
 
         await this.addMeasure(measure.data);
-        dispatch.recipes.updateAsync({product_id: productId});
+        dispatch.recipes.updateAsync({ product_id: productId });
       } catch (err) {
         dispatch.measures.failed();
       }
@@ -84,7 +84,7 @@ export const measures = createModel()({
 
         const response = await api.get('measures');
 
-        const {data} = response.data;
+        const { data } = response.data;
 
         tron.log(rootState);
 
@@ -97,11 +97,11 @@ export const measures = createModel()({
       try {
         api.defaults.headers.Authorization = `Bearer ${rootState.auth.token}`;
 
-        const {id} = payload;
+        const { id } = payload;
 
         const response = await api.get(`measures/${id}`);
 
-        const {data} = response;
+        const { data } = response;
 
         dispatch.measures.list(data);
 
@@ -111,10 +111,12 @@ export const measures = createModel()({
     async updateAsync(payload, rootState) {
       try {
         api.defaults.headers.Authorization = `Bearer ${rootState.auth.token}`;
-        const {values, id} = payload;
+        api.defaults.headers['content-type'] = 'application/json';
+
+        const { values, id } = payload;
 
         await api.patch(`ingredient/${id}`, {
-          id: id,
+          id,
           name: values.ingredient,
           package_price: checkDollarSign(values.price.toString()),
           package_size: values.size,
@@ -134,7 +136,7 @@ export const measures = createModel()({
     async deleteAsync(payload, rootState) {
       try {
         api.defaults.headers.Authorization = `Bearer ${rootState.auth.token}`;
-        const {id} = payload;
+        const { id } = payload;
 
         await api.delete(`measure/${id}`);
         dispatch.measures.delete(id);
@@ -142,3 +144,4 @@ export const measures = createModel()({
     },
   }),
 });
+export default measures;
