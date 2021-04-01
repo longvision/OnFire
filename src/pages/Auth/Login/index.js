@@ -1,22 +1,15 @@
-import React, {useEffect, useRef} from 'react';
-import {
-  StyleSheet,
-  View,
-  ImageBackground,
-  Platform,
-  Image,
-  Keyboard,
-} from 'react-native';
-import {Button, Input, Text, Layout} from '@ui-kitten/components';
-import {ImageOverlay} from './extra/image-overlay.js';
-import {EyeIcon, EyeOffIcon, Pass, PersonIcon} from './extra/icons';
-import {KeyboardAvoidingView} from './extra/3rd-party';
-import {useDispatch} from 'react-redux';
-import {useTranslation} from 'react-i18next';
-import {useNavigation} from '@react-navigation/core';
+import React, { useRef } from 'react';
+import { StyleSheet, View, Platform, Image } from 'react-native';
+import { Button, Input, Text } from '@ui-kitten/components';
+import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import { useNavigation } from '@react-navigation/core';
+import { ImageOverlay } from './extra/image-overlay.js';
+import { Pass, PersonIcon } from './extra/icons';
+import { KeyboardAvoidingView } from './extra/3rd-party';
 
 export const Login = () => {
-  const {t, i18n} = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigation = useNavigation();
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
@@ -26,7 +19,7 @@ export const Login = () => {
   const dispatch = useDispatch();
   const onSignInButtonPress = () => {
     // navigation && navigation.navigate('');
-    dispatch.auth.loginAsync({password: password, email: email});
+    dispatch.auth.loginAsync({ password, email });
   };
 
   const onSignUpButtonPress = () => {
@@ -58,7 +51,7 @@ export const Login = () => {
               alignItems: 'center',
             }}>
             <Image
-              style={{width: 350, height: 200}}
+              style={{ width: 350, height: 200 }}
               resizeMode="contain"
               source={require('../../../assets/logo.png')}
             />
@@ -74,12 +67,13 @@ export const Login = () => {
               autoCapitalize="none"
               accessoryRight={PersonIcon}
               ref={emailRef}
+              keyboardType="email"
               returnKeyType="next"
               onSubmitEditing={() => {
                 passwordLoginRef.current.focus();
               }}
               value={email}
-              onChangeText={text => setEmail(text.trim())}
+              onChangeText={(text) => setEmail(text.trim())}
             />
             <Input
               style={styles.passwordInput}
@@ -91,7 +85,7 @@ export const Login = () => {
               ref={passwordLoginRef}
               secureTextEntry={true}
               onSubmitEditing={onSignInButtonPress}
-              onChangeText={text => setPassword(text.trim())}
+              onChangeText={(text) => setPassword(text.trim())}
               onIconPress={onPasswordIconPress}
             />
             <View style={styles.forgotPasswordContainer}>
