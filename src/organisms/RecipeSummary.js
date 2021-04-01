@@ -1,9 +1,7 @@
 import React from 'react';
 
 import { StyleSheet } from 'react-native';
-import {
-  Button, Card, Layout, Text,
-} from '@ui-kitten/components';
+import { Button, Card, Layout, Text } from '@ui-kitten/components';
 
 import { useTranslation } from 'react-i18next';
 import { ThemedAwesomeIcon } from '../atoms/ThemedAwesomeIcon';
@@ -20,8 +18,12 @@ export const RecipeSummary = ({
   ...props
 }) => {
   const { t, i18n } = useTranslation();
-  const AddIcon = (props) => <ThemedAwesomeIcon name="plus-thick" {...props} color="white" />;
-  const DeleteIcon = (props) => <ThemedAwesomeIcon name="delete" {...props} color="white" />;
+  const AddIcon = (props) => (
+    <ThemedAwesomeIcon name="plus-thick" {...props} color="white" />
+  );
+  const DeleteIcon = (props) => (
+    <ThemedAwesomeIcon name="delete" {...props} color="white" />
+  );
 
   return (
     <>
