@@ -75,7 +75,7 @@ const SizeInputField = (
       value={value}
       ref={inputRef}
       onChangeText={handleChangeText}
-      onBlur={handleBlur}
+      onBlur={value && handleBlur}
       placeholder={placeholder}
     />
   );
