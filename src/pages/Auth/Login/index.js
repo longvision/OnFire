@@ -67,7 +67,7 @@ export const Login = () => {
               autoCapitalize="none"
               accessoryRight={PersonIcon}
               ref={emailRef}
-              keyboardType="email"
+              keyboardType="email-address"
               returnKeyType="next"
               onSubmitEditing={() => {
                 passwordLoginRef.current.focus();
