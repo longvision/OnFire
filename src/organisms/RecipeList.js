@@ -13,9 +13,10 @@ import {
 
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ThemedAwesomeIcon } from '../atoms/ThemedAwesomeIcon';
 import { Slide } from '../molecules/ImageCarousel';
+import Loading from '../atoms/Loading';
 
 const RecipeList = ({
   recipes,
@@ -33,15 +34,26 @@ const RecipeList = ({
   ...props
 }) => {
   const dispatch = useDispatch();
+  const page = useSelector((state) => state.recipes.page);
+  const loadingMore = useSelector(
+    (state) => state.loading.effects.recipes.loadMoreAsync,
+  );
+
   const theme = useTheme();
   const styles = useStyleSheet(themedStyles);
   const { t, i18n } = useTranslation();
+
   function handlePress(item) {
     dispatch.recipes.setSelectedAsync(item);
     dispatch.measures.getAsync({ id: item.id });
 
     navigation.navigate('RecipeDetail');
   }
+
+  function handleOnEndReached() {
+    dispatch.recipes.loadMoreAsync({ nextPage: page + 1 });
+  }
+
   const AddIcon = (props) => (
     <ThemedAwesomeIcon name="camera" {...props} color={styles.icon} />
   );
@@ -103,7 +115,7 @@ const RecipeList = ({
           <Slide data={info.item.files[0]} />
         )}
       </Card>
-      {!info.item.files.length && (
+      {(!info.item.files || info.item.files.length === 0) && (
         <Button
           onPress={() => handleCamera(info.item.id)}
           style={styles.buttonImageIconStyle}
@@ -116,10 +128,23 @@ const RecipeList = ({
   return (
     <>
       <Text>{props.label && props.label}</Text>
+      {loadingMore && (
+        <Loading
+          label="loading..."
+          show={loadingMore}
+          status="info"
+          size="small"
+        />
+      )}
       <List
         style={{ marginVertical: 4, backgroundColor: theme['color-basic-400'] }}
         contentContainerStyle={{
           paddingHorizontal: 8,
+        }}
+        onEndReachedThreshold={0.5}
+        onEndReached={handleOnEndReached}
+        onScrollBeginDrag={() => {
+          dispatch.recipes.fetchMore(true);
         }}
         data={recipes}
         renderItem={renderItem}
