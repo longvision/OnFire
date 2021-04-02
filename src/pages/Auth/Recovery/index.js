@@ -1,5 +1,5 @@
-import React, {useRef, useState} from 'react';
-import {Alert, StyleSheet, View} from 'react-native';
+import React, { useRef, useState } from 'react';
+import { Alert, StyleSheet, View } from 'react-native';
 import {
   Button,
   Icon,
@@ -8,17 +8,16 @@ import {
   TopNavigation,
   TopNavigationAction,
 } from '@ui-kitten/components';
-import {ImageOverlay} from './extra/image-overlay';
-import {EmailIcon} from './extra/icons';
-import {KeyboardAvoidingView} from './extra/3rd-party';
-import {useNavigation} from '@react-navigation/native';
-import {useDispatch, useSelector} from 'react-redux';
-import {useTranslation} from 'react-i18next';
+import { useNavigation } from '@react-navigation/native';
+import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import PasswordInput from '../../../molecules/PasswordInput';
+import { KeyboardAvoidingView } from './extra/3rd-party';
+import { ImageOverlay } from './extra/image-overlay';
 
-const BackIcon = props => <Icon {...props} name="arrow-back" />;
+const BackIcon = (props) => <Icon {...props} name="arrow-back" />;
 export const Recovery = () => {
-  const {t, i18n} = useTranslation();
+  const { t, i18n } = useTranslation();
   const Tref = useRef(null);
   const Oref = useRef(null);
   const Kref = useRef(null);
@@ -26,8 +25,8 @@ export const Recovery = () => {
   const Nref = useRef(null);
   const passRef = useRef();
   const confirmRef = useRef();
-  const fail = useSelector(state => state.auth.failed);
-  const success = useSelector(state => state.auth.success);
+  const fail = useSelector((state) => state.auth.failed);
+  const success = useSelector((state) => state.auth.success);
 
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -56,12 +55,30 @@ export const Recovery = () => {
   );
   const handleSubmit = () => {
     if (confirm !== pass) {
-      Alert.alert(t('passError'));
+      Alert.alert(
+        t('passError'),
+        t('Retry_reset'),
+        [
+          {
+            text: 'Ok',
+            onPress: () => {
+              dispatch.auth.alertOff();
+            },
+            style: 'cancel',
+          },
+        ],
+        {
+          cancelable: true,
+          onDismiss: () => {
+            dispatch.auth.alertOff();
+          },
+        },
+      );
     } else {
       dispatch.auth.resetAsync({
         password: pass,
         confirmation: confirm,
-        token: token,
+        token,
       });
     }
   };
@@ -118,7 +135,7 @@ export const Recovery = () => {
       <KeyboardAvoidingView>
         <TopNavigation
           appearance="control"
-          style={{backgroundColor: 'transparent'}}
+          style={{ backgroundColor: 'transparent' }}
           alignment="center"
           accessoryLeft={BackAction}
         />
@@ -132,7 +149,7 @@ export const Recovery = () => {
               ref={Tref}
               placeholder="T"
               onFocus={() => {
-                let array = [...token];
+                const array = [...token];
                 array[0] = '';
                 setToken(array);
               }}
@@ -141,7 +158,7 @@ export const Recovery = () => {
               style={styles.token}
               value={token[0]}
               returnKeyType="next"
-              onChangeText={text => {
+              onChangeText={(text) => {
                 const data = [...token];
                 data[0] = text.substring(0, 1);
                 setToken(data);
@@ -156,7 +173,7 @@ export const Recovery = () => {
               placeholder="O"
               ref={Oref}
               onFocus={() => {
-                let array = [...token];
+                const array = [...token];
                 array[1] = '';
                 setToken(array);
               }}
@@ -168,7 +185,7 @@ export const Recovery = () => {
               keyboardType="ascii-capable"
               autoCapitalize="characters"
               value={token[1]}
-              onChangeText={text => {
+              onChangeText={(text) => {
                 const data = [...token];
                 data[1] = text.substring(0, 1);
                 setToken(data);
@@ -180,7 +197,7 @@ export const Recovery = () => {
               status="control"
               placeholder="K"
               onFocus={() => {
-                let array = [...token];
+                const array = [...token];
                 array[2] = '';
                 setToken(array);
               }}
@@ -192,7 +209,7 @@ export const Recovery = () => {
               keyboardType="ascii-capable"
               autoCapitalize="characters"
               value={token[2]}
-              onChangeText={text => {
+              onChangeText={(text) => {
                 const data = [...token];
                 data[2] = text.substring(0, 1);
                 setToken(data);
@@ -203,7 +220,7 @@ export const Recovery = () => {
               status="control"
               returnKeyType="next"
               onFocus={() => {
-                let array = [...token];
+                const array = [...token];
                 array[3] = '';
                 setToken(array);
               }}
@@ -216,7 +233,7 @@ export const Recovery = () => {
               keyboardType="ascii-capable"
               autoCapitalize="characters"
               value={token[3]}
-              onChangeText={text => {
+              onChangeText={(text) => {
                 const data = [...token];
                 data[3] = text.substring(0, 1);
                 setToken(data);
@@ -228,7 +245,7 @@ export const Recovery = () => {
               status="control"
               placeholder="N"
               onFocus={() => {
-                let array = [...token];
+                const array = [...token];
                 array[4] = '';
                 setToken(array);
               }}
@@ -240,7 +257,7 @@ export const Recovery = () => {
               keyboardType="ascii-capable"
               autoCapitalize="characters"
               value={token[4]}
-              onChangeText={text => {
+              onChangeText={(text) => {
                 const data = [...token];
                 data[4] = text.substring(0, 1);
                 setToken(data);
@@ -297,7 +314,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 24,
   },
-  token: {width: 54, height: 54, marginHorizontal: 3, alignItems: 'center'},
+  token: {
+    width: 54,
+    height: 54,
+    marginHorizontal: 3,
+    alignItems: 'center',
+  },
   tokenContainer: {
     alignItems: 'center',
     justifyContent: 'center',

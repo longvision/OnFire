@@ -139,11 +139,12 @@ const RecipeList = ({
       <List
         style={{
           marginVertical: 4,
-          paddingBottom: 50,
+          // paddingBottom: 50,
           backgroundColor: theme['color-basic-400'],
         }}
         contentContainerStyle={{
           paddingHorizontal: 8,
+          paddingBottom: 150,
         }}
         onEndReachedThreshold={0.5}
         onEndReached={handleOnEndReached}
