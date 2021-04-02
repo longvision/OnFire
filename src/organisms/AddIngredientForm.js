@@ -174,7 +174,7 @@ const AddIngredientForm = () => {
                   category="h4"
                   appearance="alternative"
                   status="basic"
-                  style={styles.title}>
+                  style={styles.packageTitle}>
                   {t('Package_Info')}
                 </Text>
 
@@ -276,6 +276,10 @@ const styles = StyleSheet.create({
     width: '90%',
   },
   title: {
+    marginBottom: 20,
+    // flex: 1,
+  },
+  packageTitle: {
     marginBottom: 20,
   },
   button: {

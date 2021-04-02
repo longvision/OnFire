@@ -9,6 +9,7 @@ import React from 'react';
 import { Alert, SafeAreaView } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
+import AddIngredientTemplate from '../../templates/AddIngredientTemplate';
 
 const BackIcon = (props) => <Icon {...props} name="arrow-back" />;
 export const AddIngredient = ({ navigation }) => {
@@ -55,7 +56,7 @@ export const AddIngredient = ({ navigation }) => {
       <Divider />
       <Layout
         style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <EditIngredientTemplate />
+        <AddIngredientTemplate />
       </Layout>
     </SafeAreaView>
   );
