@@ -48,7 +48,7 @@ export const auth = createModel()({
         // if (localToken) {
         //   dispatch.auth.login({token: localToken});
         // } else {
-        api.defaults.headers['content-type'] = 'application/json';
+        // api.defaults.headers['content-type'] = 'application/json';
         const { email, password } = payload;
         const response = await api.post('sessions', {
           email,
