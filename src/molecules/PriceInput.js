@@ -87,7 +87,6 @@ const PriceInputField = (
       disabled={disabled}
       status="basic"
       value={value}
-      keyboardType="default"
       autoCapitalize="none"
       clearButtonMode="always"
       ref={inputRef}

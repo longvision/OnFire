@@ -25,7 +25,7 @@ export const IngredientList = ({
   const dispatch = useDispatch();
 
   function handlePressIngredientsDetails(item) {
-    navigation.navigate('IngredientDetail', { item });
+    navigation.navigate('EditIngredient', { item });
   }
 
   const renderItem = ({ item, index }) => (
