@@ -126,7 +126,7 @@ const resources = {
       Package_Unit: 'Unidade de medida do produto',
       Package_Price: 'Preço do produto',
       Save: 'Salvar',
-      Package_Info: 'Dados do Pacote/Embalagem',
+      Package_Info: 'Dados do Pacote',
       quantity: 'quantidade',
       cost: 'custo',
       Recipes_name: 'Nome da receita',
