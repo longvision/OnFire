@@ -1,7 +1,7 @@
 package com.grammage;
 
 
-import com.myapp.generated.BasePackageList;
+import com.grammage.generated.BasePackageList;
 
 
 import android.app.Application;
