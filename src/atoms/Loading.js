@@ -11,9 +11,7 @@ const styles = {
   },
 };
 
-export default Loading = ({
-  label, size, status, show,
-}) => (
+export default Loading = ({ label, size, status, show }) => (
   <View
     style={{
       justifyContent: 'center',
@@ -21,7 +19,7 @@ export default Loading = ({
       alignItems: 'center',
       marginTop: 50,
       borderWidth: 2,
-      borderColor: '#6937F4',
+      borderColor: 'white',
       opacity: 0.9,
       zIndex: 100,
       backgroundColor: 'white',
