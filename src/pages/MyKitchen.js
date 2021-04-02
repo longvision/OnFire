@@ -109,7 +109,7 @@ const MyKitchen = ({ navigation }) => {
                     ? theme['color-primary-100']
                     : theme['color-basic-900'],
               }}>
-              Recipes
+              {t('Recipes')}
             </Text>
           </Button>
           <Button
@@ -127,7 +127,7 @@ const MyKitchen = ({ navigation }) => {
                     ? theme['color-primary-100']
                     : theme['color-basic-900'],
               }}>
-              Ingredients
+              {t('Ingredients')}
             </Text>
           </Button>
         </ButtonGroup>
