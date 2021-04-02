@@ -1,11 +1,8 @@
 import React from 'react';
 
-import {withStyles, Icon} from '@ui-kitten/components';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const AwesomeIcon = (props) => {
-  const {name} = props;
-
-  return <Icon {...props} name={name} />;
-};
-
-export const ThemedAwesomeIcon = withStyles(AwesomeIcon);
+// import { Container } from './styles';
+export const ThemedAwesomeIcon = (props) => (
+  <MaterialCommunityIcons color={props.color} size={24} name={props.name} />
+);

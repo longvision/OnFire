@@ -1,68 +1,49 @@
-import React, {useState} from 'react';
-import {SafeAreaView} from 'react-native';
+import React, { useState } from 'react';
+import { SafeAreaView, Text, View } from 'react-native';
 import {
   Button,
   Divider,
   Icon,
   Layout,
   TopNavigation,
-  Tab,
-  TabView,
   TopNavigationAction,
   useTheme,
+  ButtonGroup,
 } from '@ui-kitten/components';
-import {useTranslation} from 'react-i18next';
-import {useDispatch, useSelector} from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
+import { useFocusEffect } from '@react-navigation/native';
 import IngredientListTemplate from '../templates/IngredientListTemplate';
 import RecipeListTemplate from '../templates/RecipeListTemplate';
 
-import {RecipeList} from '../organisms/RecipeList';
-import {ThemedAwesomeIcon} from '../atoms/ThemedAwesomeIcon';
-import {useFocusEffect} from '@react-navigation/native';
-import {PopoverOverlay} from '../organisms/PopoverOverlay';
-import AddRecipeForm from '../organisms/AddRecipeForm';
+import { ThemedAwesomeIcon } from '../atoms/ThemedAwesomeIcon';
 
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Loading from '../atoms/Loading';
 
 // import { Container } from './styles';
 
-const BackIcon = props => <Icon {...props} name="arrow-back" />;
-const AddIcon = props => <Icon {...props} name="plus-outline" />;
-const EditIcon = props => <Icon {...props} name="edit-2-outline" />;
+const BackIcon = (props) => <Icon {...props} name="arrow-back" />;
 
-export const MyKitchen = ({navigation}) => {
+const MyKitchen = ({ navigation }) => {
   const theme = useTheme();
-  const {t, i18n} = useTranslation();
+  const dispatch = useDispatch();
+  const { t, i18n } = useTranslation();
   const [visible, setVisible] = useState(false);
-  const ingredients = useSelector(state => state.ingredients.ingredients);
-  const recipes = useSelector(state => state.recipes.recipes);
+  const ingredients = useSelector((state) => state.ingredients.ingredients);
+  const recipes = useSelector((state) => state.recipes.recipes);
 
-  const RecipeIcon = props => (
-    <MaterialCommunityIcons
+  const EditIcon = (props) => (
+    <ThemedAwesomeIcon name="edit-2-outline" {...props} />
+  );
+  const AddIcon = (props) => (
+    <ThemedAwesomeIcon
       {...props}
-      style={{color: theme['color-primary-300']}}
-      size={24}
-      name="pasta"
+      name="plus-thick"
+      color={theme['color-primary-900']}
     />
-  );
-  const IngredientIcon = props => (
-    <MaterialCommunityIcons
-      {...props}
-      style={{color: theme['color-primary-300']}}
-      size={24}
-      name="shaker-outline"
-    />
-  );
-
-  const loadingUpdate = useSelector(
-    state => state.loading.effects.ingredients.updateAsync,
-  );
-  const loadingCreate = useSelector(
-    state => state.loading.effects.recipes.addAsync,
   );
 
   const [selectedIndex, setSelectedIndex] = React.useState(0);
-  const dispatch = useDispatch();
 
   const navigateBack = () => {
     navigation.goBack();
@@ -71,10 +52,7 @@ export const MyKitchen = ({navigation}) => {
   const BackAction = () => (
     <TopNavigationAction icon={BackIcon} onPress={navigateBack} />
   );
-  const EditIcon = props => {
-    return <ThemedAwesomeIcon name="edit-2-outline" {...props} />;
-  };
-  const onSelect = index => setSelectedIndex(index);
+
   const handlePress = () => {
     navigation.navigate('AddIngredient');
   };
@@ -82,10 +60,26 @@ export const MyKitchen = ({navigation}) => {
   function handleAddRecipe() {
     navigation.navigate('AddRecipe');
   }
+  const fileModelUpdateLoading = useSelector(
+    (state) => state.loading.effects.files.addAsync,
+  );
+  const fileModelDeleteLoading = useSelector(
+    (state) => state.loading.effects.files.deleteAsync,
+  );
+
+  React.useEffect(() => {
+    dispatch.recipes.listAsync();
+  }, [fileModelDeleteLoading, fileModelUpdateLoading]);
+
+  React.useEffect(() => {
+    dispatch.ingredients.listAsync();
+  }, []);
 
   useFocusEffect(
     React.useCallback(() => {
       // alert('Screen was focused');
+      // dispatch.ingredients.listAsync();
+      dispatch.recipes.listAsync();
       // Do something when the screen is focused
 
       return () => {
@@ -93,77 +87,134 @@ export const MyKitchen = ({navigation}) => {
         // Do something when the screen is unfocused
         // Useful for cleanup functions
       };
-    }, [loadingUpdate]),
+    }, []),
   );
 
   return (
-    <SafeAreaView style={{flex: 1}}>
-      <TopNavigation title={t('Kitchen')} alignment="center" />
-      <Divider />
-
-      <Layout style={{flex: 1}}>
-        <TabView
-          selectedIndex={selectedIndex}
-          onSelect={onSelect}
-          tabsArray={[t('Recipes'), t('Ingredients')]}>
-          <Tab
-            title={t('RECIPES')}
+    <SafeAreaView
+      style={{
+        flex: 1,
+        flexDirection: 'column',
+      }}>
+      <Layout style={{ flex: 1 }}>
+        <TopNavigation title={t('Kitchen')} alignment="center" />
+        <Divider />
+        <ButtonGroup
+          style={{
+            width: '100%',
+          }}
+          appearance="outline"
+          status="control">
+          <Button
             style={{
-              backgroundColor:
-                selectedIndex === 0 ? theme['color-basic-200'] : null,
+              width: '50%',
               height: 44,
-            }}
-            icon={RecipeIcon}>
-            <RecipeListTemplate
-              addIcon={AddIcon}
-              iconName={EditIcon}
-              navigation={navigation}
-              recipes={recipes}
-            />
-          </Tab>
-
-          <Tab
-            title={t('INGREDIENTS')}
-            style={{
               backgroundColor:
-                selectedIndex === 1 ? theme['color-basic-200'] : null,
-              height: 44,
+                selectedIndex === 0 ? theme['color-primary-900'] : 'white',
             }}
-            icon={IngredientIcon}>
-            <Layout
+            onPress={() => setSelectedIndex(0)}>
+            <Text
               style={{
-                height: '100%',
+                color:
+                  selectedIndex === 0
+                    ? theme['color-primary-100']
+                    : theme['color-basic-900'],
               }}>
-              <IngredientListTemplate
-                ingredients={ingredients}
-                navigation={navigation}
-                addIcon={AddIcon}
-              />
-            </Layout>
-          </Tab>
-        </TabView>
+              Recipes
+            </Text>
+          </Button>
+          <Button
+            style={{
+              width: '50%',
+              height: 44,
+              backgroundColor:
+                selectedIndex === 1 ? theme['color-primary-900'] : 'white',
+            }}
+            onPress={() => setSelectedIndex(1)}>
+            <Text
+              style={{
+                color:
+                  selectedIndex === 1
+                    ? theme['color-primary-100']
+                    : theme['color-basic-900'],
+              }}>
+              Ingredients
+            </Text>
+          </Button>
+        </ButtonGroup>
+        {(fileModelUpdateLoading || fileModelDeleteLoading) && (
+          <Loading
+            label="loading..."
+            show={fileModelUpdateLoading || fileModelDeleteLoading}
+            status="info"
+            size="giant"
+          />
+        )}
+        {selectedIndex === 0 ? (
+          <RecipeListTemplate
+            addIcon={AddIcon}
+            recipes={recipes}
+            iconName={EditIcon}
+            navigation={navigation}
+          />
+        ) : (
+          <IngredientListTemplate
+            ingredients={ingredients}
+            navigation={navigation}
+            addIcon={AddIcon}
+          />
+        )}
       </Layout>
+
       {selectedIndex === 0 ? (
-        <Button
-          size="large"
-          style={{borderRadius: 0}}
-          status="primary"
-          onPress={handleAddRecipe}
-          accessoryLeft={AddIcon}
-          appearance="filled">
-          {t('Create_Recipes')}
-        </Button>
+        <View
+          style={{
+            backgroundColor: theme['color-basic-100'],
+            alignItems: 'center',
+            justifyContent: 'center',
+            display: 'flex',
+            width: '100%',
+            height: 80,
+          }}>
+          <Button
+            size="large"
+            style={{
+              borderRadius: 5,
+              width: '95%',
+            }}
+            status="primary"
+            onPress={handleAddRecipe}
+            accessoryLeft={AddIcon}
+            appearance="filled">
+            <Text style={{ color: theme['color-primary-900'] }}>
+              {t('Create_Recipes')}
+            </Text>
+          </Button>
+        </View>
       ) : (
-        <Button
-          size="large"
-          status="primary"
-          style={{borderRadius: 0}}
-          accessoryLeft={AddIcon}
-          onPress={handlePress}
-          appearance="filled">
-          {t('Add_Ingredient')}
-        </Button>
+        <View
+          style={{
+            backgroundColor: theme['color-basic-100'],
+            alignItems: 'center',
+            justifyContent: 'center',
+            display: 'flex',
+            width: '100%',
+            height: 80,
+          }}>
+          <Button
+            size="large"
+            status="primary"
+            style={{ borderRadius: 5, width: '95%' }}
+            accessoryLeft={AddIcon}
+            onPress={handlePress}
+            appearance="filled">
+            <Text style={{ color: theme['color-primary-900'] }}>
+              {t('Add_Ingredient')}
+            </Text>
+          </Button>
+        </View>
       )}
     </SafeAreaView>
   );
 };
+export default MyKitchen;

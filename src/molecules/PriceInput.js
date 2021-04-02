@@ -1,7 +1,7 @@
-import React, {useImperativeHandle, useRef, forwardRef} from 'react';
-import {Input, Icon, Text} from '@ui-kitten/components';
-import {useTranslation} from 'react-i18next';
-import {MaskService} from 'react-native-masked-text';
+import React, { useImperativeHandle, useRef, forwardRef } from 'react';
+import { Input } from '@ui-kitten/components';
+import { useTranslation } from 'react-i18next';
+
 const PriceInputField = (
   {
     placeholder,
@@ -19,8 +19,8 @@ const PriceInputField = (
   ref,
 ) => {
   const inputRef = useRef();
-  const {t, i18n} = useTranslation();
-  const Icon = iconProps => <Icon {...iconProps} name={iconName} />;
+  const { t, i18n } = useTranslation();
+  const Icon = (iconProps) => <Icon {...iconProps} name={iconName} />;
 
   // const dollarFormat = text => {
   //   const money = MaskService.toMask('money', text, {
@@ -39,7 +39,7 @@ const PriceInputField = (
   //   return money;
   // };
 
-  const handleChangeText = text => {
+  const handleChangeText = (text) => {
     setFieldValue(name, text);
   };
   const handleBlur = () => {
@@ -53,26 +53,24 @@ const PriceInputField = (
 
       setFieldValue(name, `${t('$')} ${final}`);
       setFormattedPrice(final);
+    } else if (value > 1) {
+      const cleaned = value.replaceAll('.', '').replaceAll(',', '.');
+      const brFinal = Number(cleaned).toLocaleString('en-US', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2,
+      });
+
+      setFormattedPrice(brFinal);
+      setFieldValue(name, `${t('$')} ${brFinal}`);
     } else {
-      if (value > 1) {
-        const cleaned = value.replaceAll('.', '').replaceAll(',', '.');
-        const brFinal = Number(cleaned).toLocaleString('en-US', {
-          minimumFractionDigits: 0,
-          maximumFractionDigits: 2,
-        });
+      const cleaned = value.replaceAll(',', '.');
+      const final = Number(cleaned).toLocaleString('en-US', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2,
+      });
 
-        setFormattedPrice(brFinal);
-        setFieldValue(name, `${t('$')} ${brFinal}`);
-      } else {
-        const cleaned = value.replaceAll(',', '.');
-        const final = Number(cleaned).toLocaleString('en-US', {
-          minimumFractionDigits: 0,
-          maximumFractionDigits: 2,
-        });
-
-        setFormattedPrice(final);
-        setFieldValue(name, `${t('$')} ${final}`);
-      }
+      setFormattedPrice(final);
+      setFieldValue(name, `${t('$')} ${final}`);
     }
   };
 
@@ -94,7 +92,7 @@ const PriceInputField = (
       clearButtonMode="always"
       ref={inputRef}
       onChangeText={handleChangeText}
-      onBlur={handleBlur}
+      onBlur={value && handleBlur}
       placeholder={t('price_placeholder')}
     />
   );

@@ -1,16 +1,16 @@
 import {Button, Icon, Text, Layout} from '@ui-kitten/components';
 import React, {useRef, useEffect} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {StyleSheet} from 'react-native';
 
-import AutoCompleteField from '../molecules/AutocompleteField';
-import {Field, Formik} from 'formik';
+import {Formik} from 'formik';
 
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import * as Yup from 'yup';
 import {useTranslation} from 'react-i18next';
+import AutoCompleteField from '../molecules/AutocompleteField';
 
-const saveIcon = props => <Icon {...props} name="save-outline" />;
+const saveIcon = (props) => <Icon {...props} name="save-outline" />;
 
 const AddRecipeForm = () => {
   const {t, i18n} = useTranslation();
@@ -35,7 +35,7 @@ const AddRecipeForm = () => {
         description: '',
       }}
       validationSchema={AddRecipeSchema}
-      onSubmit={values => {
+      onSubmit={(values) => {
         dispatch.recipes.addAsync({
           name: values.name,
           description: values.description,
@@ -94,7 +94,11 @@ const AddRecipeForm = () => {
             </Text>
           </Layout>
           <Layout style={styles.submit} level="1">
-            <Button onPress={handleSubmit}>{t('CREATE_RECIPE')}</Button>
+            <Button onPress={handleSubmit}>
+              <Text category="s2" status="basic">
+                {t('CREATE_RECIPE')}
+              </Text>
+            </Button>
           </Layout>
         </Layout>
       )}

@@ -1,8 +1,7 @@
-import React, {useImperativeHandle, useRef, forwardRef, useEffect} from 'react';
-import {Input, Icon, Text} from '@ui-kitten/components';
-import {useTranslation} from 'react-i18next';
-import {MaskService} from 'react-native-masked-text';
-import {PrivateValueStore} from '@react-navigation/core';
+import React, { useImperativeHandle, useRef, forwardRef } from 'react';
+import { Input } from '@ui-kitten/components';
+import { useTranslation } from 'react-i18next';
+
 const SizeInputField = (
   {
     placeholder,
@@ -22,10 +21,10 @@ const SizeInputField = (
   ref,
 ) => {
   const inputRef = useRef();
-  const {t, i18n} = useTranslation();
-  const Icon = iconProps => <Icon {...iconProps} name={iconName} />;
+  const { t, i18n } = useTranslation();
+  const Icon = (iconProps) => <Icon {...iconProps} name={iconName} />;
 
-  const handleChangeText = text => {
+  const handleChangeText = (text) => {
     setFieldValue(name, text);
   };
 
@@ -39,26 +38,24 @@ const SizeInputField = (
       });
       setFieldValue(name, `${usFinal} ${unit}`);
       setFormattedSize(usFinal);
+    } else if (value > 1) {
+      const cleaned = value.replaceAll('.', '').replaceAll(',', '.');
+      const brFinal = Number(cleaned).toLocaleString('en-US', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2,
+      });
+
+      setFormattedSize(brFinal);
+      setFieldValue(name, `${brFinal} ${unit}`);
     } else {
-      if (value > 1) {
-        const cleaned = value.replaceAll('.', '').replaceAll(',', '.');
-        const brFinal = Number(cleaned).toLocaleString('en-US', {
-          minimumFractionDigits: 0,
-          maximumFractionDigits: 2,
-        });
+      const cleaned = value.replaceAll(',', '.');
+      const final = Number(cleaned).toLocaleString('en-US', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2,
+      });
 
-        setFormattedSize(brFinal);
-        setFieldValue(name, `${brFinal} ${unit}`);
-      } else {
-        const cleaned = value.replaceAll(',', '.');
-        const final = Number(cleaned).toLocaleString('en-US', {
-          minimumFractionDigits: 0,
-          maximumFractionDigits: 2,
-        });
-
-        setFormattedSize(final);
-        setFieldValue(name, `${final} ${unit}`);
-      }
+      setFormattedSize(final);
+      setFieldValue(name, `${final} ${unit}`);
     }
   };
 
@@ -78,7 +75,7 @@ const SizeInputField = (
       value={value}
       ref={inputRef}
       onChangeText={handleChangeText}
-      onBlur={handleBlur}
+      onBlur={value && handleBlur}
       placeholder={placeholder}
     />
   );

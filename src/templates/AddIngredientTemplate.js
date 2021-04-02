@@ -1,19 +1,13 @@
-import React, {useState} from 'react';
+import React from 'react';
 
-import {Button, Icon, Text, Layout} from '@ui-kitten/components';
-import {RecipeList} from '../organisms/RecipeList';
-import {useNavigation} from '@react-navigation/native';
-import {PopoverOverlay} from '../organisms/PopoverOverlay';
-import {IngredientList} from '../organisms/IngredientList';
+import { Layout } from '@ui-kitten/components';
 
 import AddIngredientForm from '../organisms/AddIngredientForm';
 
-const AddIngredientTemplate = () => {
-  return (
-    <Layout style={{height: '100%'}}>
+const AddIngredientTemplate = () => (
+    <Layout style={{ height: '100%' }}>
       <AddIngredientForm />
     </Layout>
-  );
-};
+);
 
 export default AddIngredientTemplate;

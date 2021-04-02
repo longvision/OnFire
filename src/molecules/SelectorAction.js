@@ -1,14 +1,11 @@
-import React, {useImperativeHandle, forwardRef, useRef} from 'react';
-import {StyleSheet} from 'react-native';
+import React, { useImperativeHandle, forwardRef, useRef } from 'react';
+import { StyleSheet } from 'react-native';
 import {
-  Icon,
-  IndexPath,
   Layout,
   Select,
-  SelectGroup,
   SelectItem,
 } from '@ui-kitten/components';
-import {useNavigation} from '@react-navigation/core';
+import { useNavigation } from '@react-navigation/core';
 
 // const groupedData = {
 //   'UI/UX': ['Frontend Developer', 'Designer'],
@@ -36,8 +33,7 @@ const SelectorRawAction = (
   // const displayValue = data && data[selectedIndex.row];
   const displayValue = value;
 
-  const renderOption = item => {
-    return (
+  const renderOption = (item) => (
       <SelectItem
         key={item}
         title={item}
@@ -46,8 +42,7 @@ const SelectorRawAction = (
           inputRef.current.blur();
         }}
       />
-    );
-  };
+  );
 
   useImperativeHandle(ref, () => ({
     focus: () => {

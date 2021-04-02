@@ -1,30 +1,21 @@
-import {
-  Button,
-  Icon,
-  Input,
-  Text,
-  Layout,
-  StyleService,
-} from '@ui-kitten/components';
-import React, {useRef, useImperativeHandle, useEffect} from 'react';
-import {View, StyleSheet, ScrollView} from 'react-native';
-import PriceInput from '../molecules/PriceInput';
-import AutoCompleteField from '../molecules/AutocompleteField';
-import {Field, Formik} from 'formik';
-import Selector from '../molecules/Selector';
-import SizeInput from '../molecules/SizeInput';
-import {useDispatch} from 'react-redux';
-import {useNavigation} from '@react-navigation/native';
+import { Button, Text, Layout } from '@ui-kitten/components';
+import React, { useRef } from 'react';
+import { View, StyleSheet } from 'react-native';
+import { Formik } from 'formik';
+import { useDispatch } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 import * as Yup from 'yup';
-import {useTranslation} from 'react-i18next';
-import {checkBRMeasureUnit, checkUSMeasureUnit} from '../utils/functions';
+import { useTranslation } from 'react-i18next';
+import SizeInput from '../molecules/SizeInput';
+import Selector from '../molecules/Selector';
+import AutoCompleteField from '../molecules/AutocompleteField';
+import PriceInput from '../molecules/PriceInput';
+import { ThemedAwesomeIcon } from '../atoms/ThemedAwesomeIcon';
 
 const data = [];
 
-const saveIcon = props => <Icon {...props} name="save-outline" />;
-
 const AddIngredientForm = () => {
-  const {t, i18n} = useTranslation();
+  const { t, i18n } = useTranslation();
   const brandRef = useRef();
   const sellerRef = useRef();
   const soldRef = useRef();
@@ -55,7 +46,9 @@ const AddIngredientForm = () => {
     unit: Yup.string().required(t('Package_unit_is_required')),
     price: Yup.string().required(t('Package_price_is_required')),
   });
-
+  const SaveIcon = (props) => (
+    <ThemedAwesomeIcon name="content-save" {...props} />
+  );
   return (
     <Formik
       initialValues={{
@@ -68,7 +61,7 @@ const AddIngredientForm = () => {
         price: '',
       }}
       validationSchema={AddIngredientSchema}
-      onSubmit={values => {
+      onSubmit={(values) => {
         values.size = formattedSize;
         values.price = formattedPrice;
         dispatch.ingredients.addAsync(values);
@@ -84,8 +77,8 @@ const AddIngredientForm = () => {
         touched,
         values,
       }) => (
-        <ScrollView style={{height: '100%'}}>
-          <Layout style={styles.container}>
+        <View style={{ height: '100%' }}>
+          <Layout style={styles.container} level="4">
             <Layout style={styles.controlContainer}>
               <Text
                 category="h4"
@@ -194,7 +187,7 @@ const AddIngredientForm = () => {
                     name="unit"
                     data={unitsArray}
                     selectedIndex={selectedIndex}
-                    onSelect={index => {
+                    onSelect={(index) => {
                       setSelectedIndex(index);
                       setFieldValue('unit', unitsArray[index.row]);
                       setFieldValue('size', '');
@@ -216,7 +209,7 @@ const AddIngredientForm = () => {
                     setFieldValue={setFieldValue}
                     setFieldTouched={setFieldTouched}
                     name="size"
-                    unit={selectedUnit ? selectedUnit : ''}
+                    unit={selectedUnit || ''}
                     styles={styles.input}
                     mantissa={4}
                     setFormattedSize={setFormattedSize}
@@ -253,15 +246,17 @@ const AddIngredientForm = () => {
                   size="large"
                   status="primary"
                   style={styles.button}
-                  accessoryLeft={saveIcon}
+                  accessoryLeft={SaveIcon}
                   onPress={handleSubmit}
                   appearance="filled">
-                  {t('Save')}
+                  <Text category="s2" status="basic">
+                    {t('Save')}
+                  </Text>
                 </Button>
               </Layout>
             </Layout>
           </Layout>
-        </ScrollView>
+        </View>
       )}
     </Formik>
   );

@@ -1,5 +1,4 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {createModel} from '@rematch/core';
+import { createModel } from '@rematch/core';
 
 import api from '../../services/api';
 
@@ -18,25 +17,30 @@ export const auth = createModel()({
       };
     },
     signOut(state) {
-      return {...state, token: null};
+      return { ...state, token: null };
     },
     forgotPassword(state) {
-      return {...state, recoveryToken: true};
+      return { ...state, recoveryToken: true };
     },
     failed(state) {
-      return {...state, failed: true};
+      return { ...state, failed: true };
     },
     understood(state) {
-      return {...state, failed: false, recoveryToken: false, success: false};
+      return {
+        ...state,
+        failed: false,
+        recoveryToken: false,
+        success: false,
+      };
     },
     clearStore(state) {
       return {};
     },
     success(state) {
-      return {...state, success: true};
+      return { ...state, success: true };
     },
   },
-  effects: dispatch => ({
+  effects: (dispatch) => ({
     async loginAsync(payload, rootState) {
       try {
         // const data = await AsyncStorage.getItem('persist:root');
@@ -44,16 +48,16 @@ export const auth = createModel()({
         // if (localToken) {
         //   dispatch.auth.login({token: localToken});
         // } else {
-        const {email, password} = payload;
-
+        api.defaults.headers['content-type'] = 'application/json';
+        const { email, password } = payload;
         const response = await api.post('sessions', {
           email,
           password,
         });
 
-        const {token} = response.data;
+        const { token } = response.data;
 
-        dispatch.auth.login({token: token});
+        dispatch.auth.login({ token });
       } catch (err) {}
     },
     async signOutAsync() {
@@ -62,11 +66,13 @@ export const auth = createModel()({
     },
     async resetAsync(payload) {
       try {
-        const {password, confirmation, token} = payload;
+        api.defaults.headers['content-type'] = 'application/json';
+
+        const { password, confirmation, token } = payload;
 
         await api.put('passwords', {
           token: token.join(''),
-          password: password,
+          password,
           password_confirmation: confirmation,
         });
 
@@ -77,10 +83,11 @@ export const auth = createModel()({
     },
     async forgotPasswordAsync(payload) {
       try {
-        const {email} = payload;
+        const { email } = payload;
+        api.defaults.headers['content-type'] = 'application/json';
 
         await api.post('passwords', {
-          email: email,
+          email,
         });
         dispatch.auth.forgotPassword();
       } catch (err) {
@@ -89,12 +96,12 @@ export const auth = createModel()({
     },
     async signUpAsync(payload) {
       try {
-        const {email, username, password} = payload;
-
+        api.defaults.headers['content-type'] = 'application/json';
+        const { email, username, password } = payload;
         await api.post('users', {
-          email: email,
-          username: username,
-          password: password,
+          email,
+          username,
+          password,
         });
 
         dispatch.auth.success();
