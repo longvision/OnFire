@@ -322,19 +322,19 @@ const styles = StyleSheet.create({
   },
   packageTitle: {
     // marginLeft: 100,
-    marginLeft: 100,
-    flex: 3,
+    // flex: 3,
+    marginLeft: 85,
   },
   productTitle: {
     // marginLeft: 100,
-    marginLeft: 150,
-    flex: 3,
+    marginLeft: 85,
+    // flex: 1,
   },
   productLayout: {
     flexDirection: 'row',
     alignItems: 'center',
 
-    justifyContent: 'center',
+    justifyContent: 'space-evenly',
     marginBottom: 10,
     width: '100%',
     height: 40,
@@ -344,6 +344,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     // marginBottom: 10,
     width: '100%',
+    justifyContent: 'space-evenly',
+    marginBottom: 10,
+
+    height: 40,
   },
   editPackage: {
     // margin: 2,
