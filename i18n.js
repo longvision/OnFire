@@ -1,8 +1,8 @@
 import i18next from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
-// the translations
-// (tip move them in a JSON file and import them)
+import * as Localization from 'expo-localization';
+
 const resources = {
   en: {
     translation: {
@@ -44,7 +44,7 @@ const resources = {
       Unit: 'Unit',
       Quantity_to_be_added: 'Quantity to be added',
       ADD_TO_RECIPE: 'ADD TO RECIPE',
-      Ingredient_name_is_required: 'Ingredient\'s name is required.required',
+      Ingredient_name_is_required: "Ingredient's name is required.required",
       Unit_is_required: 'Unit of measurement is required.',
       Quantity_is_required: 'Quantity is required.',
       Enter_the_ingredient_amount: 'Enter the quantity for this ingredient',
@@ -90,7 +90,8 @@ const resources = {
       KITCHEN: 'KITCHEN',
       EMPTY_RECIPES:
         'Please add a new Ingredient to start creating you recipes! ',
-      userError: 'Username consists of alphanumeric characters (a-zA-Z0-9), lowercase, or uppercase. Dot (.), underscore (_), and hyphens (-) are allowed however must not be the first or last character. The dot (.), underscore (_), or hyphen (-) can not appear consecutively, (e.g.: user..name). The number of characters must be between 5 to 20.',
+      userError:
+        'Username consists of alphanumeric characters (a-zA-Z0-9), lowercase, or uppercase. Dot (.), underscore (_), and hyphens (-) are allowed however must not be the first or last character. The dot (.), underscore (_), or hyphen (-) can not appear consecutively, (e.g.: user..name). The number of characters must be between 5 to 20.',
       passError:
         'Passwords are different. Please verify and certify that they are the same.',
       emailError: 'Please check if you typed your email correctly.',
@@ -187,7 +188,8 @@ const resources = {
       Settings: 'Ajustes',
       EMPTY_RECIPES:
         'Por favor adicione um novo ingrediente para começar a criar receitas!',
-      userError: 'Usernames (nomes de usuários) devem conter caracteres alphanuméricos maiúsculas ou minúsculas (um número, uma letra sem caracteres especiais). Pontos (.), linhas (_), e hífens (-) são aceitos, porém não podem ser o primeiro nem o último caractere. Ponto (.), linhas (_), ou hífens (-) também não podem se repetir mais de uma vez. (ex.: user..name). O número de caracteres deve ser entre 5 e 20.',
+      userError:
+        'Usernames (nomes de usuários) devem conter caracteres alphanuméricos maiúsculas ou minúsculas (um número, uma letra sem caracteres especiais). Pontos (.), linhas (_), e hífens (-) são aceitos, porém não podem ser o primeiro nem o último caractere. Ponto (.), linhas (_), ou hífens (-) também não podem se repetir mais de uma vez. (ex.: user..name). O número de caracteres deve ser entre 5 e 20.',
       passError: 'Senhas não coincidem. Verifique se digitou ambas iguais!',
       emailError:
         'Formato de email inválido! Verifique se digitou corretamente.',
@@ -197,12 +199,24 @@ const resources = {
   },
 };
 
+const languageDetector = {
+  type: 'languageDetector',
+  async: true, // flags below detection to be async
+  detect: (callback) => callback(Localization.locale.split('-')[0]),
+  init: () => {},
+  cacheUserLanguage: () => {},
+};
+
 // i18nextReactNativeLanguageDetector
 i18next
+  .use(languageDetector)
   .use(initReactI18next) // passes i18n down to react-i18next
   .init({
+    react: {
+      useSuspense: false,
+    },
     resources,
-    lng: 'en',
+    fallbackLng: 'en',
     keySeparator: false, // we do not use keys in form messages.welcome
     interpolation: {
       escapeValue: false, // react already safes from xss
