@@ -43,12 +43,12 @@ export const IngredientList = ({
           flexDirection: 'row',
           justifyContent: 'space-between',
           alignItems: 'center',
-          height: 54,
-          marginTop: 2,
-          marginHorizontal: 5,
-          padding: 5,
+          height: 64,
+          width: '100%',
+          marginTop: 1,
+          paddingHorizontal: 5,
         }}>
-        <Layout style={{ flex: 4 }}>
+        <Layout style={{ flex: 4, marginLeft: 10 }}>
           <Text category="s1">{item.name}</Text>
           <Text category="p1">{item.brand}</Text>
         </Layout>
@@ -75,6 +75,7 @@ export const IngredientList = ({
               justifyContent: 'center',
               alignItems: 'flex-end',
               flex: 2,
+              marginRight: 10,
             }}>
             <Button
               size={btnSize}
@@ -104,7 +105,8 @@ export const IngredientList = ({
         }}
         data={data}
         contentContainerStyle={{
-          paddingHorizontal: 8,
+          paddingHorizontal: 13,
+
           paddingVertical: 4,
           paddingBottom: 120,
         }}
