@@ -93,7 +93,7 @@ const AddMeasureForm = () => {
         touched,
         values,
       }) => (
-        <Layout style={{ height: '70%' }}>
+        <Layout style={{ height: '100%' }}>
           <Layout style={styles.container} level="1">
             <Layout style={styles.controlContainer} level="1">
               <Text

@@ -1,4 +1,4 @@
-import { auth } from './auth';
+import auth from './auth';
 import recipes from './recipes';
 import { ingredients } from './ingredients';
 import measures from './measures';

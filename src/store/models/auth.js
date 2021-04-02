@@ -2,7 +2,7 @@ import { createModel } from '@rematch/core';
 
 import api from '../../services/api';
 
-export const auth = createModel()({
+const auth = createModel()({
   state: {
     token: null,
     recoveryToken: false,
@@ -48,7 +48,7 @@ export const auth = createModel()({
         // if (localToken) {
         //   dispatch.auth.login({token: localToken});
         // } else {
-        // api.defaults.headers['content-type'] = 'application/json';
+        // api.defaults.headers['Content-Type'] = 'application/json';
         const { email, password } = payload;
         const response = await api.post('sessions', {
           email,
@@ -57,6 +57,7 @@ export const auth = createModel()({
 
         const { token } = response.data;
 
+        console.log(token);
         dispatch.auth.login({ token });
       } catch (err) {}
     },
@@ -114,3 +115,4 @@ export const auth = createModel()({
     },
   }),
 });
+export default auth;

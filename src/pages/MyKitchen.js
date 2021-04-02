@@ -12,7 +12,6 @@ import {
 } from '@ui-kitten/components';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { useFocusEffect } from '@react-navigation/native';
 import IngredientListTemplate from '../templates/IngredientListTemplate';
 import RecipeListTemplate from '../templates/RecipeListTemplate';
 
@@ -60,35 +59,25 @@ const MyKitchen = ({ navigation }) => {
   function handleAddRecipe() {
     navigation.navigate('AddRecipe');
   }
-  const fileModelUpdateLoading = useSelector(
+  const fileUpdateLoading = useSelector(
     (state) => state.loading.effects.files.addAsync,
   );
-  const fileModelDeleteLoading = useSelector(
+  const fileDeleteLoading = useSelector(
     (state) => state.loading.effects.files.deleteAsync,
   );
-
-  React.useEffect(() => {
-    dispatch.recipes.listAsync();
-  }, [fileModelDeleteLoading, fileModelUpdateLoading]);
-
-  React.useEffect(() => {
-    dispatch.ingredients.listAsync();
-  }, []);
-
-  useFocusEffect(
-    React.useCallback(() => {
-      // alert('Screen was focused');
-      // dispatch.ingredients.listAsync();
-      dispatch.recipes.listAsync();
-      // Do something when the screen is focused
-
-      return () => {
-        // alert('Screen was unfocused');
-        // Do something when the screen is unfocused
-        // Useful for cleanup functions
-      };
-    }, []),
+  const ingredientUpdateLoading = useSelector(
+    (state) => state.loading.effects.ingredients.updateAsync,
   );
+
+  React.useEffect(() => {
+    selectedIndex === 0 && dispatch.recipes.listAsync();
+    selectedIndex === 1 && dispatch.ingredients.listAsync();
+  }, [
+    selectedIndex,
+    fileDeleteLoading,
+    fileUpdateLoading,
+    ingredientUpdateLoading,
+  ]);
 
   return (
     <SafeAreaView
@@ -142,10 +131,10 @@ const MyKitchen = ({ navigation }) => {
             </Text>
           </Button>
         </ButtonGroup>
-        {(fileModelUpdateLoading || fileModelDeleteLoading) && (
+        {(fileUpdateLoading || fileDeleteLoading) && (
           <Loading
             label="loading..."
-            show={fileModelUpdateLoading || fileModelDeleteLoading}
+            show={fileUpdateLoading || fileDeleteLoading}
             status="info"
             size="giant"
           />
