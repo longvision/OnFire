@@ -1,5 +1,12 @@
 import React from 'react';
-import { Button, List, Layout, Text, Divider } from '@ui-kitten/components';
+import {
+  Button,
+  List,
+  Layout,
+  Text,
+  Divider,
+  useTheme,
+} from '@ui-kitten/components';
 
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
@@ -20,6 +27,7 @@ export const IngredientList = ({
   width,
   ...props
 }) => {
+  const theme = useTheme();
   const { t, i18n } = useTranslation();
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -90,7 +98,10 @@ export const IngredientList = ({
       <ListTitle titles={titles} />
 
       <List
-        style={{ backgroundColor: 'white' }}
+        style={{
+          backgroundColor: 'white',
+          backgroundColor: theme['color-basic-400'],
+        }}
         data={data}
         contentContainerStyle={{
           paddingHorizontal: 8,
