@@ -231,10 +231,9 @@ const styles = StyleSheet.create({
     // margin: 2,
   },
   container: {
-    height: '100%',
-    marginTop: 20,
-    paddingBottom: 35,
-    marginBottom: 35,
+    height: '80%',
+    // paddingBottom: 35,
+    // marginBottom: 35,
   },
   rowContainer: {
     marginVertical: 3,
