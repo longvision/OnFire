@@ -1,12 +1,8 @@
 import React from 'react';
 
-import {createStackNavigator} from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 
-import {Settings} from '../pages/Settings/Settings';
-import {RecipeDetail} from '../pages/Recipe/RecipeDetail';
-import {IngredientDetail} from '../pages/Ingredient/IngredientDetail';
-import {AddIngredient} from '../pages/Ingredient/AddIngredient';
-import {AddMeasure} from '../pages/Measure/AddMeasure';
+import { Settings } from '../pages/Settings/Settings';
 
 const Stack = createStackNavigator();
 

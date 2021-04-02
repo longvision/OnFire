@@ -1,8 +1,8 @@
-import {createModel} from '@rematch/core';
+import { createModel } from '@rematch/core';
 import api from '../../services/api';
 import tron from '../../config/ReactotronConfig';
 
-import {checkDollarSign} from '../../utils/functions';
+import { checkDollarSign } from '../../utils/functions';
 
 export const ingredients = createModel()({
   state: {
@@ -43,30 +43,39 @@ export const ingredients = createModel()({
       };
     },
     add(state, payload) {
-      return {...state, ingredients: [...state.ingredients, payload]};
+      return { ...state, ingredients: [...state.ingredients, payload] };
     },
   },
-  effects: dispatch => ({
+  effects: (dispatch) => ({
     async alertOff(payload, rootState) {
       dispatch.measures.understood();
     },
     async addAsync(payload, rootState) {
       try {
-        const {brand, ingredient, price, region, seller, size, unit} = payload;
+        const {
+          brand,
+          ingredient,
+          price,
+          region,
+          seller,
+          size,
+          unit,
+        } = payload;
 
         api.defaults.headers.Authorization = `Bearer ${rootState.auth.token}`;
+        api.defaults.headers['content-type'] = 'application/json';
 
         const response = await api.post('ingredient', {
           name: ingredient,
-          brand: brand,
-          seller: seller,
+          brand,
+          seller,
           sold_region: region,
           package_price: checkDollarSign(price),
-          unit: unit,
+          unit,
           package_size: size,
         });
 
-        const {data} = response;
+        const { data } = response;
         dispatch.ingredients.add(data);
       } catch (err) {
         dispatch.measures.failed();
@@ -78,7 +87,7 @@ export const ingredients = createModel()({
 
         const response = await api.get('ingredients');
 
-        const {data} = response.data;
+        const { data } = response.data;
 
         tron.log(rootState);
 
@@ -93,7 +102,7 @@ export const ingredients = createModel()({
 
         const response = await api.get(`ingredient/${payload}`);
 
-        const data = response.data;
+        const { data } = response;
 
         dispatch.ingredients.setSelected(data);
 
@@ -103,10 +112,12 @@ export const ingredients = createModel()({
     async updateAsync(payload, rootState) {
       try {
         api.defaults.headers.Authorization = `Bearer ${rootState.auth.token}`;
-        const {values, id} = payload;
+        api.defaults.headers['content-type'] = 'application/json';
+
+        const { values, id } = payload;
 
         await api.patch(`ingredient/${id}`, {
-          id: id,
+          id,
           name: values.ingredient,
           package_price: checkDollarSign(values.price),
           package_size: values.size,

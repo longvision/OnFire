@@ -1,18 +1,17 @@
 import axios from 'axios';
-import {Platform} from 'react-native';
+import { Platform } from 'react-native';
 
-import {ENV} from '@env';
+import { ENV } from '@env';
 // baseURL: 'http://10.0.1.1:3333/', //Android Device
 // baseURL: 'http://192.168.1.200:3333/', //Android Localhost
 // baseURL: 'http://127.168.1.200:3333/', //Android Localhost
 
 const prod = 'https://recipeapi-dev.onrender.com/';
 
-const dev =
-  Platform.OS === 'android'
-    ? // 'http://127.168.1.200:3333/'
-      'http://10.0.2.2:3333/'
-    : 'http://localhost:3333/';
+const dev = Platform.OS === 'android'
+  ? // 'http://127.168.1.200:3333/'
+  'http://10.0.2.2:3333/'
+  : 'http://localhost:3333/';
 
 const api = axios.create({
   baseURL: ENV === 'development' ? dev : prod,

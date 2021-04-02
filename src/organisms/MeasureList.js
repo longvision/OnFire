@@ -4,16 +4,12 @@ import {
   Icon,
   List,
   Layout,
-  ListItem,
   Text,
   Divider,
-  Card,
 } from '@ui-kitten/components';
 
-import {StyleSheet, View} from 'react-native';
-import Popularity from '../atoms/Popularity';
-import {useDispatch, useSelector} from 'react-redux';
-import {useTranslation} from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 export const MeasureList = ({
   data,
@@ -24,12 +20,12 @@ export const MeasureList = ({
   width,
   ...props
 }) => {
-  const {t, i18n} = useTranslation();
+  const { t, i18n } = useTranslation();
   const dispatch = useDispatch();
-  const measures = useSelector(state => state.measures.measures);
-  const renderItemIcon = props => <Icon {...props} name="trash-outline" />;
+  const measures = useSelector((state) => state.measures.measures);
+  const renderItemIcon = (props) => <Icon {...props} name="trash-outline" />;
 
-  const renderItem = ({item, index}) => (
+  const renderItem = ({ item, index }) => (
     <>
       <Layout
         style={{
@@ -40,7 +36,7 @@ export const MeasureList = ({
           width: '100%',
           paddingVertical: 5,
         }}>
-        <Layout style={{width: '80%'}}>
+        <Layout style={{ width: '80%' }}>
           <Text
             status="primary"
             category="s1">{`${item.ingredients.name} | ${item.ingredients.brand} `}</Text>
@@ -56,8 +52,8 @@ export const MeasureList = ({
 
         <Button
           size="medium"
-          style={{width: 60, height: 60, marginLeft: 3}}
-          onPress={() => dispatch.measures.deleteAsync({id: item.id})}
+          style={{ width: 60, height: 60, marginLeft: 3 }}
+          onPress={() => dispatch.measures.deleteAsync({ id: item.id })}
           appearance="outline"
           accessoryLeft={img && renderItemIcon}>
           {cta}
@@ -72,7 +68,7 @@ export const MeasureList = ({
       <Text>{props.label && props.label}</Text>
       {/* <Layout style={{width: width, paddingBottom: 55}} level="1"> */}
       <List
-        style={{height: height, backgroundColor: 'white'}}
+        style={{ height, backgroundColor: 'white' }}
         data={measures}
         renderItem={renderItem}
         contentContainerStyle={{

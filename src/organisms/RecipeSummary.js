@@ -1,10 +1,10 @@
 import React from 'react';
 
-import {StyleSheet} from 'react-native';
-import {Button, Card, Layout, Spinner, Text} from '@ui-kitten/components';
+import { StyleSheet } from 'react-native';
+import { Button, Card, Layout, Text } from '@ui-kitten/components';
 
-import {ThemedAwesomeIcon} from '../atoms/ThemedAwesomeIcon';
-import {useTranslation} from 'react-i18next';
+import { useTranslation } from 'react-i18next';
+import { ThemedAwesomeIcon } from '../atoms/ThemedAwesomeIcon';
 
 export const RecipeSummary = ({
   label,
@@ -17,13 +17,13 @@ export const RecipeSummary = ({
   ingredientsCount,
   ...props
 }) => {
-  const {t, i18n} = useTranslation();
-  const AddIcon = (props) => {
-    return <ThemedAwesomeIcon name="plus-outline" {...props} />;
-  };
-  const DeleteIcon = (props) => {
-    return <ThemedAwesomeIcon name="trash-outline" {...props} />;
-  };
+  const { t, i18n } = useTranslation();
+  const AddIcon = (props) => (
+    <ThemedAwesomeIcon name="plus-thick" {...props} color="white" />
+  );
+  const DeleteIcon = (props) => (
+    <ThemedAwesomeIcon name="delete" {...props} color="white" />
+  );
 
   return (
     <>
@@ -32,7 +32,7 @@ export const RecipeSummary = ({
         <Layout style={styles.container}>
           <Card style={styles.cardPop} status="info">
             <Text style={styles.cardText} category="h5">
-              {t(`Total_Cost`)}
+              {t('Total_Cost')}
             </Text>
             <Text style={styles.cardText} category="h2">
               {`${t('$')} ${totalCost}`}
@@ -40,7 +40,7 @@ export const RecipeSummary = ({
           </Card>
           <Card style={styles.cardPop}>
             <Text style={styles.cardText} category="h5">
-              {t(`Ingredients`)}
+              {t('Ingredients')}
             </Text>
             <Text style={styles.cardText} category="h2">
               {`${ingredientsCount} ${t('items')}`}
@@ -61,7 +61,7 @@ export const RecipeSummary = ({
               status="info"
               accessoryLeft={AddIcon}
               onPress={handleAddMeasure}>
-              {t('Ingredient')}
+              {t('Item')}
             </Button>
           </Layout>
         </Layout>
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
   },
-  main: {flexDirection: 'column'},
+  main: { flexDirection: 'column' },
   text: {
     margin: 0,
   },

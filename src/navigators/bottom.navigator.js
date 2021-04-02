@@ -1,38 +1,41 @@
-import React from 'react';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 // import FeedStack from './FeedStack';
 // import SearchStack from './SearchStack';
+import { useTheme } from '@ui-kitten/components';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { ThemedAwesomeIcon } from '../atoms/ThemedAwesomeIcon';
 import KitchenStack from './kitchen.navigator';
 import SettingsStack from './settings.navigator';
-import {Icon, useTheme} from '@ui-kitten/components';
-import {useTranslation} from 'react-i18next';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Tab = createBottomTabNavigator();
-// const FeedIcon = (props) => <Icon {...props} name="home-outline" />;
-
-// const SearchIcon = (props) => <Icon {...props} name="search-outline" />;
 const MainNavigator = () => {
-  const {t, i18n} = useTranslation();
+  const { t, i18n } = useTranslation();
   const theme = useTheme();
+
   return (
     <Tab.Navigator
       initialRouteName="KITCHEN"
       tabBarOptions={{
-        // inactiveTintColor: Colors.inactive,
-        activeTintColor: theme['color-primary-400'],
-        labelStyle: {fontWeight: 'bold', fontSize: 14},
-        // inactiveBackgroundColor: '#FF3351',
-        // activeBackgroundColor: Colors.activebk,
+        activeTintColor: theme['color-primary-100'],
+        inactiveTintColor: theme['color-primary-900'],
+        labelStyle: { fontWeight: 'bold', fontSize: 14 },
+        activeBackgroundColor: theme['color-primary-900'],
+        inactiveBackgroundColor: theme['color-primary-200'],
       }}>
       <Tab.Screen
         name={t('KITCHEN')}
         component={KitchenStack}
         options={{
           unmountOnBlur: true,
-          tabBarIcon: ({focused, color, size, ...props}) => (
-            <MaterialCommunityIcons name="shaker" color={focused} size={size} />
+          tabBarIcon: ({ focused, color, size, ...props }) => (
+            <ThemedAwesomeIcon
+              // {...props}
+              color={color}
+              size={24}
+              name="shaker-outline"
+            />
           ),
         }}
       />
@@ -41,8 +44,13 @@ const MainNavigator = () => {
         component={SettingsStack}
         options={{
           unmountOnBlur: true,
-          tabBarIcon: ({focused, color, size, ...props}) => (
-            <MaterialCommunityIcons name="cog" color={color} size={size} />
+          tabBarIcon: ({ focused, color, size, ...props }) => (
+            <ThemedAwesomeIcon
+              // {...props}
+              color={color}
+              size={24}
+              name="cog"
+            />
           ),
         }}
       />
