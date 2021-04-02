@@ -73,6 +73,7 @@ export const RecipeSummary = ({
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
+    marginBottom: 10,
   },
   main: { flexDirection: 'column' },
   text: {
