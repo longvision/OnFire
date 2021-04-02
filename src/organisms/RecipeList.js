@@ -144,6 +144,7 @@ const RecipeList = ({
         }}
         contentContainerStyle={{
           paddingHorizontal: 8,
+          paddingBottom: 150,
         }}
         onEndReachedThreshold={0.5}
         onEndReached={handleOnEndReached}
