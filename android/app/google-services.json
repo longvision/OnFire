@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "471159787712",
+    "project_id": "grammage-76ddb",
+    "storage_bucket": "grammage-76ddb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:471159787712:android:5fadf53edad931443b9d25",
+        "android_client_info": {
+          "package_name": "com.grammage"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "471159787712-7cgcfpju6dudqnep5q2l99b974f7da8l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBoME2pWUZV_MgWRYXv7ZQbNDN4K9Z8atE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "471159787712-7cgcfpju6dudqnep5q2l99b974f7da8l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
