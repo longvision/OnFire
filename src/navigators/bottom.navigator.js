@@ -18,11 +18,11 @@ const MainNavigator = () => {
     <Tab.Navigator
       initialRouteName="KITCHEN"
       tabBarOptions={{
-        activeTintColor: theme['color-primary-100'],
-        inactiveTintColor: theme['color-primary-900'],
+        activeTintColor: theme['color-basic-100'],
+        inactiveTintColor: theme['color-basic-900'],
         labelStyle: { fontWeight: 'bold', fontSize: 14 },
-        activeBackgroundColor: theme['color-primary-900'],
-        inactiveBackgroundColor: theme['color-primary-200'],
+        activeBackgroundColor: theme['color-basic-900'],
+        inactiveBackgroundColor: theme['color-basic-200'],
       }}>
       <Tab.Screen
         name={t('KITCHEN')}

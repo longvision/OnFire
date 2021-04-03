@@ -9,10 +9,10 @@ import React from 'react';
 import { Alert, SafeAreaView } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
-import AddIngredientTemplate from '../../templates/AddIngredientTemplate';
+import EditIngredientTemplate from '../../templates/EditIngredientTemplate';
 
 const BackIcon = (props) => <Icon {...props} name="arrow-back" />;
-export const AddIngredient = ({ navigation }) => {
+export const EditIngredient = ({ navigation, route }) => {
   const { t, i18n } = useTranslation();
   const dispatch = useDispatch();
   const failed = useSelector((state) => state.measures.failed);
@@ -56,7 +56,7 @@ export const AddIngredient = ({ navigation }) => {
       <Divider />
       <Layout
         style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <AddIngredientTemplate />
+        <EditIngredientTemplate selectedItem={route.params.item} />
       </Layout>
     </SafeAreaView>
   );

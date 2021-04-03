@@ -1,5 +1,12 @@
 import React from 'react';
-import { Button, List, Layout, Text, Divider } from '@ui-kitten/components';
+import {
+  Button,
+  List,
+  Layout,
+  Text,
+  Divider,
+  useTheme,
+} from '@ui-kitten/components';
 
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
@@ -20,12 +27,13 @@ export const IngredientList = ({
   width,
   ...props
 }) => {
+  const theme = useTheme();
   const { t, i18n } = useTranslation();
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
   function handlePressIngredientsDetails(item) {
-    navigation.navigate('IngredientDetail', { item });
+    navigation.navigate('EditIngredient', { item });
   }
 
   const renderItem = ({ item, index }) => (
@@ -35,12 +43,12 @@ export const IngredientList = ({
           flexDirection: 'row',
           justifyContent: 'space-between',
           alignItems: 'center',
-          height: 54,
-          marginTop: 2,
-          marginHorizontal: 5,
-          padding: 5,
+          height: 64,
+          width: '100%',
+          marginTop: 1,
+          paddingHorizontal: 5,
         }}>
-        <Layout style={{ flex: 4 }}>
+        <Layout style={{ flex: 4, marginLeft: 10 }}>
           <Text category="s1">{item.name}</Text>
           <Text category="p1">{item.brand}</Text>
         </Layout>
@@ -67,6 +75,7 @@ export const IngredientList = ({
               justifyContent: 'center',
               alignItems: 'flex-end',
               flex: 2,
+              marginRight: 10,
             }}>
             <Button
               size={btnSize}
@@ -90,10 +99,14 @@ export const IngredientList = ({
       <ListTitle titles={titles} />
 
       <List
-        style={{ backgroundColor: 'white' }}
+        style={{
+          backgroundColor: 'white',
+          backgroundColor: theme['color-basic-400'],
+        }}
         data={data}
         contentContainerStyle={{
-          paddingHorizontal: 8,
+          paddingHorizontal: 13,
+
           paddingVertical: 4,
           paddingBottom: 120,
         }}

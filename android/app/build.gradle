@@ -1,5 +1,7 @@
 apply plugin: "com.android.application"
 
+apply from: '../../node_modules/react-native-unimodules/gradle.groovy'
+
 import com.android.build.OutputFile
 
 /**
@@ -134,8 +136,8 @@ android {
         applicationId "com.grammage"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 6
-        versionName "1.0.3"
+        versionCode 11
+        versionName "1.1.4"
         missingDimensionStrategy 'react-native-camera', 'general' // <--- insert this line
     }
     splits {
@@ -152,6 +154,12 @@ android {
             storePassword 'android'
             keyAlias 'androiddebugkey'
             keyPassword 'android'
+        }
+         release {
+            storeFile file("grammage.keystore")
+            storePassword '10203040'
+            keyAlias 'grammage_release'
+            keyPassword '10203040'
         }
 
     }
@@ -191,6 +199,9 @@ dependencies {
     implementation "com.facebook.react:react-native:+"  // From node_modules
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
+
+
+    addUnimodulesDependencies()
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
       exclude group:'com.facebook.fbjni'
