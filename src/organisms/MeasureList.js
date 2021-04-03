@@ -38,7 +38,7 @@ export const MeasureList = ({
         }}>
         <Layout style={{ width: '80%' }}>
           <Text
-            status="primary"
+            status="basic"
             category="s1">{`${item.ingredients.name} | ${item.ingredients.brand} `}</Text>
           <Text category="p2">
             {`${t('quantity')}: ${Number(item.quantity).toFixed(2)}${

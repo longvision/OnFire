@@ -12,7 +12,6 @@ import {
 } from '@ui-kitten/components';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { useFocusEffect } from '@react-navigation/native';
 import IngredientListTemplate from '../templates/IngredientListTemplate';
 import RecipeListTemplate from '../templates/RecipeListTemplate';
 
@@ -39,7 +38,7 @@ const MyKitchen = ({ navigation }) => {
     <ThemedAwesomeIcon
       {...props}
       name="plus-thick"
-      color={theme['color-primary-900']}
+      color={theme['color-basic-900']}
     />
   );
 
@@ -60,35 +59,25 @@ const MyKitchen = ({ navigation }) => {
   function handleAddRecipe() {
     navigation.navigate('AddRecipe');
   }
-  const fileModelUpdateLoading = useSelector(
+  const fileUpdateLoading = useSelector(
     (state) => state.loading.effects.files.addAsync,
   );
-  const fileModelDeleteLoading = useSelector(
+  const fileDeleteLoading = useSelector(
     (state) => state.loading.effects.files.deleteAsync,
   );
-
-  React.useEffect(() => {
-    dispatch.recipes.listAsync();
-  }, [fileModelDeleteLoading, fileModelUpdateLoading]);
-
-  React.useEffect(() => {
-    dispatch.ingredients.listAsync();
-  }, []);
-
-  useFocusEffect(
-    React.useCallback(() => {
-      // alert('Screen was focused');
-      // dispatch.ingredients.listAsync();
-      dispatch.recipes.listAsync();
-      // Do something when the screen is focused
-
-      return () => {
-        // alert('Screen was unfocused');
-        // Do something when the screen is unfocused
-        // Useful for cleanup functions
-      };
-    }, []),
+  const ingredientUpdateLoading = useSelector(
+    (state) => state.loading.effects.ingredients.updateAsync,
   );
+
+  React.useEffect(() => {
+    selectedIndex === 0 && dispatch.recipes.listAsync();
+    selectedIndex === 1 && dispatch.ingredients.listAsync();
+  }, [
+    selectedIndex,
+    fileDeleteLoading,
+    fileUpdateLoading,
+    ingredientUpdateLoading,
+  ]);
 
   return (
     <SafeAreaView
@@ -110,7 +99,7 @@ const MyKitchen = ({ navigation }) => {
               width: '50%',
               height: 44,
               backgroundColor:
-                selectedIndex === 0 ? theme['color-primary-900'] : 'white',
+                selectedIndex === 0 ? theme['color-primary-600'] : 'white',
             }}
             onPress={() => setSelectedIndex(0)}>
             <Text
@@ -120,7 +109,7 @@ const MyKitchen = ({ navigation }) => {
                     ? theme['color-primary-100']
                     : theme['color-basic-900'],
               }}>
-              Recipes
+              {t('Recipes')}
             </Text>
           </Button>
           <Button
@@ -128,7 +117,7 @@ const MyKitchen = ({ navigation }) => {
               width: '50%',
               height: 44,
               backgroundColor:
-                selectedIndex === 1 ? theme['color-primary-900'] : 'white',
+                selectedIndex === 1 ? theme['color-primary-600'] : 'white',
             }}
             onPress={() => setSelectedIndex(1)}>
             <Text
@@ -138,14 +127,14 @@ const MyKitchen = ({ navigation }) => {
                     ? theme['color-primary-100']
                     : theme['color-basic-900'],
               }}>
-              Ingredients
+              {t('Ingredients')}
             </Text>
           </Button>
         </ButtonGroup>
-        {(fileModelUpdateLoading || fileModelDeleteLoading) && (
+        {(fileUpdateLoading || fileDeleteLoading) && (
           <Loading
             label="loading..."
-            show={fileModelUpdateLoading || fileModelDeleteLoading}
+            show={fileUpdateLoading || fileDeleteLoading}
             status="info"
             size="giant"
           />
@@ -186,7 +175,7 @@ const MyKitchen = ({ navigation }) => {
             onPress={handleAddRecipe}
             accessoryLeft={AddIcon}
             appearance="filled">
-            <Text style={{ color: theme['color-primary-900'] }}>
+            <Text style={{ color: theme['color-basic-900'] }}>
               {t('Create_Recipes')}
             </Text>
           </Button>
@@ -208,7 +197,7 @@ const MyKitchen = ({ navigation }) => {
             accessoryLeft={AddIcon}
             onPress={handlePress}
             appearance="filled">
-            <Text style={{ color: theme['color-primary-900'] }}>
+            <Text style={{ color: theme['color-basic-900'] }}>
               {t('Add_Ingredient')}
             </Text>
           </Button>

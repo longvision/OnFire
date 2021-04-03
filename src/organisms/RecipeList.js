@@ -81,7 +81,7 @@ const RecipeList = ({
   const renderItemHeader = (headerProps, info) => (
     <Layout
       {...headerProps}
-      level="2"
+      level="4"
       style={{
         display: 'flex',
         width: '100%',
@@ -144,6 +144,7 @@ const RecipeList = ({
         }}
         contentContainerStyle={{
           paddingHorizontal: 8,
+          paddingBottom: 150,
         }}
         onEndReachedThreshold={0.5}
         onEndReached={handleOnEndReached}
@@ -164,9 +165,9 @@ const themedStyles = StyleService.create({
     marginVertical: 3,
     // marginHorizontal: 15,
     alignItems: 'center',
-    backgroundColor: 'color-basic-200',
-    borderColor: 'color-basic-100',
-    borderWidth: 2,
+    backgroundColor: 'color-basic-100',
+    borderColor: 'color-basic-600',
+    borderWidth: 4,
   },
   delete: {
     backgroundColor: 'color-basic-200',
@@ -176,9 +177,9 @@ const themedStyles = StyleService.create({
     height: 54,
     width: 54,
     top: 12,
-    right: 2,
+    right: 4,
     zIndex: 2,
-    backgroundColor: 'color-basic-200',
-    borderColor: 'color-basic-200',
+    backgroundColor: 'color-basic-400',
+    borderColor: 'color-basic-400',
   },
 });

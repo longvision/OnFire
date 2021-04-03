@@ -6,16 +6,14 @@ import {
   TopNavigationAction,
 } from '@ui-kitten/components';
 import React from 'react';
-import {Alert, SafeAreaView, View} from 'react-native';
+import { Alert, SafeAreaView } from 'react-native';
+import { useTranslation } from 'react-i18next';
+import { useSelector, useDispatch } from 'react-redux';
 import AddIngredientTemplate from '../../templates/AddIngredientTemplate';
-import {AutoCompleteField} from '../../molecules/AutocompleteField';
-import {useTranslation} from 'react-i18next';
-import {useSelector, useDispatch} from 'react-redux';
 
-// import { Container } from './styles';
 const BackIcon = (props) => <Icon {...props} name="arrow-back" />;
-export const AddIngredient = ({navigation}) => {
-  const {t, i18n} = useTranslation();
+export const AddIngredient = ({ navigation }) => {
+  const { t, i18n } = useTranslation();
   const dispatch = useDispatch();
   const failed = useSelector((state) => state.measures.failed);
   const navigateBack = () => {
@@ -49,14 +47,15 @@ export const AddIngredient = ({navigation}) => {
       );
   }, [failed]);
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={{ flex: 1 }}>
       <TopNavigation
         title={t('Ingredients')}
         alignment="center"
         accessoryLeft={BackAction}
       />
       <Divider />
-      <Layout style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <Layout
+        style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <AddIngredientTemplate />
       </Layout>
     </SafeAreaView>

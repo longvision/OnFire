@@ -93,7 +93,7 @@ const AddMeasureForm = () => {
         touched,
         values,
       }) => (
-        <Layout style={{ height: '70%' }}>
+        <Layout style={{ height: '100%' }}>
           <Layout style={styles.container} level="1">
             <Layout style={styles.controlContainer} level="1">
               <Text
@@ -231,10 +231,9 @@ const styles = StyleSheet.create({
     // margin: 2,
   },
   container: {
-    height: '100%',
-    marginTop: 20,
-    paddingBottom: 35,
-    marginBottom: 35,
+    height: '80%',
+    // paddingBottom: 35,
+    // marginBottom: 35,
   },
   rowContainer: {
     marginVertical: 3,
